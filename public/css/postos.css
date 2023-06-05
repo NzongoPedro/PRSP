@@ -1,0 +1,31 @@
+/* NAV BAR */
+.nav-2 {
+    padding: 10px;
+    margin-bottom: 50px;
+    background: var(--fundo-primario) !important;
+}
+
+.nav-2 .titulo {
+    font-family: var(--mont);
+    font-size: 20px;
+    color: var(--cor-secondario);
+    margin-left: 0;
+}
+
+a.nav-item {
+    text-decoration: none !important;
+    padding: 4px !important;
+    border-radius: 4px !important;
+    background: #fbfbfb;
+    font-size: 12px;
+    color: #444;
+    margin-bottom: 50px !important;
+}
+
+.foto-posto {
+    max-width: 100% !important;
+    width: 100%;
+    height: 15vh;
+    object-fit: cover;
+    object-position: center;
+}

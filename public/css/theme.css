@@ -1,0 +1,44 @@
+/* VARIAVEIS */
+:root {
+    --cor-primario: #991F0C !important;
+    --cor-secondario: #FFC745 !important;
+    --fundo-primario: #991F0C !important;
+    --fundo-secondario: #FFC745 !important;
+    --cor-clara: #fbfbfb !important;
+    --funda: #fbfbfb !important;
+}
+
+/* TEMAS CSS */
+
+.f-primario {
+    background: #991F0C !important;
+}
+
+.f-secundario {
+    background: #FFC745 !important;
+}
+
+.btn-primario {
+    background: hsl(8, 85%, 32%) !important;
+    color: #FFC745 !important;
+    border: 1px solid hsl(8, 85%, 32%) !important;
+}
+
+.btn-secundario {
+    background: hsl(42, 100%, 64%) !important;
+    color: #991F0C !important;
+}
+
+.gradiente-1 {
+    background: #991F0C;
+    background: -moz-linear-gradient(45deg, #991F0C 0%, #FFC745 100%);
+    background: -webkit-linear-gradient(45deg, #991F0C 0%, #FFC745 100%);
+    background: linear-gradient(45deg, #991F0C 0%, #FFC745 100%) !important;
+}
+
+.gradiente-2 {
+    background: rgba(153, 31, 12, 0.7);
+    background: -moz-linear-gradient(45deg, rgba(153, 31, 12, 0.5) 0%, rgba(255, 199, 69, 0.7) 100%) !important;
+    background: -webkit-linear-gradient(45deg, rgba(153, 31, 12, 0.5) 0%, rgba(255, 199, 69, 0.5) 100%) !important;
+    background: linear-gradient(45deg, rgba(153, 31, 12, 0.5) 0%, rgba(255, 199, 69, 0.7) 100%) !important;
+}

@@ -1,0 +1,18 @@
+{
+    "authors": [
+      {
+        "name": "Isidora Isabel",
+        "email": "isidoradossantos@gmail.com"
+      }
+    ],
+    "autoload": {
+      "psr-4": {
+        "App\\": "app/"
+      }
+    },
+    "require": {
+      "dompdf/dompdf": "^2.0",
+      "phpmailer/phpmailer": "^6.7"
+    }
+  }
+  
