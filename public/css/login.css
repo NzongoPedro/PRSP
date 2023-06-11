@@ -54,7 +54,8 @@ body {
 .form-login input::placeholder {
     color: var(--cor-secondario) !important;
 }
-.form-login input:focus{
+
+.form-login input:focus {
     color: var(--cor-secondario) !important;
     background: transparent;
 }

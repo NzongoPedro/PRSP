@@ -5,11 +5,11 @@
     background: var(--fundo-primario) !important;
 }
 
-.nav-2 .titulo {
-    font-family: var(--mont);
-    font-size: 20px;
+.titulo {
+    font-family: var(--mont-reg);
+    font-size: 15px !important;
     color: var(--cor-secondario);
-    margin-left: 0;
+    margin: auto !important;
 }
 
 a.nav-item {
@@ -22,10 +22,87 @@ a.nav-item {
     margin-bottom: 50px !important;
 }
 
+.icon-voltar {
+    color: var(--cor-secondario);
+    font-size: 34px;
+    font-weight: bold;
+    transform: scale(1.2);
+    margin-left: 0;
+}
+
 .foto-posto {
     max-width: 100% !important;
     width: 100%;
-    height: 15vh;
+    height: 100%;
     object-fit: cover;
     object-position: center;
 }
+
+.post-nome {
+    background: none !important;
+    color: var(--cor-primario) !important;
+    font-family: var(--roboto);
+    font-size: 12px;
+    display: block;
+    text-transform: uppercase;
+}
+
+.post-tipo {
+    margin-top: -50px !important;
+    font-size: 12px !important;
+    font-family: var(--mont-reg);
+}
+
+.link {
+    font-size: 10px;
+    margin-top: 10px;
+    padding: 5px;
+    background: var(--fundo-primario);
+    text-transform: lowercase;
+    text-decoration: none;
+    border-radius: 10px;
+    color: var(--cor-secondario);
+    font-weight: bold;
+    position: relative;
+    /* z-index: 99999; */
+}
+
+.link-2 {
+    font-size: 10px;
+    margin-top: 10px;
+    padding: 5px;
+    background: var(--fundo-claro);
+    text-transform: lowercase;
+    text-decoration: none;
+    border-radius: 10px;
+    border: 1px solid var(--cor-primario);
+    color: var(--cor-primario);
+    margin-left: 8px;
+    font-weight: bold;
+
+}
+
+.submeno {
+    position: fixed;
+    width: 100%;
+    margin-top: 15px;
+    padding: 20px;
+    /*     margin-left: -20px !important; */
+    background: #fff;
+    z-index: 100;
+}
+
+
+.form-pesquisa {
+    border-bottom: 2px solid #ccc;
+    transition: 0.5s;
+}
+
+.form-pesquisa:focus {
+    border: none;
+    border-bottom: 2px solid #ad2323;
+    transition: 0.5s;
+}
+
+/* 
+clip-path: polygon(20% 0%, 80% 0%, 100% 0, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0 0); */

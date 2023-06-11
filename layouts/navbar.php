@@ -4,7 +4,7 @@
     <button class="navbar-toggler icon-btn rounded-0 border-0 rounded-circle shadow" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
       <span class="bi bi-list"></span>
     </button>
-    <div class="offcanvas offcanvas-end menu" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+    <div class="offcanvas menu custom-effect " data-bs-backdrop="static" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
       <div class="offcanvas-header f-primario">
         <h5 class="offcanvas-title" id="offcanvasNavbarLabel">
           <i class="bi bi-person-fill me-4"></i>
@@ -33,7 +33,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="<?= ROUTE ?>login">
               <i class="bi bi-lock-fill me-4"></i>
               Login/Cadastro
             </a>

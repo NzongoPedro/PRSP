@@ -1,4 +1,4 @@
-<footer>
+<footer class=".footer">
     <div class="container">
         <div class="row">
             <div class="col-12">
@@ -79,7 +79,31 @@
         });
     })
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var offcanvasNavbar = document.getElementById('offcanvasNavbar');
+        var offcanvasNavbarToggle = document.querySelector('[data-bs-target="#offcanvasNavbar"]');
+        var navbarTogglerBefore = document.querySelector('.navbar-toggler::before');
+        var navbarTogglerAfter = document.querySelector('.navbar-toggler::after');
+        var btnClose = document.querySelector('.btn-close');
 
+        offcanvasNavbarToggle.addEventListener('click', function() {
+            if (offcanvasNavbar.classList.contains('show')) {
+                offcanvasNavbar.classList.remove('show');
+                document.body.classList.remove('offcanvas-open');
+                navbarTogglerBefore.style.transform = 'rotate(45deg)';
+                navbarTogglerAfter.style.transform = 'rotate(-45deg)';
+                btnClose.style.display = 'none';
+            } else {
+                offcanvasNavbar.classList.add('show');
+                document.body.classList.add('offcanvas-open');
+                navbarTogglerBefore.style.transform = 'rotate(45deg) translate(5px, 5px)';
+                navbarTogglerAfter.style.transform = 'rotate(-45deg) translate(5px, -5px)';
+                btnClose.style.display = 'block';
+            }
+        });
+    });
+</script>
 </body>
 
 </html>
