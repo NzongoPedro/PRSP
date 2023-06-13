@@ -88,7 +88,7 @@
                                 <span class="post-nome">Nome Poste</span>
                                 <span class="post-tipo">Tipo posto | <b>Luanda</b></span>
                                 <div class="mt-2">
-                                    <a href="#" class="link">
+                                    <a href="<?= ROUTE ?>informacoes-postos" class="link">
                                         <i class="bi bi-plus-circle-fill me-1"></i>
                                         ver mais
                                     </a>
@@ -113,7 +113,7 @@
                                 <span class="post-nome">Nome Poste</span>
                                 <span class="post-tipo">Tipo posto | <b>Luanda</b></span>
                                 <div class="mt-2">
-                                    <a href="#" class="link">
+                                    <a href="<?= ROUTE ?>informacoes-postos" class="link">
                                         <i class="bi bi-plus-circle-fill me-1"></i>
                                         ver mais
                                     </a>
@@ -138,7 +138,7 @@
                                 <span class="post-nome">Nome Poste</span>
                                 <span class="post-tipo">Tipo posto | <b>Luanda</b></span>
                                 <div class="mt-2">
-                                    <a href="#" class="link">
+                                    <a href="<?= ROUTE ?>informacoes-postos" class="link">
                                         <i class="bi bi-plus-circle-fill me-1"></i>
                                         ver mais
                                     </a>
@@ -163,7 +163,7 @@
                                 <span class="post-nome">Nome Poste</span>
                                 <span class="post-tipo">Tipo posto | <b>Luanda</b></span>
                                 <div class="mt-2">
-                                    <a href="#" class="link">
+                                    <a href="<?= ROUTE ?>informacoes-postos" class="link">
                                         <i class="bi bi-plus-circle-fill me-1"></i>
                                         ver mais
                                     </a>
@@ -188,7 +188,7 @@
                                 <span class="post-nome">Nome Poste</span>
                                 <span class="post-tipo">Tipo posto | <b>Luanda</b></span>
                                 <div class="mt-2">
-                                    <a href="#" class="link">
+                                    <a href="<?= ROUTE ?>informacoes-postos" class="link">
                                         <i class="bi bi-plus-circle-fill me-1"></i>
                                         ver mais
                                     </a>
@@ -213,7 +213,7 @@
                                 <span class="post-nome">Nome Poste</span>
                                 <span class="post-tipo">Tipo posto | <b>Luanda</b></span>
                                 <div class="mt-2">
-                                    <a href="#" class="link">
+                                    <a href="<?= ROUTE ?>informacoes-postos" class="link">
                                         <i class="bi bi-plus-circle-fill me-1"></i>
                                         ver mais
                                     </a>
@@ -238,7 +238,7 @@
                                 <span class="post-nome">Nome Poste</span>
                                 <span class="post-tipo">Tipo posto | <b>Luanda</b></span>
                                 <div class="mt-2">
-                                    <a href="#" class="link">
+                                    <a href="<?= ROUTE ?>informacoes-postos" class="link">
                                         <i class="bi bi-plus-circle-fill me-1"></i>
                                         ver mais
                                     </a>
@@ -263,7 +263,7 @@
                                 <span class="post-nome">Nome Poste</span>
                                 <span class="post-tipo">Tipo posto | <b>Luanda</b></span>
                                 <div class="mt-2">
-                                    <a href="#" class="link">
+                                    <a href="<?= ROUTE ?>informacoes-postos" class="link">
                                         <i class="bi bi-plus-circle-fill me-1"></i>
                                         ver mais
                                     </a>
@@ -280,4 +280,9 @@
         </div>
     </section>
 </main>
-<br><br><br><br><br><br><br><br>
+
+<style>
+    footer {
+        display: none !important;
+    }
+</style>

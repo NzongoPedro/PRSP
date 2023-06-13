@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="<?= CSS ?>login.css">
 
-<nav class="navbar fixed-top navegacao">
+<nav class="navbar fixed-top f-primeiro">
     <div class="container-fluid">
         <a class="icon-voltar rounded-circle" href="#!" onclick=" history.go(-1);">
             <i class="bi bi-arrow-left-short"></i>
@@ -63,17 +63,17 @@
 </nav>
 <div class="login">
     <br><br><br>
-    <div class="mt-5 mb-5 container info-auth" data-aos="fade-up" data-aos-duration="1500">
+    <div class="mt-1 mb-1 container info-auth" data-aos="fade-up" data-aos-duration="1500">
         <div>
-            <h2 class="auth-title">PRSP</h2>
+            <h2 class="auth-title">PRSP </h2>
             <p>Cumpra fila no conforto da casa</p>
         </div>
     </div>
 </div>
 <br>
-<div class="container">
+<div class="container b">
     <div class="card form-login border-0" data-aos="fade-up" data-aos-duration="2500">
-        <div class="card-body">
+        <div class="card-bbody">
             <form action="" class="form-1">
                 <h5 class="card-title">Entre na sua Conta</h5>
                 <div class="form-group mb-2">
@@ -84,7 +84,7 @@
                         <input type="mail" class="form-control form-control-lg" placeholder="e-mail" aria-label="e-mail" aria-describedby="addon-wrapping" required>
                     </div>
                 </div>
-                <div class="form-group mb-3">
+                <div class="form-group mb-2">
                     <div class="input-group flex-nowrap">
                         <span class="input-group-text rounded-0" id="addon-wrapping">
                             <i class="bi bi-lock-fill"></i>
@@ -95,7 +95,7 @@
                 <div class="mt-2 mb-2">
                     <span>esqueci a senha</span>
                 </div>
-                <div class="mt-3 mb-3 text-center">
+                <div class="mt-1 mb-3 text-center">
                     <button class="btn btn-lg btn-primario w-75 rounded-5">ENTRAR</button>
                 </div>
             </form>
@@ -103,16 +103,18 @@
         </div>
     </div>
 </div>
-<div class="mt-5 text-center">
+<div class="mt-2 text-center">
     <span class="text-center text-light">
         <b> Não tem uma conta?</b>
     </span>
     <br>
-    <span class="text-warning">Login</span>
+    <span class="text-warning">
+        <a href="<?= ROUTE ?>registro" class="nav-link">Registrar-se</a>
+    </span>
 </div>
 
 <style>
-    footer {
+    footer, .navegacao {
         display: none !important;
     }
 </style>

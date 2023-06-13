@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="<?= CSS ?>login.css">
 
-<nav class="navbar fixed-top navegacao">
+<nav class="navbar fixed-top f-primario">
     <div class="container-fluid">
         <a class="icon-voltar rounded-circle" href="#!" onclick=" history.go(-1);">
             <i class="bi bi-arrow-left-short"></i>
@@ -14,7 +14,7 @@
             <div class="offcanvas-header f-primario">
                 <h5 class="offcanvas-title" id="offcanvasNavbarLabel">
                     <i class="bi bi-person-fill me-4"></i>
-                    Nome Utente
+                    Nome utente
                 </h5>
                 <a href="#" class="btn-close text-light" data-bs-dismiss="offcanvas" aria-label="Close"></a>
             </div>
@@ -62,26 +62,40 @@
     </div>
 </nav>
 <div class="login">
-    <br><br><br>
-    <div class="mt-5 mb-5 container info-auth" data-aos="fade-up" data-aos-duration="1500">
-        <div>
-            <h2 class="auth-title">PRSP</h2>
-            <p>crie uma conta e faça reservas de lugar a partir de casa.</p>
-        </div>
+    <div class=" conta container info-auth" data-aos="fade-up" data-aos-duration="1500">
+        <br><br>
+        <h2 class="auth-title mt-3">PRSP</h2>
+        <p>crie uma conta e faça reservas de lugar a partir de casa.</p>
     </div>
 </div>
 <br>
 <div class="container">
     <div class="card form-login border-0" data-aos="fade-up" data-aos-duration="2500">
-        <div class="card-body">
+        <div class="card-dbody">
             <form action="" class="form-1">
-                <h5 class="card-title">Entre na sua Conta</h5>
+                <!--  <h5 class="card-title">Crie um conta</h5> -->
+                <div class="form-group mb-2">
+                    <div class="input-group flex-nowrap">
+                        <span class="input-group-text rounded-0" id="addon-wrapping">
+                            <i class="bi bi-person-plus-fill"></i>
+                        </span>
+                        <input type="text" name="utenteNome" class="form-control form-control-lg" placeholder="Nome completo" aria-label="nome" aria-describedby="addon-wrapping" required>
+                    </div>
+                </div>
+                <div class="form-group mb-2">
+                    <div class="input-group flex-nowrap">
+                        <span class="input-group-text rounded-0" id="addon-wrapping">
+                            <i class="bi bi-telephone-fill"></i>
+                        </span>
+                        <input type="text" name="utenteTelefone" class="form-control form-control-lg" placeholder="Telefone ou Whatsapp" aria-label="nome" aria-describedby="addon-wrapping" required>
+                    </div>
+                </div>
                 <div class="form-group mb-2">
                     <div class="input-group flex-nowrap">
                         <span class="input-group-text rounded-0" id="addon-wrapping">
                             <i class="bi bi-envelope-fill"></i>
                         </span>
-                        <input type="mail" class="form-control form-control-lg" placeholder="e-mail" aria-label="e-mail" aria-describedby="addon-wrapping" required>
+                        <input type="mail" name="utenteNome" class="form-control form-control-lg" placeholder="Seu E-mail" aria-label="e-mail" aria-describedby="addon-wrapping" required>
                     </div>
                 </div>
                 <div class="form-group mb-3">
@@ -89,30 +103,29 @@
                         <span class="input-group-text rounded-0" id="addon-wrapping">
                             <i class="bi bi-lock-fill"></i>
                         </span>
-                        <input type="password" class="form-control form-control-lg" placeholder="palavra-passe" aria-label="palavra-passe" aria-describedby="addon-wrapping" required>
+                        <input type="password" name="utenteSenha" class="form-control form-control-lg" placeholder="Crie uma senha" aria-label="crie uma senha" aria-describedby="addon-wrapping" required>
                     </div>
                 </div>
-                <div class="mt-2 mb-2">
-                    <span>esqueci a senha</span>
-                </div>
                 <div class="mt-3 mb-3 text-center">
-                    <button class="btn btn-lg btn-primario w-75 rounded-5">ENTRAR</button>
+                    <button class="btn btn-lg w-100 btn-warning rounded-0">Criar conta</button>
                 </div>
             </form>
 
         </div>
     </div>
 </div>
-<div class="mt-5 text-center">
+<div class="mt-3 mb-3 text-center">
     <span class="text-center text-light">
-        <b> Não tem uma conta?</b>
+        <b> já tem uma conta?</b>
     </span>
     <br>
-    <span class="text-warning">Login</span>
+    <span class="text-warning">
+        <a href="<?= ROUTE ?>login" class="nav-link"> Login</a>
+    </span>
 </div>
 
 <style>
-    footer {
+    footer, .navegacao {
         display: none !important;
     }
 </style>
