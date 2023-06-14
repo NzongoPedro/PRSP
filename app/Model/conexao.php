@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Model;
 
 use PDO;
 use PDOException;
@@ -19,7 +19,7 @@ class conexao
             $this->servername = 'localhost';
             $this->password = '';
             // tenta realizar a conexão
-            $this->ligar = new PDO("mysql:host=" . $this->servername . ";dbname=plataforma_reserva_servicos_publicos", $this->username, $this->password);
+            $this->ligar = new PDO("mysql:host=" . $this->servername . ";dbname=bd_prsp", $this->username, $this->password);
             $this->ligar->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->ligar->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
             $this->ligar->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
