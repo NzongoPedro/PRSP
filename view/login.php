@@ -74,14 +74,14 @@
 <div class="container b">
     <div class="card form-login border-0" data-aos="fade-up" data-aos-duration="2500">
         <div class="card-bbody">
-            <form action="" class="form-1">
+            <form action="" class="form-1" id="form-login">
                 <h5 class="card-title">Entre na sua Conta</h5>
                 <div class="form-group mb-2">
                     <div class="input-group flex-nowrap">
                         <span class="input-group-text rounded-0" id="addon-wrapping">
                             <i class="bi bi-envelope-fill"></i>
                         </span>
-                        <input type="mail" class="form-control form-control-lg" placeholder="e-mail" aria-label="e-mail" aria-describedby="addon-wrapping" required>
+                        <input type="mail" name="utenteEmail" class="form-control form-control-lg" placeholder="e-mail" aria-label="e-mail" aria-describedby="addon-wrapping" required>
                     </div>
                 </div>
                 <div class="form-group mb-2">
@@ -89,11 +89,13 @@
                         <span class="input-group-text rounded-0" id="addon-wrapping">
                             <i class="bi bi-lock-fill"></i>
                         </span>
-                        <input type="password" class="form-control form-control-lg" placeholder="palavra-passe" aria-label="palavra-passe" aria-describedby="addon-wrapping" required>
+                        <input type="password" name="utenteSenha" class="form-control form-control-lg" placeholder="palavra-passe" aria-label="palavra-passe" aria-describedby="addon-wrapping" required>
                     </div>
                 </div>
                 <div class="mt-2 mb-2">
                     <span>esqueci a senha</span>
+                </div>
+                <div class="respostas-auth text-center">
                 </div>
                 <div class="mt-1 mb-3 text-center">
                     <button class="btn btn-lg btn-primario w-75 rounded-5">ENTRAR</button>
@@ -109,18 +111,19 @@
     </span>
     <br>
     <span class="text-warning">
-        <a href="<?= ROUTE ?>registro" class="nav-link">Registrar-se</a>
+        <a href="<?= ROUTE ?>?page=registro" class="nav-link">Registrar-se</a>
     </span>
 </div>
 
 <style>
-    footer, .navegacao {
+    footer,
+    .navegacao {
         display: none !important;
     }
 </style>
-
 <script>
     const form = document.querySelector('.form-1');
     const inputs = form.querySelectorAll('input');
     inputs.forEach(input => input.value = '');
 </script>
+<script src="<?= JS ?>login.js"></script>

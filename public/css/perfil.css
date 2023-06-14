@@ -1,0 +1,71 @@
+.perfil-capa {
+    padding: 10px;
+    display: column;
+    height: 150px !important;
+    /*    background: red; */
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.perfil-foto-utente {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
+.perfil-foto-utente .foto {
+    width: 150px;
+    height: 150px;
+    border-radius: 100px;
+    border: 2px solid #444;
+    margin-top: -12vh;
+    position: relative;
+    z-index: 9999;
+    object-fit: cover;
+    object-position: center;
+}
+
+.menu-nav {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
+.menu-nav a {
+    text-transform: capitalize;
+    font-size: 10px;
+    font-weight: bold;
+    font-family: var(--mont-reg);
+    text-decoration: none;
+    margin: auto;
+    color: var(--cor-primario);
+    background: #ddd !important;
+    padding: 2px;
+}
+
+.reservas {
+    padding: auto;
+}
+
+.titulos {
+    color: var(--cor-primario);
+    font-family: var(--mont);
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 12px;
+}
+
+.nome-doc {
+    text-transform: capitalize !important;
+    font-family: var(--roboto) !important;
+}
+
+div.icon-acao {
+    float: right;
+}
+
+div.icon-acao a {
+    color: var(--cor-primario);
+}

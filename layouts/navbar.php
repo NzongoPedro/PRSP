@@ -15,13 +15,13 @@
       <div class="offcanvas-body">
         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="<?= ROUTE ?>home">
+            <a class="nav-link active" aria-current="page" href="<?= ROUTE ?>?page=home">
               <i class="bi bi-house-fill me-4"></i>
               Home
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="<?= ROUTE ?>postos">
+            <a class="nav-link" href="<?= ROUTE ?>?page=postos">
               <i class="bi bi-geo-fill me-4"></i>
               Postos
             </a>
@@ -33,7 +33,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="<?= ROUTE ?>login">
+            <a class="nav-link" href="<?= ROUTE ?>?page=login">
               <i class="bi bi-lock-fill me-4"></i>
               Login/Cadastro
             </a>
