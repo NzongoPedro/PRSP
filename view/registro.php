@@ -72,7 +72,7 @@
 <div class="container">
     <div class="card form-login border-0" data-aos="fade-up" data-aos-duration="2500">
         <div class="card-dbody">
-            <form action="" class="form-1">
+            <form action="" class="form-1" id="form-registro">
                 <!--  <h5 class="card-title">Crie um conta</h5> -->
                 <div class="form-group mb-2">
                     <div class="input-group flex-nowrap">
@@ -95,7 +95,7 @@
                         <span class="input-group-text rounded-0" id="addon-wrapping">
                             <i class="bi bi-envelope-fill"></i>
                         </span>
-                        <input type="mail" name="utenteNome" class="form-control form-control-lg" placeholder="Seu E-mail" aria-label="e-mail" aria-describedby="addon-wrapping" required>
+                        <input type="mail" name="utenteEmail" class="form-control form-control-lg" placeholder="Seu E-mail" aria-label="e-mail" aria-describedby="addon-wrapping" required>
                     </div>
                 </div>
                 <div class="form-group mb-3">
@@ -105,6 +105,8 @@
                         </span>
                         <input type="password" name="utenteSenha" class="form-control form-control-lg" placeholder="Crie uma senha" aria-label="crie uma senha" aria-describedby="addon-wrapping" required>
                     </div>
+                </div>
+                <div class="respostas-auth text-center">
                 </div>
                 <div class="mt-3 mb-3 text-center">
                     <button class="btn btn-lg w-100 btn-warning rounded-0">Criar conta</button>
@@ -120,18 +122,34 @@
     </span>
     <br>
     <span class="text-warning">
-        <a href="<?= ROUTE ?>login" class="nav-link"> Login</a>
+        <a href="<?= ROUTE ?>?page=login" class="nav-link"> Login</a>
     </span>
 </div>
 
 <style>
-    footer, .navegacao {
+    footer,
+    .navegacao {
         display: none !important;
     }
 </style>
 
+<!-- SCRIPT REGISTRO JS -->
+<script src="<?= JS ?>registro.js"></script>
 <script>
     const form = document.querySelector('.form-1');
     const inputs = form.querySelectorAll('input');
     inputs.forEach(input => input.value = '');
+
+    var form1 = document.getElementById('form-registro');
+
+    // Ajusta a posição da janela quando um campo recebe foco
+    form1.addEventListener('focusin', function(event) {
+        var targetElement = event.target;
+
+        // Ajusta a posição da janela para que o campo seja visível
+        window.scrollTo({
+            top: targetElement.offsetTop - 20,
+            behavior: 'smooth'
+        });
+    });
 </script>
