@@ -1,5 +1,17 @@
 <link rel="stylesheet" href="<?= CSS ?>perfil.css">
 
+<?php
+
+use App\controller\utentesController as utentes;
+// chama a class de auth
+require_once './Auth/checkSessionUtente.php';
+// executa o método #1 de autorização
+$idUtente = $auth->checkSEssion();
+if ($idUtente) :
+    // Grava dos dados do Utente num vetor de dados
+    $dadosUtente = utentes::mostraDadosUtente($idUtente);
+endif
+?>
 <nav class="navbar fixed-top p-2 bg-dark">
     <div class="container-fluid">
         <a class="icon-voltar rounded-circle" href="#!" onclick=" history.go(-1);">
@@ -36,6 +48,12 @@
 
 </section>
 
+<?php
+// alternando a vista de conteúdo de usuários
+if (isset($_GET['view'])) {
+    $page = filter_input(INPUT_GET, 'view');
+    switch ($page) {
+        case 'reservas': ?>
 <!-- Redervas -->
 <section class="reservas container d-none">
     <h5 class="titulos">Minhas reservas</h5>
