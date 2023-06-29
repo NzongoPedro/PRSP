@@ -6,7 +6,7 @@ use PDO;
 use PDOException;
 use PDOStatement;
 
-class conexao
+class Conexao
 {
     private $username, $servername, $password, $ligar; // pega os requisitos para a conexão
 

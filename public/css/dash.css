@@ -1,0 +1,187 @@
+:root {
+    --cinza-claro: #d3d3d3;
+    --cinza-escuro: #a9a9a9;
+    --prata: #c0c0c0;
+    --cinza: #e8f1f2;
+}
+
+:root {
+    --roboto: "Roboto";
+    --mont-reg: "Montserrat Regular";
+    --mont: "Montserrat";
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: url(./fonts/Roboto-Regular.ttf);
+}
+
+@font-face {
+    font-family: "Montserrat Regular";
+    src: url(./fonts/montserrat/static/Montserrat-Regular.ttf);
+}
+
+@font-face {
+    font-family: "Montserrat";
+    src: url(./fonts/montserrat/static/Montserrat-Bold.ttf);
+}
+
+/* ================= RESET =================== */
+* {
+    scroll-behavior: smooth;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    background: var(--cinza);
+    width: 100%;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+/* ================ BARRA LATERAL ESQUERDO ========== */
+nav {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    background: none;
+    width: 30vh;
+}
+
+nav ul.menu-lateral {
+    overflow: hidden;
+    overflow-y: scroll !important;
+    max-height: 100vh;
+    /*     height: 70vh; */
+    background: none;
+    scrollbar-width: 0.5;
+    scrollbar-color: var(--cinza-claro) var(--claro);
+    background: #fbfbfb;
+    border-radius: 0;
+}
+
+nav ul.menu-lateral::-webkit-scrollbar {
+    width: 4px;
+}
+
+nav ul.menu-lateral::-webkit-scrollbar-thumb {
+    background-color: var(--cinza-claro);
+    border-radius: 8px;
+}
+
+nav ul.menu-lateral::-webkit-scrollbar-thumb:hover {
+    background-color: var(--cinza);
+}
+
+nav ul.menu-lateral li {
+    background: none;
+    border: 0 !important;
+    width: 100%;
+}
+
+nav ul.menu-lateral li a i {
+    margin-right: 10px;
+    color: var(--cinza-escuro);
+}
+
+nav ul.menu-lateral li a {
+    color: #444 !important;
+    font-size: 11pt;
+    padding: 5px;
+    transition: 0.5s;
+}
+
+nav ul.menu-lateral li:hover {
+    background: var(--cinza);
+    transition: 0.5s;
+}
+
+nav .carta {
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 10px;
+}
+
+.profile-picture {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto 10px;
+}
+
+.admin-name {
+    font-size: 18px;
+    color: var(--cinza-escuro);
+    margin: 0;
+    font-size: 11.5pt;
+}
+
+/* ============= DASH ================= */
+section.dash {
+    padding-left: 0;
+}
+
+.dash .titulo-dash {
+    color: var(--cinza-escuro);
+    font-size: 11.5pt;
+    text-transform: uppercase;
+    padding: 2px;
+    margin: auto;
+}
+
+.alertas {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-content: flex-start;
+    margin: auto;
+    padding: 0;
+    max-height: 100vh;
+    height: 70px;
+    margin-bottom: 8px;
+}
+
+.alertas .alerta-icon {
+    margin-left: 4px;
+    margin-top: 8px;
+    width: 50px;
+    height: 50px;
+    background: rgb(182, 30, 30);
+    /*    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px; */
+    border-radius: 100px;
+}
+
+.alertas .alerta-icon i {
+    margin-top: 10px !important;
+    margin-left: 10px !important;
+    font-size: 30px;
+    display: grid;
+    color: #fafafa;
+}
+
+.alertas .alerta-titulo {
+    color: var(--cinza-escuro);
+    font-weight: bold;
+    margin-top: 10px;
+    font-size: 10pt;
+    text-transform: uppercase;
+    font-family: var(--mont);
+    margin-left: 28px;
+    margin-right: 20px;
+}
+
+.alertas .alerta-num {
+    margin-top: 10px;
+    float: left;
+    clear: both;
+    margin-left: 20px;
+    font-family: cursive;
+}

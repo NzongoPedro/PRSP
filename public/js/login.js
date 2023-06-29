@@ -37,7 +37,7 @@ formLogin.addEventListener('submit', (e, dadosForm) => {
             setTimeout(() => {
                 if (datas.status == 'sucesso') {
                     respostaRegistro.innerHTML = `<div class="border-0 alert alert-success">${datas.msg}</div>`
-                    window.location.href = dominio + '?page=perfil-utente'
+                    window.location.href = dominio + '?page=home'
                 } else {
                     respostaRegistro.innerHTML = `<div class="border-0 alert alert-danger">${datas.msg}</div>`
                 }

@@ -5,10 +5,14 @@
             <i class="bi bi-arrow-left-short"></i>
         </a>
         <span class="titulo">Nome posto</span>
-
-        <button class="pulse-button">
-            <span class="plus-symbol">+</span>
-        </button>
+        <?php
+        // verifica se o login existe.
+        if ($idUtente) :  // se existir, o botçao de reserva é exibibo
+        ?>
+            <button class="pulse-button">
+                <span class="plus-symbol">+</span>
+            </button>
+        <?php endif ?>
     </div>
 </nav>
 <div class="cover-photo">

@@ -2,6 +2,8 @@
 
 require_once './config.php';
 
+require_once './vendor/autoload.php';
+
 
 // criando o sistema e roteamennto
 

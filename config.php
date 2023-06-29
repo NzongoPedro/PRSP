@@ -12,4 +12,4 @@ define('AOS', $route . 'public/js/aos/');
 define('JS', $route . 'public/js/');
 
 
-require_once('./vendor/autoload.php');
+
