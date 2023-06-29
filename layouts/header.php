@@ -1,3 +1,9 @@
+<?php
+// chama a class de auth
+require_once './Auth/checkSessionUtente.php';
+// executa o método de autorização
+$idUtente = $auth->checkRules();
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 

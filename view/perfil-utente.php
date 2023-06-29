@@ -266,7 +266,6 @@ if (isset($_GET['view'])) {
             </div>
         </div>
     </div>
-</section>
 <style>
     footer,
     .navegacao {
