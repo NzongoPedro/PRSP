@@ -10,6 +10,3 @@ define('CSS', $route . 'public/css/');
 define('IMAGENS', $route . 'storage/image/');
 define('AOS', $route . 'public/js/aos/');
 define('JS', $route . 'public/js/');
-
-
-
