@@ -24,7 +24,7 @@ let formLogin = document.querySelector('#form-login')
 formRegistro.addEventListener('submit', (e, dadosForm) => {
     e.preventDefault()
     dadosForm = new FormData(formRegistro)
-    dadosForm.append('acaoUtente', 'registro-utente')
+    dadosForm.append('acao', 'registro-utente')
 
     respostaRegistro.innerHTML = preLoader
 

@@ -10,24 +10,22 @@ let dominio = `${window.location.protocol}//${url[2]}/PRSP`
 /* AJAX RESPONSAVEL PARA O MESTO */
 
 let preLoader =
-    `
-    <div class="spinner-border text-danger" role="status">
-         <span class="visually-hidden">Loading...</span>
+    `<div class="d-flex justify-content-center text-danger">
+        <div class="spinner-border" role="status" style="font-size:5px"></div>
     </div>`
 
-let respostaRegistro = document.querySelector('.respostas-auth')
+let respostaRegistro = document.querySelector('.resposta-login')
 
 let formLogin = document.querySelector('#form-login')
 
-// Login Utente
+// Login Admin and login
 formLogin.addEventListener('submit', (e, dadosForm) => {
     e.preventDefault()
     dadosForm = new FormData(formLogin)
-    dadosForm.append('acao', 'login-utente')
 
     respostaRegistro.innerHTML = preLoader
 
-    fetch('./Requests/requestAjax.php', {
+    fetch('../../Requests/requestAjax.php', {
         method: 'POST', // Método da solicitação (GET, POST, PUT, DELETE, etc.)
         body: dadosForm,
     })
@@ -37,7 +35,7 @@ formLogin.addEventListener('submit', (e, dadosForm) => {
             setTimeout(() => {
                 if (datas.status == 'sucesso') {
                     respostaRegistro.innerHTML = `<div class="border-0 alert alert-success">${datas.msg}</div>`
-                    window.location.href = dominio + '?page=home'
+                    window.location.href = dominio + '/cpainel/cpainel-admin/'
                 } else {
                     respostaRegistro.innerHTML = `<div class="border-0 alert alert-danger">${datas.msg}</div>`
                 }

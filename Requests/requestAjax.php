@@ -6,13 +6,13 @@
  */
 require '../vendor/autoload.php'; // autoload de classes
 use App\controller\utentesController as utentes; // controller de utentes
-
+use App\controller\admController as adm;
 // verifica se exite uma ação de token
 
-if (isset($_POST['acaoUtente'])) {
+if (isset($_POST['acao'])) {
     // guarda esta ação numa váriavel
 
-    $acaoUtente = htmlspecialchars(filter_input(INPUT_POST, 'acaoUtente'));
+    $acaoUtente = htmlspecialchars(filter_input(INPUT_POST, 'acao'));
 
     // executa ações diferente de acordo aos casos
 
@@ -36,6 +36,7 @@ if (isset($_POST['acaoUtente'])) {
             // chama a controller de registro
             print json_encode(utentes::editar($nomeUtente, $emailUtente, $telefoneUtente, $idUtente));
             break;
+
         case 'editar-senha-utente': // Verifica o registro e o relaza
             // pega os dados vindo do formulário
             $senha = filter_input(INPUT_POST, 'senha');
@@ -47,14 +48,17 @@ if (isset($_POST['acaoUtente'])) {
             print json_encode(utentes::editaSenha($senha, $senhaAtual, $senhaNova, $senhaNovaRepetida, $idUtente));
             break;
 
-
         case 'login-utente': // Verifica o login
-            // pega os dados vindo do formulário
-
             // chama a controller de login
             $emailUtente = htmlspecialchars(filter_input(INPUT_POST, 'utenteEmail', FILTER_SANITIZE_EMAIL));
             $senhaUtente = htmlspecialchars(filter_input(INPUT_POST, 'utenteSenha'));
             print json_encode(utentes::entrar($emailUtente, $senhaUtente));
+            break;
+
+        case 'login-admin':
+            $emailAdmin = htmlspecialchars(addslashes(filter_input(INPUT_POST, 'emailAdmin', FILTER_SANITIZE_EMAIL)));
+            $senhaAdmin = htmlspecialchars(addslashes(filter_input(INPUT_POST, 'senhaAdmin')));
+            print json_encode(adm::entrar($emailAdmin, $senhaAdmin));
             break;
     }
 }

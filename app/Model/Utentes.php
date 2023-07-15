@@ -66,7 +66,7 @@ class Utentes
 
         return $erro; // Retorna os possíveis erros analisados
     }
-
+    /* 
     public static function enviarEmailConfirmacao($nome, $email)
     {
         header("Access-Control-Allow-Origin: *");
@@ -105,7 +105,7 @@ class Utentes
             http_response_code(500);
             $erro = "Algo deu errado, tente novamente.";
         }
-    }
+    } */
 
 
     /* Validadr dados a editar */
@@ -180,7 +180,7 @@ class Utentes
             if (!$checkerros) {
                 // prepara os dados antes de inserir na Base de Dados
                 if ($statment->execute()) {       // verifica se ta tudo em ordem
-                    self::enviarEmailConfirmacao($nome, $email);
+                    //sself::enviarEmailConfirmacao($nome, $email);
                     return ['status' => 'sucesso', 'msg' => 'Dados registrados, foi enviado um e-mail com o código de ativação para ' . $email . ', verifica a sua caixa de entrada.'];      // envia mensagem de sucesso
                 } else {
                     return ['status' => 'erro', 'msg' => 'algo deu errado, contacte o desenvolvedor'];      // envia mensagem de sucesso

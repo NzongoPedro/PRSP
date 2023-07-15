@@ -26,6 +26,8 @@ $idUtente = $auth->checkRules();
     <!-- Slick -->
     <link rel="stylesheet" href="<?= JS ?>slick/slick.css">
     <link rel="stylesheet" href="<?= JS ?>slick/theme.css">
+    <!-- AOS -->
+    <link rel="stylesheet" href="<?= AOS ?>aos.css">
     <title>Plataforma de Reservas de Serviços Público | PRSP</title>
 
 </head>
