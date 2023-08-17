@@ -21,7 +21,7 @@ endif
           <h5 class="offcanvas-title text-uppercase" id="offcanvasNavbarLabel">
             <a href="<?= ROUTE ?>?page=perfil-utente" class="nav-link">
               <i class="bi bi-person-fill me-4"></i>
-              <?= explode(' ',$dadosUtente->utenteNome)[0] ?>
+              <?= explode(' ', $dadosUtente->utenteNome)[0] ?>
             </a>
           </h5>
 

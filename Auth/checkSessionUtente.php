@@ -26,7 +26,7 @@ class checkSessionUtente
             return $this->idUtente();
         endif;
     }
-    
+
     public function checkRules()      // Verifica às regras de acesso às páginas
     {
         /******* REGRAS **************/
@@ -40,7 +40,7 @@ class checkSessionUtente
         if ($this->idUtente() >= 1) : // verifica  a autenticação
             return $this->idUtente(); // retorna o ID do utente autenticado
         else :
-            session_destroy(); // termina a sessão caso utente insistir em acessar algo não autorizado
+                        session_destroy(); // termina a sessão caso utente insistir em acessar algo não autorizado
             return 0;      // Inabalita o utente zombi
         endif;
     }
@@ -56,7 +56,7 @@ class checkSessionUtente
         else :
             // Permanece na pagina de login ou registro
             // caso não estiver autenticado
-            return 0;
+            return null;
         endif;
     }
 }

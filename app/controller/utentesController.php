@@ -6,6 +6,13 @@ use App\Model\Utentes as utentes;
 
 class utentesController
 {
+    // index, buscar todos
+    public static function index()
+    {
+
+        // retorna para a view
+        return utentes::index();
+    }
     // controller cadastrar utente
     public static function cadastrar($nome, $email, $telefone, $senha)
     {

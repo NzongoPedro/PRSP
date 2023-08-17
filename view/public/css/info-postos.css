@@ -1,0 +1,133 @@
+.cover-photo {
+    position: relative;
+    display: inline-block;
+}
+
+.cover-photo img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    margin-top: 15vh;
+}
+
+.cover-photo::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    /* Ajuste o valor de opacidade (0.3) conforme necessário */
+}
+
+.username {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    color: var(--cor-secondario);
+    font-size: 24px;
+    font-weight: bold;
+    z-index: 9999;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.c {
+    padding: 15px;
+}
+
+.pulse-button {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--fundo-primario);
+    /* Fundo amarelo suave, ajuste conforme necessário */
+    border: none;
+    outline: none;
+    cursor: pointer;
+    overflow: hidden;
+    margin-top: 10px;
+
+}
+
+.plus-symbol {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--cor-clara);
+    /* Cor do símbolo "+", ajuste conforme necessário */
+    font-size: 24px;
+    font-weight: bold;
+
+}
+
+.pulse-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(207, 227, 32, 0.8);
+    /* Cor da onda, ajuste conforme necessário */
+    opacity: 0;
+    transform: scale(0);
+    border-radius: 50%;
+    animation: wave 1s linear infinite;
+}
+
+@keyframes wave {
+    0% {
+        opacity: 1;
+        transform: scale(0);
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(1.5);
+    }
+}
+
+.icon-voltar {
+    color: var(--cor-secondario);
+    font-size: 24px;
+    font-weight: bold;
+    transform: scale(1.2);
+    margin-left: 0;
+}
+
+.info-card {
+    background-color: rgba(200, 10, 0, 0.8);
+    backdrop-filter: blur(10px);
+    border-radius: 2px !important;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1), -2px -2px 4px rgba(0, 5, 0, 0.8);
+    border-radius: 0;
+}
+
+.info-card h5.info-card-title {
+    color: var(--cor-secondario);
+    font-size: 14px;
+    padding: 2px;
+    margin-left: 4px;
+    margin-top: 10px !important;
+    height: 10vh;
+}
+
+.docs {
+    background: #fff !important;
+    margin-bottom: 8px !important;
+}
+
+.docs .card-title {
+    font-family: var(--roboto);
+    font-size: 16px;
+    font-weight: normal;
+    padding: auto;
+}

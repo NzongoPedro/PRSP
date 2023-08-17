@@ -255,6 +255,21 @@ class Utentes
         }
     }
 
+    // exibindo todos os utetes
+    public static function index()
+    {
+        // consulta na base de dados
+        $busca = "SELECT *FROM utentes";
+
+        //executa a busca
+        $executaBusca = self::getInstance()->query($busca);
+
+        $resultadoBusca = $executaBusca->fetchAll(); // guarda o resultado a busca
+
+        // retorna o resulta
+        return $resultadoBusca;
+    }
+
     // exibindo Dados do utente no perfil a partir do seu ID
     public static function mostrarDadosUtentePorId($idUtente)
     {
