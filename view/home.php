@@ -1,3 +1,10 @@
+<?php
+
+use App\controller\PostosController as postos;
+
+$postos = postos::index();
+
+?>
 <div class="capa w-100" data-aos="fade-down" data-aos-duration="2000">
     <div class="container">
         <div class="titulo text-center" data-aos="fade-down" data-aos-duration="2000">
@@ -118,49 +125,20 @@
         <h5 class="f-robot"><b>Postos em Lunda</b></h5>
     </div>
     <div class="postos-slick p-2">
-        <div>
-            <div class="content shadow">
-                <img src="<?= IMAGENS ?>postos/p1.png" class="posto-foto">
+        <?php
+        foreach ($postos as $posto) : ?>
+            <div>
+                <div class="content shadow">
+                    <img src="<?= IMAGENS ?>postos/p1.png" class="posto-foto">
+                </div>
+                <div class="card-title posto-nome">
+                    <h5>
+                        <a href="./" class="nav-link"> <?= $posto->postoDesignacao ?></a>
+                    </h5>
+                </div>
             </div>
-            <div class="card-title posto-nome">
-                <h5>
-                    <a href="./" class="nav-link"> Nome Postos</a>
-                </h5>
-            </div>
-        </div>
+        <?php endforeach ?>
 
-        <div>
-            <div class="content shadow">
-                <img src="<?= IMAGENS ?>postos/3.png" class="posto-foto">
-            </div>
-            <div class="card-title posto-nome">
-                <h5>
-                    <a href="./" class="nav-link"> Nome Postos</a>
-                </h5>
-            </div>
-        </div>
-
-        <div>
-            <div class="content shadow">
-                <img src="<?= IMAGENS ?>postos/p1.jpg" class="posto-foto">
-            </div>
-            <div class="card-title posto-nome">
-                <h5>
-                    <a href="./" class="nav-link"> Nome Postos</a>
-                </h5>
-            </div>
-        </div>
-
-        <div>
-            <div class="content shadow">
-                <img src="<?= IMAGENS ?>postos/2.png" class="posto-foto">
-            </div>
-            <div class="card-title posto-nome">
-                <h5>
-                    <a href="./" class="nav-link"> Nome Postos</a>
-                </h5>
-            </div>
-        </div>
     </div>
 </section>
 <!-- FIM LOCALES -->

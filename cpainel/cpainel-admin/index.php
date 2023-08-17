@@ -65,7 +65,7 @@ $dadosAdm = adm::mostraDadosAdm($idAdm);
                             </a>
                         </li>
                         <li class="list-group-item menu-lateral-item">
-                            <a href="./?admPage=#" class="nav-link">
+                            <a href="./?admPage=admnistradores" class="nav-link">
                                 <i class="bi bi-person-plus-fill"></i>
                                 admnistradores
                             </a>
@@ -151,9 +151,13 @@ $dadosAdm = adm::mostraDadosAdm($idAdm);
     </div>
 
     <script src="<?= JS ?>poper.js"></script>
+    <script src="<?= JS ?>jquery/jquery.js"></script>
     <script src="<?= JS ?>slick/slick.min.js"></script>
     <script src="<?= BOOTSTRAP ?>js/bootstrap.min.js"></script>
     <script src="<?= AOS ?>aos.js"></script>
+    <script src="<?= JS ?>apexcharts/apexcharts.min.js"></script>
+    <script src="<?= JS ?>chart.js/chart.umd.js"></script>
+    <script src="<?= JS ?>echarts/echarts.min.js"></script>
     <script src="<?= JS ?>simple-datatables/simple-datatables.js"></script>
     <script src="<?= JS ?>simple-datatables/tamynce.js"></script>
     <script src="<?= JS ?>simple-datatables/main.js"></script>
@@ -209,7 +213,6 @@ $dadosAdm = adm::mostraDadosAdm($idAdm);
 
             el.innerHTML = tempo
 
-            console.log(tempo)
         }
 
         setInterval(() => {

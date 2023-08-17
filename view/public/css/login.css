@@ -1,0 +1,107 @@
+/* LOGIN */
+body {
+    background: rgba(0, 0, 0, 0.9) !important;
+}
+
+.login {
+    height: 80vh;
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 44%, 0 93%);
+    clip-path: polygon(0 0, 100% 0, 100% 44%, 0 93%);
+    /*  background: var(--fundo-primario); */
+    /* position: relative; */
+    background: linear-gradient(-180deg,
+            rgba(193, 22, 22, 0.9),
+            rgba(10, 10, 10, 0.9),
+            rgba(229, 21, 21, 0.9)),
+        url('../../storage/image/background/b1.png');
+    background-position: center center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    width: 100%;
+}
+
+.conta {
+    /*   display: flex; */
+    justify-content: center;
+    align-items: center;
+}
+
+.b {
+    margin-top: -20vh !important;
+}
+
+.form-login {
+    margin-top: -100%;
+    /*position: fixed; */
+    width: 100%;
+    background-color: rgba(0, 10, 0, 0.8);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1), -2px -2px 4px rgba(0, 5, 0, 0.8);
+    border-radius: 0;
+}
+
+.form-login input {
+    background: none;
+    border-left: 0 !important;
+    border-right: 0 !important;
+    border-top: 0 !important;
+    border-bottom: 2px solid var(--cor-secondario);
+    font-size: 12px !important;
+    font-family: var(--roboto);
+    border-radius: 0;
+    color: var(--cor-secondario) !important;
+}
+
+.form-login input::placeholder {
+    font-size: 12px !important;
+    color: var(--cor-secondario) !important;
+}
+
+.form-login input:focus {
+    color: var(--cor-secondario) !important;
+    background: transparent;
+}
+
+.info-auth {
+    margin-top: 5px;
+}
+
+.info-auth .auth-title {
+    margin-top: 20px !important;
+    text-align: center;
+    font-size: 30px;
+    color: var(--cor-secondario) !important;
+    text-transform: uppercase;
+    font-family: var(--mont);
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.info-auth p {
+    text-align: center;
+    color: #fbfbfb;
+    text-transform: lowercase;
+}
+
+.form-1 h5 {
+    margin-bottom: 10px;
+    color: var(--cor-secondario);
+    text-align: center;
+    font-family: var(--roboto);
+}
+
+label {
+    color: var(--cor-primario) !important;
+    background: none !important;
+    text-transform: uppercase;
+}
+
+.form-1 .input-group-text {
+    background: var(--fundo-primario);
+    border: 1px solid var(--fundo-primario);
+    color: var(--cor-secondario);
+}

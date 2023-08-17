@@ -20,10 +20,26 @@
                                     <input type="email" class="form-control" id="floatingInputName" placeholder="Nome completo">
                                     <label for="floatingInputName">nome</label>
                                 </div>
-                                <div class="form-floating mb-3">
-                                    <input type="email" class="form-control" id="floatingInputTelefone" placeholder="9xx xxx xxx">
-                                    <label for="floatingInputTelefone">telefone</label>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-floating mb-3">
+                                            <input type="email" class="form-control" id="floatingInputTelefone" placeholder="9xx xxx xxx">
+                                            <label for="floatingInputTelefone">telefone</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md">
+                                        <div class="form-floating">
+                                            <select name="nivel" class="form-select" id="floatingSelectGrid">
+                                                <option selected>Selecione um nível</option>
+                                                <option value="1">Nível 1</option>
+                                                <option value="2">Nível 2</option>
+                                                <option value="3">Nível 3</option>
+                                            </select>
+                                            <label for="floatingSelectGrid">nível e de acesso</label>
+                                        </div>
+                                    </div>
                                 </div>
+
                                 <div class="form-floating mb-3">
                                     <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
                                     <label for="floatingInput">e-mail</label>
@@ -32,11 +48,12 @@
                                     <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
                                     <label for="floatingPassword">palavra-passe</label>
                                 </div>
+                                <div class="text-center mt-3">
+                                    <input type="submit" class="btn btn-lg btn-danger w-100" value="Criar conta">
+                                </div>
                             </form>
                         </div>
                     </div>
-
-
                 </div>
             </div>
         </section>
