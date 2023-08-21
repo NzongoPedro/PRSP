@@ -100,12 +100,23 @@ if (isset($_POST['acao'])) {
             $tempoDuracaoServico = htmlspecialchars(filter_input(INPUT_POST, 'servico-tempo-duracao'));
             $precoServico = htmlspecialchars(filter_input(INPUT_POST, 'servico-preco'));
             $validadeServico = htmlspecialchars(filter_input(INPUT_POST, 'servico-validade'));
-            $requisitosServico =nl2br (htmlspecialchars(filter_input(INPUT_POST, 'servico-requisitos')));
+            $requisitosServico = nl2br(htmlspecialchars(filter_input(INPUT_POST, 'servico-requisitos')));
             $posto = htmlspecialchars(filter_input(INPUT_POST, 'id-posto', FILTER_SANITIZE_NUMBER_INT));
 
             // chama a coontroller que recebe os dados e envia para model e retorna a resposta para a view
 
             echo json_encode(servicos::store($nomeServico, $tempoDuracaoServico, $precoServico, $validadeServico, $requisitosServico, $posto));
+            break;
+
+        case 'solicitar-reserva':
+
+            $posto = filter_input(INPUT_POST, 'posto', FILTER_SANITIZE_NUMBER_INT);
+            $utente = filter_input(INPUT_POST, 'utente', FILTER_SANITIZE_NUMBER_INT);
+            $servico = filter_input(INPUT_POST, 'documento', FILTER_SANITIZE_NUMBER_INT);
+            $dataFornecida = filter_input(INPUT_POST, 'data-reserva');
+            $horaFornecida = filter_input(INPUT_POST, 'hora-reserva');
+
+            echo json_encode(servicos::solicitarReservas($utente, $servico, $posto, $horaFornecida, $dataFornecida));
             break;
     }
 }

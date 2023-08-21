@@ -286,7 +286,7 @@ class Postos
     {
         // consulta na base de dados
         $busca = "SELECT *FROM postos AS PT 
-        INNER JOIN categoria_posto AS CP ON PT.idCategoriaPosto = CP.idcategoria_posto
+        INNER JOIN tipo_posto AS TP ON PT.idCategoriaPosto = TP.idcategoria_posto
         ORDER BY PT.postoDesignacao ASC";
 
         //executa a busca
@@ -307,7 +307,7 @@ class Postos
         INNER JOIN gestores AS GT ON PT.idContaGestor = GT.idgestor
         INNER JOIN documentos AS DC ON PT.idposto = DC.idPosto
          INNER JOIN estado_posto AS EP ON PT.idEstadoPosto = EP.idestado_posto
-         INNER JOIN categoria_posto AS CP ON PT.idCategoriaPosto = CP.idcategoria_posto
+         INNER JOIN tipo_posto AS CP ON PT.idCategoriaPosto = CP.idcategoria_posto
          INNER JOIN administradores AS ADM ON EP.idContaAdm = ADM.idadministrador
         INNER JOIN tokens_posto AS TP ON TP.idPosto = PT.idPosto
         WHERE PT.idContaGestor = '$idGestor'";

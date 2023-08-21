@@ -6,6 +6,7 @@ require '../../../config.php';
 
 use App\controller\GestoresController as gestores;
 use App\controller\PostosController as postos;
+use App\controller\ServicosController as servicos;
 // verifica se o gestor já está autenticado
 
 if (!isset($_SESSION['idGestor'])) {
@@ -17,6 +18,7 @@ $id_gestor = $_SESSION['idGestor'];
 
 $gestor = gestores::mostraDadosGestor($id_gestor);
 $posto = postos::mostrarDadosPostoPorGestor($id_gestor);
+$solicitacoes  = servicos::verReservas();
 
 ?>
 
@@ -28,7 +30,7 @@ $posto = postos::mostrarDadosPostoPorGestor($id_gestor);
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-  <title>Nome do Estabelicimento | PRSP</title>
+  <title>Gestão de postos | PRSP</title>
 
   <meta name="description" content="" />
 
@@ -94,7 +96,7 @@ $posto = postos::mostrarDadosPostoPorGestor($id_gestor);
           </li>
 
           <li class="menu-item">
-            <a href="index.html" class="menu-link">
+            <a href="./index.php?gestorPage=solicitacoes" class="menu-link">
               <i class='menu-icon bx bx-barcode'></i>
               <div data-i18n="Analytics">Solicitações</div>
             </a>

@@ -16,4 +16,23 @@ class ServicosController
 
         return servico::store($nome, $tempo, $preco, $validade, $requisitos, $posto);
     }
+
+    public static function solicitarReservas($utente, $servico, $posto, $horaFornecida, $dataFornecida)
+    {
+        return servico::solicitarReservas($utente, $servico, $posto, $horaFornecida, $dataFornecida);
+    }
+
+    public static function mostraDatasDisponiveisParaReserva()
+    {
+        return servico::mostraDatasDisponiveisParaReserva();
+    }
+
+    public static function show($idUtente)
+    {
+        return servico::show($idUtente);
+    }
+    public static function verReservas()
+    {
+        return servico::verReservas();
+    }
 }

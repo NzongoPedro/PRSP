@@ -3,13 +3,19 @@
 <?php
 
 use App\controller\utentesController as utentes;
+use App\controller\ServicosController as servicos;
 // chama a class de auth
 require_once './Auth/checkSessionUtente.php';
 // executa o método #1 de autorização
 $idUtente = $auth->checkSEssion();
 if ($idUtente) :
+
     // Grava dos dados do Utente num vetor de dados
     $dadosUtente = utentes::mostraDadosUtente($idUtente);
+
+    //Grava os dados da reserva desse utente
+    $reservas = servicos::show($idUtente);
+
 endif
 ?>
 <nav class="navbar fixed-top p-2 bg-dark">
@@ -60,29 +66,32 @@ if (isset($_GET['view'])) {
                 <h5 class="titulos">Minhas reservas</h5>
                 <div class="mt-3 mb-3"></div>
                 <div class="card-group">
-                    <div class="row">
-                        <div class="col-12 mb-3">
-                            <div class="card shadow-sm border-0" data-aos="zoom-in" data-aos-easing="ease" data-aos-duration="1000" data-aos-transition="500">
-                                <div class="card-body">
-                                    <h5 class="nome-doc">Nome Documento</h5>
-                                    <p class="card-text">
-                                        <b>Estado:</b> Proccess
-                                        <br>
-                                        <b>Local:</b> Nome Posto
-                                    </p>
-                                </div>
-                                <div class="card-footer">
-                                    <small class="text-muted">
-                                        <i class="bi bi-calendar me-2"></i>
-                                        00/00/000 - 00:00
-                                    </small>
-                                    <div class="icon-acao">
-                                        <a href="#!" class="bi bi-trash" data-bs-toggle="modal" data-bs-target="#modalEliminar" onclick="confirmaEliminacaoReserva()"></a>
-                                        <a href="#!" class="bi bi-file-pdf-fill"></a>
+                    <div class="row">~
+                        <?php
+                        foreach ($reservas as $reserva) { ?>
+                            <div class="col-12 mb-3">
+                                <div class="card shadow-sm border-0" data-aos="zoom-in" data-aos-easing="ease" data-aos-duration="1000" data-aos-transition="500">
+                                    <div class="card-body">
+                                        <h5 class="nome-doc"><?= $reserva->documentoDesignacao ?></h5>
+                                        <p class="card-text">
+                                            <b>Estado:</b> <?= $reserva->estadoSolicitacao ?>
+                                            <br>
+                                            <b>Local:</b> <?= $reserva->postoDesignacao ?>
+                                        </p>
+                                    </div>
+                                    <div class="card-footer">
+                                        <small class="cor-primaria text-dark">
+                                            <i class="bi bi-calendar me-2"></i>
+                                            <?= $reserva->solicitacaoReservaData ?> | <i class="bi bi-clock me-2"></i><?= $reserva->solicitacaoReservaHora ?>
+                                        </small>
+                                        <div class="icon-acao">
+                                            <a href="#!" class="bi bi-trash" data-bs-toggle="modal" data-bs-target="#modalEliminar" onclick="confirmaEliminacaoReserva()"></a>
+                                            <a href="#!" class="bi bi-file-pdf-fill"></a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        <?php } ?>
                     </div>
                 </div>
             </section>

@@ -2,10 +2,13 @@
 
 namespace App\Model;
 
-use App\Model\Conexao as ligar;
-
 use PDO;
+
+use DateTime;
+use DatePeriod;
+use DateInterval;
 use PDOException;
+use App\Model\Conexao as ligar;
 
 class Servicos
 {

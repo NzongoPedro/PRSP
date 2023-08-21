@@ -9,7 +9,9 @@ endif
 ?>
 <nav class="navbar fixed-top navegacao">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">PRSP</a>
+    <a class="navbar-brand" href="#">
+      <img src="<?= ROUTE ?>storage/image/logo/logotipo1_principal.png" alt="logotipo" class="imf-fluid" style="width: 170px; height:60px; max-width:100%">
+    </a>
     <button class="navbar-toggler icon-btn rounded-0 border-0 rounded-circle shadow" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
       <span class="bi bi-list"></span>
     </button>

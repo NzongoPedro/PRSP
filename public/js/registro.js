@@ -52,7 +52,7 @@ formRegistro.addEventListener('submit', (e, dadosForm) => {
 formLogin.addEventListener('submit', (e, dadosForm) => {
     e.preventDefault()
     dadosForm = new FormData(formLogin)
-    dadosForm.append('acaoUtente', 'login-utente')
+    dadosForm.append('acao', 'login-utente')
 
     respostaRegistro.innerHTML = preLoader
 
