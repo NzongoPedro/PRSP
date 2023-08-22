@@ -63,21 +63,54 @@ if (isset($_GET['view'])) {
         case 'reservas': ?>
             <!-- Redervas -->
             <section class="reservas container">
-                <h5 class="titulos">Minhas reservas</h5>
+                <h5 class="titulos">Minhas reservas (2)</h5>
                 <div class="mt-3 mb-3"></div>
                 <div class="card-group">
-                    <div class="row">~
+                    <div class="row">
                         <?php
-                        foreach ($reservas as $reserva) { ?>
+                        foreach ($reservas as $reserva) {
+                            $statusClasse = 'warning';
+                            if ($reserva->estadoSolicitacao == "cancelado") {
+                                $statusClasse = 'danger';
+                            }
+                            if ($reserva->estadoSolicitacao == "aprovado") {
+                                $statusClasse = 'success';
+                            } ?>
+
                             <div class="col-12 mb-3">
                                 <div class="card shadow-sm border-0" data-aos="zoom-in" data-aos-easing="ease" data-aos-duration="1000" data-aos-transition="500">
                                     <div class="card-body">
                                         <h5 class="nome-doc"><?= $reserva->documentoDesignacao ?></h5>
                                         <p class="card-text">
-                                            <b>Estado:</b> <?= $reserva->estadoSolicitacao ?>
+                                            <b>Estado:</b> <b class="text-<?= $statusClasse ?>"><?= $reserva->estadoSolicitacao ?></b>
                                             <br>
                                             <b>Local:</b> <?= $reserva->postoDesignacao ?>
                                         </p>
+                                    </div>
+                                    <div class="accordion accordion-flush" id="accordionFlushExample">
+                                        <div class="accordion-item">
+                                            <h6 class="accordion-header text-center mb-2">
+                                                <a href="#!" class=" text-danger  accordion-button border-0 text-decoration-none nav-link  collapsed" data-bs-toggle="collapse" data-bs-target="#flush<?= $reserva->idsolicitacao_reserva ?>" aria-expanded="false" aria-controls="flush<?= $reserva->idsolicitacao_reserva ?>" onclick="leftTime(<?= $reserva->idsolicitacao_reserva ?>, '<?= $reserva->solicitacaoReservaData ?>', '<?= $reserva->solicitacaoReservaHora ?>')">
+
+                                                </a>
+                                            </h6>
+                                            <div id="flush<?= $reserva->idsolicitacao_reserva ?>" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                                                <div class="accordion-body">
+                                                    <div class="acordos">
+                                                        <span class="text-muted">Preço: <b class="float-end"><?= $reserva->documentoPreco ?> Kz</b></span>
+                                                        <span class="text-muted">Duração: <b class="float-end"><?= $reserva->documentoTempoDuracao ?> Kz</b></span>
+                                                        <span class="text-muted">Validade: <b class="float-end"><?= $reserva->documentoDataValidade ?> Kz</b></span>
+                                                    </div>
+                                                    <h5 class="text-center">Requisitos Necessários</h5>
+                                                    <div class="alert alert-warning rounded-0">
+                                                        <small><?= html_entity_decode($reserva->documentoRequisitos) ?></small>
+                                                    </div>
+                                                    <div class="">
+                                                        <div class="alert alert-success contagem-<?= $reserva->idsolicitacao_reserva ?>"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="card-footer">
                                         <small class="cor-primaria text-dark">
@@ -85,8 +118,12 @@ if (isset($_GET['view'])) {
                                             <?= $reserva->solicitacaoReservaData ?> | <i class="bi bi-clock me-2"></i><?= $reserva->solicitacaoReservaHora ?>
                                         </small>
                                         <div class="icon-acao">
-                                            <a href="#!" class="bi bi-trash" data-bs-toggle="modal" data-bs-target="#modalEliminar" onclick="confirmaEliminacaoReserva()"></a>
-                                            <a href="#!" class="bi bi-file-pdf-fill"></a>
+                                            <a href="#!" class="bi bi-trash h5" data-bs-toggle="modal" data-bs-target="#modalEliminar" onclick="confirmaEliminacaoReserva()"></a>
+                                            <?php
+                                            if ($reserva->estadoSolicitacao == "aprovado") {
+                                                print '<a href="#!" class="bi bi-file-pdf-fill h5"></a>';
+                                            }
+                                            ?>
                                         </div>
                                     </div>
                                 </div>
@@ -203,6 +240,14 @@ if (isset($_GET['view'])) {
     .navegacao {
         display: none !important;
     }
+
+    .acordos span {
+        font-size: 12px !important;
+        display: block !important;
+        margin-bottom: 6px;
+        border-bottom: dotted 1px #444 !important;
+
+    }
 </style>
 <script>
     /* ========== ELIMINAR RESERVAS ============= */
@@ -214,3 +259,95 @@ if (isset($_GET['view'])) {
     }
 </script>
 <script src="<?= JS ?>editarDados.js"></script>
+
+<script>
+    // Atualize a contagem a cada segundo
+    function leftTime(id, data, hora) {
+        setInterval(() => {
+
+            // Defina a data e hora alvo para a contagem regressiva
+            const dataAlvo = new Date(data + "T" + hora).getTime();
+            const agora = new Date().getTime();
+            const diferenca = dataAlvo - agora;
+
+            if (diferenca <= 0) {
+                // Quando a data alvo for atingida, pare a contagem
+                clearInterval(interval);
+                document.querySelector(".contagem").innerHTML = "Contagem encerrada!";
+            } else {
+                // Calcule os dias, horas, minutos e segundos restantes
+                const dias = Math.floor(diferenca / (1000 * 60 * 60 * 24));
+                const horas = Math.floor((diferenca % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutos = Math.floor((diferenca % (1000 * 60 * 60)) / (1000 * 60));
+                const segundos = Math.floor((diferenca % (1000 * 60)) / 1000);
+
+                // Exiba a contagem no elemento com o id "contagem"
+                document.querySelector(".contagem-" + id).innerHTML = `
+                        Faltam ${dias} dias, ${horas} horas, ${minutos} minutos e ${segundos} segundos para a data marcada
+                    `;
+            }
+        }, 1000);
+        // Atualize a cada segundo
+    }
+
+
+    // URL do Google Maps
+    const googleMapsUrl = "https://www.google.com/maps/place/Farm%C3%A1cia+Azael/@-8.9110363,13.2699679,17z/data=!3m1!4b1!4m6!3m5!1s0x1a51f7f60e2b05df:0x8e64ceefdc40a530!8m2!3d-8.9110416!4d13.2725428!16s%2Fg%2F11h05q2m5z?entry=ttu";
+
+    // Função para extrair informações geográficas
+    function extrairInformacoesGeograficas() {
+        // Verifica se a API do Google Maps está carregada
+        if (typeof google === "undefined" || typeof google.maps === "undefined") {
+            console.error("A API do Google Maps não está carregada.");
+            return;
+        }
+
+        // Extrai as coordenadas de latitude e longitude do URL
+        const coordenadas = googleMapsUrl.match(/@([-0-9.]+),([-0-9.]+)/);
+        if (!coordenadas) {
+            console.error("Coordenadas não encontradas no URL.");
+            return;
+        }
+
+        const latitude = parseFloat(coordenadas[1]);
+        const longitude = parseFloat(coordenadas[2]);
+
+        // Cria um objeto Geocoder
+        const geocoder = new google.maps.Geocoder();
+
+        // Cria uma solicitação de geocodificação reversa
+        const latLng = new google.maps.LatLng(latitude, longitude);
+        const geocoderRequest = {
+            location: latLng
+        };
+
+        // Realiza a geocodificação reversa
+        geocoder.geocode(geocoderRequest, (results, status) => {
+            if (status === google.maps.GeocoderStatus.OK && results.length > 0) {
+                const addressComponents = results[0].address_components;
+                let bairro, rua, provincia;
+
+                // Itera pelos componentes do endereço
+                for (const component of addressComponents) {
+                    if (component.types.includes("sublocality_level_1")) {
+                        bairro = component.long_name;
+                    } else if (component.types.includes("route")) {
+                        rua = component.long_name;
+                    } else if (component.types.includes("administrative_area_level_1")) {
+                        provincia = component.long_name;
+                    }
+                }
+
+                // Exibe as informações obtidas
+                console.log("Bairro:", bairro);
+                console.log("Rua:", rua);
+                console.log("Província:", provincia);
+            } else {
+                console.error("Não foi possível obter informações geográficas.");
+            }
+        });
+    }
+
+    // Chama a função para extrair informações geográficas após o carregamento da API do Google Maps
+    google.maps.event.addDomListener(window, "load", extrairInformacoesGeograficas);
+</script>
