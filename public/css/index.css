@@ -135,9 +135,10 @@ button.icon-btn {
 /* HERO APRESENTAÇÃO */
 
 .capa {
-    background: linear-gradient(-180deg,
-            rgba(193, 22, 22, 0.2),
-            rgba(10, 10, 10, 0.2),
+  background: linear-gradient(
+      -180deg,
+      rgba(193, 22, 22, 0.2),
+      rgba(10, 10, 10, 0.2),
             rgba(229, 21, 21, 0.2)),
         url('../../storage/image/background/b1.png');
     background-position: center center;
