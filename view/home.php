@@ -35,6 +35,13 @@ $postos = postos::index();
                             <p class="card-text text-center mb-3 p-2">
                                 PRSP é uma solução computacional baseada na web desenvolvida com o propósito de facilitar o processo de reservas de serviços públicos para os cidadãos angolanos. A ferramenta proporciona maior simplicidade no processo de reservas.
                             </p>
+                            <h5 class="card-title about-titl text-center">Sobre Nós</h5>
+                            <div>
+                                <p class="card-text text-center mb-3 p-2">
+                                    Somos uma solução computacional para reservas de diferentes tipos de serviços públicos (ou documentos). A busca pela excelência aliada a inovação tecnológica será (ou tem sido) fulcrais para a consolidação da nossa meta.
+
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
