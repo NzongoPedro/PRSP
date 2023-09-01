@@ -9,6 +9,12 @@ if (isset($_GET['id-posto'])) {
     $id_posto = filter_input(INPUT_GET, 'id-posto');
 }
 
+if (!postos::mostrarDadosPostoPorId($id_posto)[0]) { ?>
+    <script>
+        location.href = "./?page=postos"
+    </script>
+<?php } ?>
+<?php
 $postos = postos::mostrarDadosPostoPorId($id_posto);
 
 use App\controller\utentesController as utentes;
@@ -57,8 +63,8 @@ endif
                 <!-- Listagem dos documentos ou servços de um posto -->
                 <?php
                 foreach ($postos as $posto) { ?>
-                    <div class="col-12">
-                        <div class="card rounded-3 docs" data-aos="zoom-in" data-aos-duration="1000" data-aos-delay="500">
+                    <div class="col-sm-12 col-12 col-lg-4 col-xl-4 col-md-6">
+                        <div class="card rounded-3 docs">
                             <div class="card-body">
                                 <div class="float-end">
                                     <a href="#" class="btn-danger text-danger h5 mt-5" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="enviaDocumetoParaModal(<?= $posto->iddocumento ?>, '<?= $posto->documentoDesignacao ?>')">
@@ -91,6 +97,7 @@ endif
                                             </div>
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
@@ -258,10 +265,12 @@ endif
 
         // enviar o serviço e o id para a modal
         function enviaDocumetoParaModal(id_documento, documento) {
+
             let input_nome_documento = document.querySelector('.nome-documento')
             let input_id_documento = document.querySelector('#idDocumento')
             input_nome_documento.value = documento
             input_id_documento.value = id_documento
+
         }
 
         // Solicitar reservas
@@ -281,9 +290,9 @@ endif
                 .then(resposta => {
                     if (resposta.status == 200) {
                         respostaSolicitacao.innerHTML = `<div class="alert alert-success text-center">${resposta.msg}</div>`
-                        /* setTimeout(() => {
-                            location.href = './'
-                        }, 1000); */
+                        setTimeout(() => {
+                            location.href = './?page=perfil-utente&view=reservas'
+                        }, 3000);
                     } else {
                         respostaSolicitacao.innerHTML = `<div class="alert alert-danger">${resposta.msg}</div>`
                     }

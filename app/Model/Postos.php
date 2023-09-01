@@ -25,7 +25,7 @@ class Postos
         (Nome, e-mail, telefone, senha)
     */
 
-    public static function validarDados($nome, $email, $token, $categoria, $municipio)
+    public static function validarDados($estado, $nome, $email, $token, $categoria, $municipio)
     {
 
         $erro = "";
@@ -40,6 +40,13 @@ class Postos
 
         if (ltrim(empty($nome)) || $nome == "" || strlen($nome) < 8) {
             $erro = 'verifique o nome do posto por favor';
+        }
+
+        // verifica se existe este nome na bd
+        $chckNome = self::getInstance()->query("SELECT *FROM postos WHERE postoDesignacao = '$nome'");
+
+        if ($chckNome->rowCount() > 0) {
+            $erro = "Posto já cadastrado";
         }
 
         // categoria
@@ -65,103 +72,65 @@ class Postos
         }
 
 
-
-        return $erro; // Retorna os possíveis erros analisados
-    }
-    /* 
-    public static function enviarEmailConfirmacao($nome, $email)
-    {
-        header("Access-Control-Allow-Origin: *");
-
-        // Set the recipient email address.
-        // FIXME: Update this to your desired email address.
-        $recipient = $email;
-
-        // Set the email subject.
-        $subject = "Ativação da conta PRSP";
-
-        // Generate a random confirmation code.
-        $codigo = mt_rand(10000000, 99999999);
-
-        // Build the email content.
-        $email_content = "<h1 style='color: #333;'>PRSP - Plataforma de Reserva de Serviços Públicos</h1><br>";
-        $email_content .= "<p style='color: #555;'>Olá prezado(a) " . $nome . ",</p>";
-        $email_content .= "<p style='color: #555;'>Você efetuou um registro na nossa plataforma. Para usar a sua conta, é necessário fazer a ativação.</p>";
-        $email_content .= "<br>";
-        $email_content .= "<h2 style='color: #f00;  padding: 30px; backgrounf: #444'><span style='color: fbfbfb;'>Código:</span>  " . $codigo . "</h2>";
-
-        // Build the email headers.
-        // Build the email headers.
-        $email_headers = "From: PRSP <prsp.bcc.ao/prsp>\r\n";
-        $email_headers .= "Reply-To: PRSP <seguranca@prsp.bcc.ao>\r\n";
-        $email_headers .= "MIME-Version: 1.0\r\n";
-        $email_headers .= "Content-Type: text/html; charset=UTF-8\r\n";
-
-
-        // Send the email.
-        if (mail($recipient, $subject, $email_content, $email_headers)) {
-            // Set a 200 (okay) response code.
-            http_response_code(200);
-        } else {
-            // Set a 500 (internal server error) response code.
-            http_response_code(500);
-            $erro = "Algo deu errado, tente novamente.";
-        }
-    } */
-
-
-    /* Validadr dados a editar */
-    public static function validarDadosEditado($nome, $email, $telefone)
-    {
-
-        $erro = "";
-
-        $patternEmail = '/^[\w-]+(\.[\w-]+)*@([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/';
-        if (!preg_match($patternEmail, $email)) { // verifica email
-            $erro = 'E-mail inválido';
-        }
-
-        $regexNomePt = '/^[\p{L}\s]+$/u';
-        // valida o nome
-        if (!preg_match($regexNomePt, $nome) && preg_match('/\d/', $nome)) {
-            $erro = 'Nome inválido';
-        }
-
-        $regexTelefoneAO = '/^\+244\d{9}$/';
-        if (!preg_match($regexTelefoneAO, '+244' . $telefone)) { // valida o telefone
-            $erro = 'Número de telefone inválido';
-        }
-
         return $erro; // Retorna os possíveis erros analisados
     }
 
-    /* Validadr senhas a editar */
-    public static function validarSenha($senha, $senhaAtual, $senhaNova, $senhaNovaRepetida)
+
+    /* este método insere para base de dados os dados vindo do formulário */
+    public static function editardaDadosPosto($estado, $nome, $email, $municipio, $posto)
     {
 
-        $erro = "";
+        try {   // faz uma tentativa de captura de erros
 
-        // verifica se a senha Digita é igual com a sennha atual
-        if ($senha != md5($senhaAtual)) {
-            $erro =  'Senha atual incorreta';
+            $statment = self::getInstance()->prepare("UPDATE postos SET
+            postoDesignacao = ?, postoEmail = ?, postoMunicipio = ?, idEstadoPosto = ? WHERE idposto =?
+       ");
+
+            $statment->bindValue(1, $nome);
+            $statment->bindValue(2, $email);
+            $statment->bindValue(3, $municipio);
+            $statment->bindValue(4, $estado);
+            $statment->bindValue(5, $posto);
+
+
+            //verifica se existe algum dado mal preenchido
+            $erro = "";
+
+            $patternEmail = '/^[\w-]+(\.[\w-]+)*@([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/';
+            if (!preg_match($patternEmail, $email)) { // verifica email
+                $erro = 'E-mail inválido';
+            }
+
+            // municipio
+            if ($municipio == 'Escolha o município') {
+                $erro = 'Escolha o município do posto';
+            }
+
+            if (!$erro) {
+                // prepara os dados antes de inserir na Base de Dados
+                if ($statment->execute()) {       // verifica se ta tudo em ordem
+                    session_start();
+                    http_response_code(200);
+                    unset($_SESSION['token-posto']);
+                    return ['status' => (200), 'msg' => 'Dados registrados'];      // envia mensagem de sucesso
+
+                } else {
+                    http_response_code(402);
+                    return ['status' => (402), 'msg' => 'algo deu errado, contacte o desenvolvedor ', 'error' => $statment->errorInfo()];      // envia mensagem de sucesso
+                }
+            } else {  // mostra o campo que foimal preenchido, caso houver
+                http_response_code(402);
+                return ['status' => (402), 'msg' => $erro];      // envia mensagem de erro
+            }
+        } catch (PDOException $th) {
+
+            http_response_code(402);
+            return ['status' => (402), 'msg' => 'Algo deu errado, tente novamente' . $th->getMessage()];
         }
-
-        //verifica se as senha nova foram as mesma nos dois campos
-        if ($senhaNova != $senhaNovaRepetida) {
-            $erro =  'digite as mesmas senhas por favor.';
-        }
-
-        // valida a senha nova
-        $regexSenha = '/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/';
-        if (!preg_match($regexSenha, $senhaNovaRepetida)) {
-            $erro =  'Senha fraca, deve conter no minímo 8 carácteres letras e números';
-        }
-
-        return $erro; // Retorna os possíveis erros analisados
     }
 
     /* este método insere para base de dados os dados vindo do formulário */
-    public static function gravardaDadosPosto($nome, $email, $token, $link, $categoria, $gestor, $municipio)
+    public static function gravardaDadosPosto($estado, $nome, $email, $token, $link, $categoria, $gestor, $municipio)
     {
 
         try {   // faz uma tentativa de captura de erros
@@ -178,7 +147,7 @@ class Postos
             $statment->bindValue(7, date('Y-m-d H:i:s'));
 
             //verifica se existe algum dado mal preenchido
-            $checkerros = self::validarDados($nome, $email, $token, $categoria, $municipio);
+            $checkerros = self::validarDados($estado, $nome, $email, $token, $categoria, $municipio);
 
             if (!$checkerros) {
                 // prepara os dados antes de inserir na Base de Dados
@@ -219,74 +188,15 @@ class Postos
         }
     }
 
-    /* Editar dados pessoais */
-    public static function alterardaDadosUtente($nome, $email, $telefone, $idUtente)
-    {
-        try {   // faz uma tentativa de captura de erros
-            $statment = self::getInstance()->prepare("UPDATE utentes SET 
-            utenteNome = ?, 
-            utenteTelefone = ?, 
-            utenteEmail = ?
-            WHERE idutente = ?");
-
-            $statment->bindValue(1, $nome);
-            $statment->bindValue(2, $telefone);
-            $statment->bindValue(3, $email);
-            $statment->bindValue(4, $idUtente); // o (MD5()) criar uma máscara de senha
-
-            //verifica se existe algum dado mal preenchido
-            $checkerros = self::validarDadosEditado($nome, $email, $telefone);
-
-            if (!$checkerros) {
-                // prepara os dados antes de inserir na Base de Dados
-                if ($statment->execute()) {       // verifica se ta tudo em ordem
-                    return ['status' => 'sucesso', 'msg' => 'sucesso, aguarde....'];      // envia mensagem de sucesso
-                } else {
-                    return ['status' => 'erro', 'msg' => 'algo deu errado, contacte o desenvolvedor'];      // envia mensagem de sucesso
-                }
-            } else {  // mostra o campo que foimal preenchido, caso houver
-                return ['status' => 'erro', 'msg' => $checkerros];      // envia mensagem de erro
-            }
-        } catch (\Throwable $th) {
-            return ['status' => 'erro', 'msg' => 'Algo deu errado, tente novamente'];
-        }
-    }
-
-    /* Editar senha */
-    public static function alterarSenha($senha, $senhaAtual, $senhaNova, $senhaNovaRepetida, $idUtente)
-    {
-        try {   // faz uma tentativa de captura de erros
-            $statment = self::getInstance()->prepare("UPDATE utentes SET 
-            gestorSenha = ? 
-            WHERE idutente = ?");
-
-            $statment->bindValue(1, md5($senhaNovaRepetida));
-            $statment->bindValue(2, $idUtente); // o (MD5()) criar uma máscara de senha
-
-            //verifica se existe algum dado mal preenchido
-            $checkerros = self::validarSenha($senha, $senhaAtual, $senhaNova, $senhaNovaRepetida);
-
-            if (!$checkerros) {
-                // prepara os dados antes de inserir na Base de Dados
-                if ($statment->execute()) {       // verifica se ta tudo em ordem
-                    return ['status' => 'sucesso', 'msg' => 'senha alterada'];      // envia mensagem de sucesso
-                } else {
-                    return ['status' => 'erro', 'msg' => 'algo deu errado, contacte o desenvolvedor ' . $statment->execute()];      // envia mensagem de sucesso
-                }
-            } else {  // mostra o campo que foimal preenchido, caso houver
-                return ['status' => 'erro', 'msg' => $checkerros];      // envia mensagem de erro
-            }
-        } catch (\Throwable $th) {
-            return ['status' => 'erro', 'msg' => 'Algo deu errado, tente novamente ' . $th];
-        }
-    }
-
     // exibindo dados do posto
     public static function index()
     {
+
         // consulta na base de dados
         $busca = "SELECT *FROM postos AS PT 
         INNER JOIN tipo_posto AS TP ON PT.idCategoriaPosto = TP.idcategoria_posto
+        INNER JOIN gestores AS GT ON PT.idContaGestor = GT.idgestor
+        INNER JOIN estado_posto AS EP ON PT.idEstadoPosto = EP.idestado_posto
         ORDER BY PT.postoDesignacao ASC";
 
         //executa a busca
@@ -297,6 +207,33 @@ class Postos
         // retorna o resulta
         return $resultadoBusca;
     }
+    // exibindo dados do posto
+    public static function index_2($posto)
+    {
+
+        // consulta na base de dados
+        $busca = "SELECT *FROM postos AS PT 
+        INNER JOIN tipo_posto AS TP ON PT.idCategoriaPosto = TP.idcategoria_posto
+        WHERE PT.idCategoriaPosto = '$posto'
+        ORDER BY PT.postoDesignacao ASC
+        ";
+
+        //executa a busca
+        $executaBusca = self::getInstance()->query($busca);
+
+        $resultadoBusca = $executaBusca->fetchAll(); // guarda o resultado a busca
+
+        // retorna o resulta
+        return $resultadoBusca;
+    }
+
+    // retorna id posto
+
+    public static function idPosto($idGestor)
+    {
+        $busca = static::getInstance()->query("SELECT *FROM postos WHERE idContaGestor = '$idGestor'")->fetch();
+        return $busca;
+    }
     // exibindo Dados do posto com o Gestor autenticado
     public static function mostrarDadosPostoPorGestor($idGestor)
     {
@@ -305,11 +242,11 @@ class Postos
             // Pesquisa na base de dado juntando dados das tabelas relacionadas ao posto
             $busca = "SELECT *FROM postos AS PT
         INNER JOIN gestores AS GT ON PT.idContaGestor = GT.idgestor
-        INNER JOIN documentos AS DC ON PT.idposto = DC.idPosto
          INNER JOIN estado_posto AS EP ON PT.idEstadoPosto = EP.idestado_posto
          INNER JOIN tipo_posto AS CP ON PT.idCategoriaPosto = CP.idcategoria_posto
          INNER JOIN administradores AS ADM ON EP.idContaAdm = ADM.idadministrador
-        INNER JOIN tokens_posto AS TP ON TP.idPosto = PT.idPosto
+        INNER JOIN tokens_posto AS TP ON TP.idPosto = PT.idposto
+   
         WHERE PT.idContaGestor = '$idGestor'";
 
             $executaBusca = self::getInstance()->query($busca);
@@ -328,6 +265,7 @@ class Postos
             return 'error ' . $e->getMessage();
         }
     } // exibindo Dados do posto com o Gestor autenticado
+
     public static function mostrarDadosPostoPorId($idposto)
     {
 
@@ -350,57 +288,128 @@ class Postos
         }
     }
 
+    // verifica se um posto ja existe para Gestor
 
-    /* Fazer login Gestor no sistema */
-    public static function loginGestor($email, $senha)
+    public static function checkPosto($idGestor)
+    {
+        $select = static::getInstance()->query("SELECT *FROM postos WHERE idContaGestor = '$idGestor'");
+
+        if ($select->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // aceeso via token ()
+
+    public static function token($token, $idposto)
     {
 
-        // verifica se o email fornecido existe na base de dados
-        $selectEmail = self::getInstance()->query("SELECT gestorEmail FROM postos WHERE gestorEmail = '" . $email . "'");
+        $msgErro = "";
+        $msg = '';
+        if (!isset($token)) {
+            $msgErro = 'Token vazio';
+        }
 
-        if ($selectEmail->rowCount() > 0) {
+        // verifica o token na BD
 
-            // se existir, scompara asenha da BD com a senha fornecida no login
-            $selectPassordHash = self::getInstance()->query("SELECT gestorSenha FROM postos WHERE gestorEmail = '" . $email . "'")->fetch()->gestorSenha;
+        $tokenSelect = "SELECT *FROM tokens_posto WHERE token ='$token' && idPosto = '$idposto'";
 
-            // VERICA A SENHA SEGURA
+        $pegarToken = static::getInstance()->query($tokenSelect);
 
-            if (password_verify($senha, $selectPassordHash)) {
+        // verfica se o token existe
 
-                // se forem iguais as senhas, ele realiza o login
-                $data = self::getInstance()->query("SELECT * FROM postos WHERE gestorEmail = '$email' AND gestorSenha = '$selectPassordHash'");
-
-                if ($data->rowCount() > 0) {
-
-                    // inicie a sessão
-                    session_start();
-
-                    // armazena o id da sessão
-                    $_SESSION['idGestor'] = $data->fetch()->idgestor;
-
-                    http_response_code(200);
-
-                    return ['status' => (200), 'msg' => 'Sucesso. Aguarde...'];
-                } else {
-
-                    http_response_code(402);
-                    // Retorna erro se houver uma falha ao prrencher os dados de login
-                    return ['status' => (402), 'msg' => 'Verifique se os seus dados estão corretos', 'data' => $_POST];
-                }
-            } else {
-
-                // retorna erro, caso as senha não forem iguais
-                http_response_code(402);
-
-                return ['status' => (402), 'msg' => 'palavra-passe incorreta'];
-            }
+        if ($pegarToken->rowCount() > 0) {
+            $msg = 'Acesso garantido, aguarde...';
         } else {
+            $msgErro = "Token inválido " . $token;
+        }
+
+        // verifica se há erro
+
+        if (!$msgErro) {
+
+            // inicie a sessão
+            session_start();
+
+            $id_posto = $pegarToken->fetch()->idtokens_posto;
+            $toke_acesso = $token;
+
+            $_SESSION['token-posto'] = $toke_acesso;
+            $_SESSION['id-posto'] = $id_posto;
+
+            http_response_code(200);
+
+            return ['status' => 200, 'msg' => $msg];
+        } else {
+
+            //caso houver erros
+            http_response_code(402);
+
+            return ['status' => 402, 'msg' => $msgErro];
+        }
+    }
+
+    // aletrar estado da resrvao posto
+    public static function mudaEstado($estado, $conta)
+    {
+
+        // query de mudança
+
+        $query = "UPDATE postos SET 
+           idEstadoPosto = ?
+           WHERE idposto = ?";
+
+        // prepara a alteração 
+        $update = static::getInstance()->prepare($query);
+        $update->bindValue(1, $estado);
+        $update->bindValue(2, $conta);
+
+        // executa a mudança
+
+        if ($update->execute()) {
+            $msg = "";
+            if ($estado == 1) {
+                $msg = "Conta desativada";
+            } else {
+                $msg = "Sucesso na ativação da conta";
+            }
+
+            // sucesso
+
+            http_response_code(200);
+
+            return ['status' => 200, 'msg' => $msg];
+        } else {
+
+            // caso houver erro, exibe-0
 
             http_response_code(402);
 
-            // reorna ero caso o email de login não existir na BD
+            return ['status' => 402, 'msg' => $update->errorInfo()];
+        }
+    }
 
-            return ['status' => (402), 'msg' => 'E-mail inexistente'];
+    // eliminar posto
+    public static function eliminarPosto($id_posto)
+    {
+
+        $remove = "DELETE FROM postos WHERE idposto = '$id_posto'";
+
+        $executa = self::getInstance()->query($remove);
+
+        // verifica se o posto foi removido:
+        if ($executa) {
+
+            // Remove todas as cheves ou registro relacionada a este posto
+
+            http_response_code(200);
+            return ['status' => 200, 'msg' => 'Sucesso ao eliminar o posto.'];
+        } else {
+
+            http_response_code(402);
+            return ['status' => 402, 'msg' => 'falha ao eliminar o posto.'];
         }
     }
 }

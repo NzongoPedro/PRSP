@@ -71,6 +71,19 @@ if (isset($_POST['acao'])) {
             // grava os dados do gestor
             echo json_encode(gestor::cadastrar($dados['username'], $dados['email'], $dados['telefone'], $dados['password'], $dados['pass']));
             break;
+        case 'editar-gestor':
+            // recupera os dados vindo do formulário
+            $nome = filter_input(INPUT_POST, 'firstName');
+            $sobrenome = filter_input(INPUT_POST, 'lastName');
+            $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+            $gestor = filter_input(INPUT_POST, 'id-gestor', FILTER_SANITIZE_NUMBER_INT);
+            $telefone = filter_input(INPUT_POST, 'phoneNumber');
+            $nome = $nome . " " . $sobrenome;
+
+            // edita os dados do gestor
+            print json_encode(gestor::EditarGestor($nome, $email, $telefone, $gestor));
+
+            break;
         case 'login-gestor': // login do gesor
             // recupera os dados do formulário
             $emailGestor = htmlspecialchars(addslashes(filter_input(INPUT_POST, 'emailGestor', FILTER_SANITIZE_EMAIL)));
@@ -88,9 +101,21 @@ if (isset($_POST['acao'])) {
             $municipioPosto = htmlspecialchars(filter_input(INPUT_POST, 'municipioPosto'));
             $linkPosto = htmlspecialchars(filter_input(INPUT_POST, 'linkPosto', FILTER_VALIDATE_URL));
             $id_gestor = htmlspecialchars(filter_input(INPUT_POST, 'id-gestor', FILTER_VALIDATE_INT));
-            $token = htmlspecialchars(filter_input(INPUT_POST, 'token'));
+            $token = htmlspecialchars(filter_input(INPUT_POST, 'tokenName'));
+            $estado = filter_input(INPUT_POST, 'estado', FILTER_SANITIZE_NUMBER_INT);
+            echo json_encode(Postos::cadastrar($estado, $nomePosto, $emailPosto, $token, $linkPosto, $categoriaPosto, $id_gestor, $municipioPosto));
+            break;
+        case 'editar-posto':
 
-            echo json_encode(Postos::cadastrar($nomePosto, $emailPosto, $token, $linkPosto, $categoriaPosto, $id_gestor, $municipioPosto));
+
+            // recupera os dados
+
+            $nomePosto = htmlspecialchars(filter_input(INPUT_POST, 'nomePosto'));
+            $emailPosto = htmlspecialchars(filter_input(INPUT_POST, 'emailPosto', FILTER_VALIDATE_EMAIL));
+            $posto = filter_input(INPUT_POST, 'id-posto', FILTER_SANITIZE_NUMBER_INT);
+            $municipioPosto = htmlspecialchars(filter_input(INPUT_POST, 'municipioPosto'));
+            $estado = 1;
+            echo json_encode(Postos::editardaDadosPosto($estado, $nomePosto, $emailPosto, $municipioPosto, $posto));
             break;
 
         case 'registrar-servico-posto': // registra documentos 
@@ -102,10 +127,10 @@ if (isset($_POST['acao'])) {
             $validadeServico = htmlspecialchars(filter_input(INPUT_POST, 'servico-validade'));
             $requisitosServico = nl2br(htmlspecialchars(filter_input(INPUT_POST, 'servico-requisitos')));
             $posto = htmlspecialchars(filter_input(INPUT_POST, 'id-posto', FILTER_SANITIZE_NUMBER_INT));
-
+            $estado = filter_input(INPUT_POST, 'estado', FILTER_SANITIZE_NUMBER_INT);
             // chama a coontroller que recebe os dados e envia para model e retorna a resposta para a view
 
-            echo json_encode(servicos::store($nomeServico, $tempoDuracaoServico, $precoServico, $validadeServico, $requisitosServico, $posto));
+            echo json_encode(servicos::store($estado, $nomeServico, $tempoDuracaoServico, $precoServico, $validadeServico, $requisitosServico, $posto));
             break;
 
         case 'solicitar-reserva':
@@ -117,6 +142,100 @@ if (isset($_POST['acao'])) {
             $horaFornecida = filter_input(INPUT_POST, 'hora-reserva');
 
             echo json_encode(servicos::solicitarReservas($utente, $servico, $posto, $horaFornecida, $dataFornecida));
+            break;
+
+        case 'muda-estado-solicitacoes':
+
+            $id_estado = filter_input(INPUT_POST, 'id-estado', FILTER_SANITIZE_NUMBER_INT);
+            $id_solicitacao = filter_input(INPUT_POST, 'id-solicitacao', FILTER_SANITIZE_NUMBER_INT);
+
+            print json_encode(servicos::mudaEstado($id_estado, $id_solicitacao));
+            break;
+
+        case 'muda-estado-posto':
+
+            $estado = filter_input(INPUT_POST, 'id-estado', FILTER_SANITIZE_NUMBER_INT);
+            $conta = filter_input(INPUT_POST, 'posto', FILTER_SANITIZE_NUMBER_INT);
+
+            print json_encode(postos::mudaEstado($estado, $conta));
+            break;
+
+        case 'muda-estado-gestor':
+
+            $estado = filter_input(INPUT_POST, 'id-estado', FILTER_SANITIZE_NUMBER_INT);
+            $conta = filter_input(INPUT_POST, 'gestor', FILTER_SANITIZE_NUMBER_INT);
+
+            print json_encode(gestor::mudaEstado($estado, $conta));
+            break;
+
+        case 'check-estado-gestor':
+            $conta = filter_input(INPUT_POST, 'gestor', FILTER_SANITIZE_NUMBER_INT);
+            print gestor::checkEstado($conta);
+            break;
+
+        case 'altera-foto-gestor':
+            $foto = $_FILES['imagem'];
+            $conta = filter_input(INPUT_POST, 'gestor', FILTER_SANITIZE_NUMBER_INT);
+            print json_encode(gestor::alterarFoto($conta, $foto));
+            break;
+
+        case 'altera-foto-adm':
+            $foto = $_FILES['imagem'];
+            $conta = filter_input(INPUT_POST, 'adm', FILTER_SANITIZE_NUMBER_INT);
+            print json_encode(adm::alterarFoto($conta, $foto));
+            break;
+
+        case 'elimina-posto':
+
+            $idposto = filter_input(INPUT_POST, 'posto', FILTER_SANITIZE_NUMBER_INT);
+            print json_encode(postos::eliminarPosto($idposto));
+            break;
+
+        case 'elimina-gestor':
+
+            $idgestor = filter_input(INPUT_POST, 'gestor', FILTER_SANITIZE_NUMBER_INT);
+            print json_encode(gestor::eliminarGestor($idgestor));
+            break;
+
+        case 'acesso-token':
+
+            $token = filter_input(INPUT_POST, 'token');
+            $idposto = filter_input(INPUT_POST, 'id-posto');
+            print json_encode(postos::token($token, $idposto));
+            break;
+
+        case 'cadastra-adm':
+            $nome = filter_input(INPUT_POST, 'nome');
+            $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+            $telefone = filter_input(INPUT_POST, 'telefone');
+            $nivel = filter_input(INPUT_POST, 'senha');
+            $senha = filter_input(INPUT_POST, 'nivel');
+            print json_encode(adm::cadastrar($nome, $email, $telefone, $senha, $nivel));
+            break;
+
+        case 'edita-adm':
+            $nome = filter_input(INPUT_POST, 'nome');
+            $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+            $telefone = filter_input(INPUT_POST, 'telefone');
+            $id_adm = filter_input(INPUT_POST, 'adm');
+            print json_encode(adm::editar($nome, $email, $telefone, $id_adm));
+            break;
+
+        case 'cria-comprovativo':
+            $utente = filter_input(INPUT_POST, 'utente', FILTER_SANITIZE_NUMBER_INT);
+            $reserva = filter_input(INPUT_POST, 'reserva', FILTER_SANITIZE_NUMBER_INT);
+            $referencia = filter_input(INPUT_POST, 'referencia');
+            print json_encode(servicos::comprovativo($utente, $reserva, $referencia));
+            break;
+
+            //ver posto na reserva 
+        case 'busca-tipo-posto':
+            $posto = filter_input(INPUT_POST, 'posto');
+            print json_encode(postos::index_2($posto));
+            break;
+
+        default:
+
             break;
     }
 }

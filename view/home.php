@@ -33,12 +33,13 @@ $postos = postos::index();
                                 <b>O que é PRSP</b>
                             </h3>
                             <p class="card-text text-center mb-3 p-2">
-                                PRSP é uma solução computacional baseada na web desenvolvida com o propósito de facilitar o processo de reservas de serviços públicos para os cidadãos angolanos. A ferramenta proporciona maior simplicidade no processo de reservas.
+                                PRSP é uma solução computacional baseada na web desenvolvida com o propósito de facilitar o processo de reservas de lugares para a aquisição de documentos públicos aos cidadãos angolanos.
+                                A ferramenta proporciona maior simplicidade no processo de reservas.
                             </p>
                             <h5 class="card-title about-titl text-center">Sobre Nós</h5>
                             <div>
                                 <p class="card-text text-center mb-3 p-2">
-                                    Somos uma solução computacional para reservas de diferentes tipos de serviços públicos (ou documentos). A busca pela excelência aliada a inovação tecnológica será (ou tem sido) fulcrais para a consolidação da nossa meta.
+                                    Somos uma solução computacional para reservas de diferentes tipos de serviços públicos (documentos). A busca pela excelência aliada a inovação tecnológica será essencial para a consolidação da nossa meta.
 
                                 </p>
                             </div>
@@ -53,7 +54,18 @@ $postos = postos::index();
                                 <div class="card-body">
                                     <h5 class="card-title about-titl text-center">Missão</h5>
                                     <p class="card-text text-center mb-4">
-                                        Facilitar a reserva de serviços públicos aos cidadãos da província de Luanda no conforto de suas casas.
+                                        Facilitar o processo de reserva de lugar serviços públicos aos cidadãos da província de Luanda no conforto de suas casas.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col" data-aos="fade-up" data-aos-duration="2000" data-aos-transtion="1000">
+                            <div class="card h-100">
+                                <img src="<?= IMAGENS ?>icones/visao.png" class="img-about shadow" alt="icone-visão">
+                                <div class="card-body">
+                                    <h5 class="card-title about-titl text-center">Visão</h5>
+                                    <p class="card-text text-center mb-4">
+                                        Ser reconhecido rigorosamente pela excelência em gestão de reservas e contribuir para solucionar as dificuldades enfrentadas pelos cidadãos angolanos ao adquirir os serviços públicos.
                                     </p>
                                 </div>
                             </div>
@@ -71,17 +83,6 @@ $postos = postos::index();
                                         <h6>* Responsabilidade.</h6>
 
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col" data-aos="fade-up" data-aos-duration="2000" data-aos-transtion="1000">
-                            <div class="card h-100">
-                                <img src="<?= IMAGENS ?>icones/visao.png" class="img-about shadow" alt="icone-visão">
-                                <div class="card-body">
-                                    <h5 class="card-title about-titl text-center">Visão</h5>
-                                    <p class="card-text text-center mb-4">
-                                        Ser reconhecido rigorosamente pela excelência em gestão de reservas e contribuir para solucionar as dificuldades enfrentadas pelos cidadãos angolanos ao adquirir os serviços públicos.
-                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -156,7 +157,7 @@ $postos = postos::index();
                 </div>
                 <div class="card-title posto-nome">
                     <h5>
-                        <a href="./" class="nav-link"> <?= $posto->postoDesignacao ?></a>
+                        <a href="./?page=informacoes-postos&id-posto=<?= $posto->idposto ?>" class="nav-link"> <?= $posto->postoDesignacao ?></a>
                     </h5>
                 </div>
             </div>

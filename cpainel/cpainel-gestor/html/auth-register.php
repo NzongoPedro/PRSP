@@ -52,6 +52,77 @@ if (isset($_SESSION['idGestor'])) {
   <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
   <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
   <script src="../assets/js/config.js"></script>
+
+  <style>
+    /* VARIAVEIS */
+    :root {
+      --cor-primario: #991f0c !important;
+      --cor-secondario: #ffc745 !important;
+      --fundo-primario: #991f0c !important;
+      --fundo-secondario: #ffc745 !important;
+      --cor-clara: #fbfbfb !important;
+      --funda: #fbfbfb !important;
+    }
+
+    /* TEMAS CSS */
+    .cor-primario {
+      color: #991f0c !important;
+    }
+
+    .f-primario {
+      background: #991f0c !important;
+      color: #fff !important;
+    }
+
+    .f-secundario {
+      background: #ffc745 !important;
+    }
+
+    .btn-primario {
+      background: hsl(8, 85%, 32%) !important;
+      color: #ffc745 !important;
+      border: 1px solid hsl(8, 85%, 32%) !important;
+    }
+
+    .btn-secundario {
+      background: hsl(42, 100%, 64%) !important;
+      color: #991f0c !important;
+    }
+
+    .gradiente-1 {
+      background: #991f0c;
+      background: -moz-linear-gradient(45deg, #991f0c 0%, #ffc745 100%);
+      background: -webkit-linear-gradient(45deg, #991f0c 0%, #ffc745 100%);
+      background: linear-gradient(45deg, #991f0c 0%, #ffc745 100%) !important;
+    }
+
+    .gradiente-2 {
+      background: rgba(153, 31, 12, 0.7);
+      background: -moz-linear-gradient(45deg,
+          rgba(153, 31, 12, 0.5) 0%,
+          rgba(255, 199, 69, 0.7) 100%) !important;
+      background: -webkit-linear-gradient(45deg,
+          rgba(153, 31, 12, 0.5) 0%,
+          rgba(255, 199, 69, 0.5) 100%) !important;
+      background: linear-gradient(45deg,
+          rgba(153, 31, 12, 0.5) 0%,
+          rgba(255, 199, 69, 0.7) 100%) !important;
+    }
+
+    input {
+      box-shadow: none !important;
+      border: #991f0c 1.5px solid !important;
+    }
+
+    input:focus {
+      box-shadow: #991f0c !important;
+      border: #991f0c 1.5px solid !important;
+    }
+
+    .border-p {
+      border: 1px solid #991f0c !important;
+    }
+  </style>
 </head>
 
 <body>
@@ -78,13 +149,13 @@ if (isset($_SESSION['idGestor'])) {
               <div class="row">
                 <div class="col">
                   <div class="mb-3">
-                    <label for="username" class="form-label">Nome Completo <b class="text-danger">*</b></label>
+                    <label for="username" class="form-label">Nome Completo <b class="cor-primario">*</b></label>
                     <input type="text" class="form-control" id="username" name="username" placeholder="Digite o seu nome" autofocus />
                   </div>
                 </div>
                 <div class="col">
                   <div class="mb-3">
-                    <label for="email" class="form-label">Email <b class="text-danger">*</b></label>
+                    <label for="email" class="form-label">Email <b class="cor-primario">*</b></label>
                     <input type="text" class="form-control" id="email" name="email" placeholder="Digite o seu e-mail" />
                   </div>
                 </div>
@@ -93,16 +164,16 @@ if (isset($_SESSION['idGestor'])) {
               <div class="row">
                 <div class="col">
                   <div class="mb-3">
-                    <label for="telefone" class="form-label">Telefone <b class="text-danger">*</b></label>
+                    <label for="telefone" class="form-label">Telefone <b class="cor-primario">*</b></label>
                     <input type="tel" class="form-control" id="telefone" name="telefone" placeholder="Digite o seu telefone" required />
                   </div>
                 </div>
                 <div class="col">
                   <div class="mb-3 form-password-toggle">
-                    <label class="form-label" for="password">Password <b class="text-danger">*</b></label>
+                    <label class="form-label" for="password">Password <b class="cor-primario">*</b></label>
                     <div class="input-group input-group-merge">
                       <input type="password" id="password" class="form-control" name="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" required />
-                      <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                      <span class="input-group-text cursor-pointer border-p"><i class="bx bx-hide"></i></span>
                     </div>
                   </div>
                 </div>
@@ -111,18 +182,18 @@ if (isset($_SESSION['idGestor'])) {
               <div class="row">
                 <div class="col">
                   <div class="mb-3">
-                    <label for="pass" class="form-label">Número do passe <b class="text-danger">*</b></label>
-                    <input type="number" class="form-control" id="pass" name="pass" placeholder="1234567890" required />
+                    <label for="pass" class="form-label">Número do passe <b class="cor-primario">*</b></label>
+                    <input type="text" class="form-control" id="pass" name="pass" placeholder="Código ou número do passe" required maxlength="8" minlength="4" min="4" max="4" />
                   </div>
                 </div>
               </div>
               <div class="resposta"></div>
-              <button type="submit" class="btn btn-danger d-grid w-100">criar conta</button>
+              <button type="submit" class="btn f-primario text-white d-grid w-100">criar conta</button>
             </form>
 
             <p class="text-center">
               <span>Já tem uma conta?</span>
-              <a href="./auth-login.php" class="text-danger">
+              <a href="./auth-login.php" class="cor-primario">
                 <span>Faça login</span>
               </a>
             </p>
@@ -172,6 +243,9 @@ if (isset($_SESSION['idGestor'])) {
         .then(resposta => { // armazena os dados da resposta no objeto resposta
           if (resposta.status == 200) {
             divResposta.innerHTML = `<div class="alert alert-success text-center">${resposta.msg}</div>`
+            setTimeout(() => {
+              location.href = "./auth-login.php"
+            }, 2000);
           } else {
             divResposta.innerHTML = `<div class="alert alert-danger">${resposta.msg}</div>`
           }

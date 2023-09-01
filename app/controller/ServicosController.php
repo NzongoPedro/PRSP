@@ -9,12 +9,12 @@ class ServicosController
 
     // controller para adiconar serviços na base de dados
 
-    public static function store($nome, $tempo, $preco, $validade, $requisitos, $posto)
+    public static function store($estado, $nome, $tempo, $preco, $validade, $requisitos, $posto)
     {
 
         // retorna para a view a resppsta da model
 
-        return servico::store($nome, $tempo, $preco, $validade, $requisitos, $posto);
+        return servico::store($estado, $nome, $tempo, $preco, $validade, $requisitos, $posto);
     }
 
     public static function solicitarReservas($utente, $servico, $posto, $horaFornecida, $dataFornecida)
@@ -31,8 +31,37 @@ class ServicosController
     {
         return servico::show($idUtente);
     }
-    public static function verReservas()
+    public static function verReservas($idPosto)
     {
-        return servico::verReservas();
+        return servico::verReservas($idPosto);
+    }
+
+    public static function mudaEstado($id_estado, $id_solicitacao)
+    {
+        return servico::mudaEstado($id_estado, $id_solicitacao);
+    }
+
+    public static function verServicosPorIdPosto($idPosto)
+    {
+        return servico::verServicosPorIdPosto($idPosto);
+    }
+    public static function verServicosPorId($id)
+    {
+        return servico::verServicosPorId($id);
+    }
+
+    // comprovativos
+
+    public static function comprovativo($utente, $reserva, $referencia)
+    {
+        return servico::comprovativo($utente, $reserva, $referencia);
+    }
+
+    // mostra no pdf
+
+    public static function mostrarDadosPDF($id_comprovativo)
+    {
+
+        return servico::mostrarDadosPDF($id_comprovativo);
     }
 }

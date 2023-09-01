@@ -5,132 +5,131 @@
 /* @import url("./login.css"); */
 
 :root {
-    --roboto: "Roboto";
-    --mont-reg: "Montserrat Regular";
-    --mont: "Montserrat";
+  --roboto: "Roboto";
+  --mont-reg: "Montserrat Regular";
+  --mont: "Montserrat";
 }
 
 @font-face {
-    font-family: "Roboto";
-    src: url(./fonts/Roboto-Regular.ttf);
+  font-family: "Roboto";
+  src: url(./fonts/Roboto-Regular.ttf);
 }
 
 @font-face {
-    font-family: "Montserrat Regular";
-    src: url(./fonts/montserrat/static/Montserrat-Regular.ttf);
+  font-family: "Montserrat Regular";
+  src: url(./fonts/montserrat/static/Montserrat-Regular.ttf);
 }
 
 @font-face {
-    font-family: "Montserrat";
-    src: url(./fonts/montserrat/static/Montserrat-Bold.ttf);
+  font-family: "Montserrat";
+  src: url(./fonts/montserrat/static/Montserrat-Bold.ttf);
 }
 
 html {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
 
 body {
-    font-family: var(--mont-reg), sans-serif;
-    background: #DCDCDC !important;
-    display: block;
-    width: 100% !important;
+  font-family: var(--mont-reg), sans-serif;
+  background: #dcdcdc !important;
+  display: block;
+  width: 100% !important;
 }
 
 /* ============== RESET ==================0 */
 .f-roboto {
-    font-family: "Roboto", sans-serif !important;
+  font-family: "Roboto", sans-serif !important;
 }
 
-h5 {}
+h5 {
+}
 
 input,
 textarea,
 button,
 select {
-    box-shadow: none !important;
-    border: #991F0C 1px solid !important;
+  box-shadow: none !important;
+  border: #991f0c 1px solid !important;
 }
 
 /* ============== NAV BAR ================ */
 nav.navegacao {
-    color: #ffc745 !important;
-    background: var(--fundo-primario) !important;
-    width: 100% !important;
+  color: #ffc745 !important;
+  background: var(--fundo-primario) !important;
+  width: 100% !important;
 }
 
 button.icon-btn {
-    font-size: 24px;
-    color: var(--cor-primario) !important;
-    background: var(--fundo-secondario) !important;
-    max-width: 50px;
-    width: 50px;
-    height: 50px;
-
+  font-size: 24px;
+  color: var(--cor-primario) !important;
+  background: var(--fundo-secondario) !important;
+  max-width: 50px;
+  width: 50px;
+  height: 50px;
 }
 
 .navbar-brand {
-    max-width: auto;
+  max-width: auto;
 }
 
 .offcanvas.custom-effect {
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-    transform: translate(-50%, 100%);
-    width: 100%;
-    height: 90vh;
-    background-color: #fff;
-    transition: transform 0.3s ease-out;
-    z-index: 9999;
-    overflow-y: auto;
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 100%);
+  width: 100%;
+  height: 90vh;
+  background-color: #fff;
+  transition: transform 0.3s ease-out;
+  z-index: 9999;
+  overflow-y: auto;
 }
 
 .offcanvas.custom-effect.show {
-    transform: translate(-50%, 0);
+  transform: translate(-50%, 0);
 }
 
 .offcanvas.custom-effect .navbar-toggler span {
-    display: none;
+  display: none;
 }
 
 .offcanvas.custom-effect .navbar-toggler::before,
 .offcanvas.custom-effect .navbar-toggler::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
-    width: 2px;
-    height: 14px;
-    background-color: #000;
-    transition: transform 0.3s ease-out;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 2px;
+  height: 14px;
+  background-color: #000;
+  transition: transform 0.3s ease-out;
 }
 
 .offcanvas.custom-effect .navbar-toggler::before {
-    transform: rotate(45deg);
-    top: 7px;
+  transform: rotate(45deg);
+  top: 7px;
 }
 
 .offcanvas.custom-effect .navbar-toggler::after {
-    transform: rotate(-45deg);
-    top: 7px;
+  transform: rotate(-45deg);
+  top: 7px;
 }
 
 .offcanvas.custom-effect.show .navbar-toggler::before {
-    transform: rotate(45deg) translate(5px, 5px);
-    top: 5px;
+  transform: rotate(45deg) translate(5px, 5px);
+  top: 5px;
 }
 
 .offcanvas.custom-effect.show .navbar-toggler::after {
-    transform: rotate(-45deg) translate(5px, -5px);
-    top: 5px;
+  transform: rotate(-45deg) translate(5px, -5px);
+  top: 5px;
 }
 
 .offcanvas.custom-effect.show .btn-close {
-    display: block;
+  display: block;
 }
-
 
 /* HERO APRESENTAÇÃO */
 
@@ -139,175 +138,160 @@ button.icon-btn {
       -180deg,
       rgba(193, 22, 22, 0.2),
       rgba(10, 10, 10, 0.2),
-            rgba(229, 21, 21, 0.2)),
-        url('../../storage/image/background/b1.png');
-    background-position: center center;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    background-size: cover;
-    position: relative;
-    z-index: 5;
-    /*   visibility: inherit;
-    transition: none 0s ease 0s;
-    text-align: left;
-    line-height: 24px;
-    white-space: nowrap;
-    /* min-height: 657 px; */
-    border-width: 0 px;
-    padding-top: 10rem;
-    padding-bottom: calc(10rem - 4.5rem);
-    margin: 0 px;
-    padding: 0 px;
-    letter-spacing: 0px;
-    font-weight: 400;
-    font-size: 13px;
-    min-width: 600 px;
-    opacity: 1;
-    transform-origin: 50% 50% 0 px;
-    transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
-    height: 95vh;
-    width: 100%;
+      rgba(229, 21, 21, 0.2)
+    ),
+    url("../../storage/image/background/b1.png");
+  background-position: center center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  z-index: 5;
+  height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
 }
 
 img.img-about {
-    object-fit: cover;
-    object-position: center;
-    max-width: 100%;
-    width: 150px !important;
-    height: 150px !important;
-    margin: auto;
-    margin-top: 40px;
-    margin-bottom: 20px;
-    border-radius: 25px;
-    padding: 8px;
+  object-fit: cover;
+  object-position: center;
+  max-width: 100%;
+  width: 150px !important;
+  height: 150px !important;
+  margin: auto;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  border-radius: 25px;
+  padding: 8px;
 }
 
 .about-titl {
-    font-family: var(--mont) !important;
-    text-transform: uppercase;
-    font-size: 18px !important;
-    color: var(--cor-primario) !important;
+  font-family: var(--mont) !important;
+  text-transform: uppercase;
+  font-size: 18px !important;
+  color: var(--cor-primario) !important;
 }
 
 /* POSTOS */
 .content {
-    padding: 2px;
-    margin: auto;
+  padding: 2px;
+  margin: auto;
 }
 
 .content .posto-foto {
-    max-width: 100%;
-    height: 50vh;
-    width: 100vh;
-    object-fit: cover;
-    /* object-position: center top; */
-
+  max-width: 100%;
+  height: 50vh;
+  width: 100vh;
+  object-fit: cover;
+  /* object-position: center top; */
 }
 
 .posto-nome {
-    font-size: 20px;
-    font-family: var(--mont);
-    text-transform: uppercase;
-    margin-bottom: 8px;
-    text-align: center;
-    width: 100%;
-    background: rgba(28, 26, 26, 0.8);
-    color: #FFC745;
-    padding: 15px;
-    margin-top: -65px;
-    position: relative;
-    z-index: 99999;
+  font-size: 20px;
+  font-family: var(--mont);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  text-align: center;
+  width: 100%;
+  background: rgba(28, 26, 26, 0.8);
+  color: #ffc745;
+  padding: 15px;
+  margin-top: -65px;
+  position: relative;
+  z-index: 99999;
 }
 
 /* ============= MENU ============== */
 .menu {
-    background: rgba(10, 9, 9, 0.8) !important;
-    color: #FFC745 !important;
+  background: rgba(10, 9, 9, 0.8) !important;
+  color: #ffc745 !important;
 }
 
 .menu ul li a {
-    color: #FFC745 !important;
-    text-transform: uppercase;
-    font-family: var(--mont-reg);
-    padding: 15px;
-    transition: 0.5s;
-    border-bottom: 1px solid #991F0C;
+  color: #ffc745 !important;
+  text-transform: uppercase;
+  font-family: var(--mont-reg);
+  padding: 15px;
+  transition: 0.5s;
+  border-bottom: 1px solid #991f0c;
 }
 
 .menu ul li a i {
-    font-size: 25px;
+  font-size: 25px;
 }
 
 .menu ul li a:hover {
-    background: #991F0C !important;
-    color: #FFC745 !important;
-    text-transform: uppercase;
-    font-family: var(--mont-reg);
-    transition: 0.5s;
+  background: #991f0c !important;
+  color: #ffc745 !important;
+  text-transform: uppercase;
+  font-family: var(--mont-reg);
+  transition: 0.5s;
 }
 
 .btn-close {
-    color: #991F0C !important;
+  color: #991f0c !important;
 }
 
 /* ========= Paralax ============== */
 
 .posto-alerta {
-    border-left: 4px solid #991F0C;
-    transition: 1s;
+  border-left: 4px solid #991f0c;
+  transition: 1s;
 }
 
 .posto-alerta:hover {
-    border-left: 4px solid #FFC745;
-    background: rgba(153, 31, 12, 0.8);
-    color: #F7F7F7;
-    cursor: pointer;
-    transition: 1s;
-    transform: scale(1.05);
+  border-left: 4px solid #ffc745;
+  background: rgba(153, 31, 12, 0.8);
+  color: #f7f7f7;
+  cursor: pointer;
+  transition: 1s;
+  transform: scale(1.05);
 }
 
 .fundo-paralax {
-    width: 100%;
-    max-height: 100%;
-    background: url('../../storage/image/hero/3.jpg');
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: cover;
-    background-position: center center;
+  width: 100%;
+  max-height: 100%;
+  background: url("../../storage/image/hero/3.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center center;
 }
 
 .fundo-paralax .text-paralax {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-    padding: 8px;
-    margin-top: 20px;
-    font-size: 20px;
-    background: rgba(10, 10, 10, 0.8);
-    color: var(--cor-secondario);
-    text-align: center;
-    font-family: var(--mont-reg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  padding: 8px;
+  margin-top: 20px;
+  font-size: 20px;
+  background: rgba(10, 10, 10, 0.8);
+  color: var(--cor-secondario);
+  text-align: center;
+  font-family: var(--mont-reg);
 }
 
 /* NEWLATTER */
 
 .newlatter h5 {
-    font-family: var(--roboto);
-    font-size: 20px;
-    color: #fbfbfb;
-    text-align: center;
-    font-weight: bold;
+  font-family: var(--roboto);
+  font-size: 20px;
+  color: #fbfbfb;
+  text-align: center;
+  font-weight: bold;
 }
 
 footer {
-    background: rgb(0, 0, 0, 0.8);
+  background: rgb(0, 0, 0, 0.8);
 }
 
 footer .card-title {
-    color: #fbfbfb;
-    text-transform: uppercase;
-    font: 1em sans-serif;
-    padding-left: 2px;
-    font-language-override: normal;
+  color: #fbfbfb;
+  text-transform: uppercase;
+  font: 1em sans-serif;
+  padding-left: 2px;
+  font-language-override: normal;
 }

@@ -4,6 +4,8 @@
 
 use App\controller\utentesController as utentes;
 use App\controller\ServicosController as servicos;
+use App\Model\Servicos as comprovativo;
+
 // chama a class de auth
 require_once './Auth/checkSessionUtente.php';
 // executa o método #1 de autorização
@@ -16,11 +18,15 @@ if ($idUtente) :
     //Grava os dados da reserva desse utente
     $reservas = servicos::show($idUtente);
 
+    // comprovativo
+    $comprovativo = comprovativo::verificaComprovativo($idUtente);
+    $comprovativos = comprovativo::listaComprovativo($idUtente);
+
 endif
 ?>
 <nav class="navbar fixed-top p-2 bg-dark">
     <div class="container-fluid">
-        <a class="icon-voltar rounded-circle" href="#!" onclick=" history.go(-1);">
+        <a class="icon-voltar rounded-circle" href="./" onclick=" history.go(-1);">
             <i class="bi bi-arrow-left-short"></i>
         </a>
         <span class="titulo"><?= $dadosUtente->utenteNome ?></span>
@@ -30,7 +36,7 @@ endif
 <section>
     <div class="perfil-capa shadow-sm"></div>
     <div class="perfil-foto-utente" data-aos="fade-up" data-aos-transition="500" data-aos-duration="1000">
-        <img src=" <?= IMAGENS ?>utentes/Boom.jfif" class="foto shadow-sm img-fluid" lazy>
+        <img src=" <?= IMAGENS ?>admin/admin.png" class="foto shadow-sm img-fluid" lazy>
     </div>
     <div class="menu-nav container">
         <a href="<?= ROUTE ?>?page=perfil-utente&view=reservas">
@@ -41,7 +47,7 @@ endif
             <i class="bi bi-file-person-fill"></i>
             Dados
         </a>
-        <a href="#!">
+        <a href="<?= ROUTE ?>?page=perfil-utente&view=comprovativos">
             <i class="bi bi-file-pdf-fill"></i>
             Comprovativo
         </a>
@@ -63,18 +69,25 @@ if (isset($_GET['view'])) {
         case 'reservas': ?>
             <!-- Redervas -->
             <section class="reservas container">
-                <h5 class="titulos">Minhas reservas (2)</h5>
+                <h5 class="titulos">Minhas reservas</h5>
                 <div class="mt-3 mb-3"></div>
                 <div class="card-group">
                     <div class="row">
                         <?php
+
+                        $btnGerarPdf = "";
                         foreach ($reservas as $reserva) {
                             $statusClasse = 'warning';
-                            if ($reserva->estadoSolicitacao == "cancelado") {
+                            if ($reserva->estadoSolicitacao == "recusado") {
                                 $statusClasse = 'danger';
                             }
                             if ($reserva->estadoSolicitacao == "aprovado") {
                                 $statusClasse = 'success';
+                                if ($comprovativo) {
+                                    $btnGerarPdf = '<a href="' . ROUTE . 'comprovativo.php?id-comprovativo=' . $comprovativo . '" class="text-danger btn btn-sm">
+                                     <i class="bi bi-file-earmark-pdf"></i>
+                                    </a>';
+                                }
                             } ?>
 
                             <div class="col-12 mb-3">
@@ -90,16 +103,16 @@ if (isset($_GET['view'])) {
                                     <div class="accordion accordion-flush" id="accordionFlushExample">
                                         <div class="accordion-item">
                                             <h6 class="accordion-header text-center mb-2">
-                                                <a href="#!" class=" text-danger  accordion-button border-0 text-decoration-none nav-link  collapsed" data-bs-toggle="collapse" data-bs-target="#flush<?= $reserva->idsolicitacao_reserva ?>" aria-expanded="false" aria-controls="flush<?= $reserva->idsolicitacao_reserva ?>" onclick="leftTime(<?= $reserva->idsolicitacao_reserva ?>, '<?= $reserva->solicitacaoReservaData ?>', '<?= $reserva->solicitacaoReservaHora ?>')">
-
+                                                <a href="#!" class=" text-danger  accordion-button border-0 text-decoration-none nav-link collapsed text-center" data-bs-toggle="collapse" data-bs-target="#flush<?= $reserva->idsolicitacao_reserva ?>" aria-expanded="false" aria-controls="flush<?= $reserva->idsolicitacao_reserva ?>" onclick="leftTime(<?= $reserva->idsolicitacao_reserva ?>, '<?= $reserva->solicitacaoReservaData ?>', '<?= $reserva->solicitacaoReservaHora ?>')">
+                                                    Ver mais informações
                                                 </a>
                                             </h6>
                                             <div id="flush<?= $reserva->idsolicitacao_reserva ?>" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
                                                 <div class="accordion-body">
                                                     <div class="acordos">
                                                         <span class="text-muted">Preço: <b class="float-end"><?= $reserva->documentoPreco ?> Kz</b></span>
-                                                        <span class="text-muted">Duração: <b class="float-end"><?= $reserva->documentoTempoDuracao ?> Kz</b></span>
-                                                        <span class="text-muted">Validade: <b class="float-end"><?= $reserva->documentoDataValidade ?> Kz</b></span>
+                                                        <span class="text-muted">Duração: <b class="float-end"><?= $reserva->documentoTempoDuracao ?></b></span>
+                                                        <span class="text-muted">Validade: <b class="float-end"><?= $reserva->documentoDataValidade ?></b></span>
                                                     </div>
                                                     <h5 class="text-center">Requisitos Necessários</h5>
                                                     <div class="alert alert-warning rounded-0">
@@ -121,7 +134,7 @@ if (isset($_GET['view'])) {
                                             <a href="#!" class="bi bi-trash h5" data-bs-toggle="modal" data-bs-target="#modalEliminar" onclick="confirmaEliminacaoReserva()"></a>
                                             <?php
                                             if ($reserva->estadoSolicitacao == "aprovado") {
-                                                print '<a href="#!" class="bi bi-file-pdf-fill h5"></a>';
+                                                print '<a href="#!" class="bi bi-file-pdf-fill h5" onclick="criarComprovativo(' . $idUtente . ', ' . $reserva->idsolicitacao_reserva . ')"></a>';
                                             }
                                             ?>
                                         </div>
@@ -203,6 +216,29 @@ if (isset($_GET['view'])) {
             </section>
             <!-- Fim seccção dados pessoais -->
 
+        <?php
+
+        case 'comprovativos': ?>
+            <section class="container">
+                <?php
+                if (($comprovativos)) :
+                    foreach ($comprovativos as $comp) : ?>
+                        <div class="card shadow-sm mb-3">
+                            <div class="card-body">
+                                <div class="p-2">
+                                    <a href="<?= ROUTE ?>comprovativo.php?id-comprovativo=<?= $comp->idcomprovativo_reserva ?>" class="nav-link">
+                                        <i class="bi bi-file-pdf-fill me-2"></i>
+                                        <span>Comprovativo: <?= $comp->codigoReferencia ?></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                <?php
+                    endforeach;
+                endif;
+                ?>
+            </section>
+
 <?php
             break;
         default:
@@ -255,7 +291,7 @@ if (isset($_GET['view'])) {
     let botaoConfirmar = document.querySelector('.btn-confirm')
 
     const confirmaEliminacaoReserva = () => {
-        alert(0)
+
     }
 </script>
 <script src="<?= JS ?>editarDados.js"></script>
@@ -350,4 +386,85 @@ if (isset($_GET['view'])) {
 
     // Chama a função para extrair informações geográficas após o carregamento da API do Google Maps
     google.maps.event.addDomListener(window, "load", extrairInformacoesGeograficas);
+
+
+    // alterar estados das solicitações 
+
+    function alterarEstadoSolicitacoes(id_estado, estado, id_solicitacao) {
+        const datas = new FormData()
+        datas.append('acao', 'muda-estado-solicitacoes')
+        datas.append('id-estado', id_estado)
+        datas.append('estado', estado)
+        datas.append('id-solicitacao', id_solicitacao)
+        fetch('./Rquests/requestAjax.php', {
+                method: 'POST',
+                body: datas
+            })
+            .then(res => res.json())
+            .then(resposta => {
+
+            })
+    }
+</script>
+<script>
+    function generateRandomCode() {
+        function generateRandomChars(length, chars) {
+            let result = "";
+            for (let i = 0; i < length; i++) {
+                const randomIndex = Math.floor(Math.random() * chars.length);
+                result += chars[randomIndex];
+            }
+            return result;
+        }
+
+        const numbers = "0123456789";
+        const uppercaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const lowercaseLetters = "abcdefghijklmnopqrstuvwxyz";
+
+        const randomNumbers = generateRandomChars(2, numbers);
+        const randomUppercaseLetters = generateRandomChars(2, uppercaseLetters);
+        const randomLowercaseLetters = generateRandomChars(2, lowercaseLetters);
+
+        const combinedRandomChars = randomNumbers + randomUppercaseLetters + randomLowercaseLetters;
+
+        // Shuffle the characters to ensure randomness
+        const shuffledCode = combinedRandomChars.split("").sort(() => 0.5 - Math.random()).join("");
+
+        return shuffledCode;
+    }
+
+    let randomCode = "";
+
+    setInterval(() => {
+        randomCode = generateRandomCode()
+    }, 500);
+
+    function criarComprovativo(utente, reserva) {
+
+        dados = new FormData() // capta os dados do formulário
+        dados.append('acao', 'cria-comprovativo')
+        dados.append('reserva', reserva)
+        dados.append('utente', utente)
+        dados.append('referencia', randomCode)
+        fetch('<?= ROUTE ?>Requests/requestAjax.php ', { // envia os dados para uma página php
+                body: dados, // Dados a serem enviados
+                method: 'POST' // verbo ou metodo HTTP da requisição
+            })
+            .then(res => res.json()) // envia e espera uma resposta no formato json de dados
+            .then(resposta => { // armazena os dados da resposta no objeto resposta
+                if (resposta.status == 200) {
+                    // alert(resposta.msg + ' ' + resposta.id_comprovativo)
+                    setTimeout(() => {
+                        location.href = '<?= ROUTE ?>comprovativo.php?id-comprovativo=' + resposta.id_comprovativo
+                    }, 5000);
+                } else {
+                    alert(resposta.msg)
+                    location.href = '<?= ROUTE ?>comprovativo.php?id-comprovativo=' + resposta.id_comprovativo
+                }
+            })
+            .catch(err => { // caso houver um erro
+
+            })
+
+    }
 </script>

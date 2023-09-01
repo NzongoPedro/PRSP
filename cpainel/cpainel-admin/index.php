@@ -3,12 +3,25 @@ require_once('../../vendor/autoload.php');
 require '../../config.php';
 
 use App\controller\admController as adm;
+use App\controller\PostosController as postos;
+use App\controller\GestoresController as gestores;
+use App\controller\CounterController as contadores;
+
+$dadosPosto = postos::index();
+$dadosGestor = gestores::index();
+$contadores = contadores::contadorGeral();
+
 
 if (!isset($_SESSION['idAdmin'])) {
     header('location:' . ROUTE . 'cpainel/cpainel-admin/auth.php');
 }
 $idAdm = $_SESSION['idAdmin'];
 $dadosAdm = adm::mostraDadosAdm($idAdm);
+$dados_adm = adm::index();
+
+$foto = adm::verFoto($idAdm);
+
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -41,8 +54,9 @@ $dadosAdm = adm::mostraDadosAdm($idAdm);
                 <!-- DADOS ADMNI -->
                 <div class="menu-fixo h-100">
                     <div class="carta">
-                        <img src="<?= IMAGENS ?>admin/admin.png" alt="Foto de Perfil" class="profile-picture">
+                        <img src="<?= $foto ?>" alt="Foto de Perfil" class="profile-picture">
                         <h3 class="admin-name"><?= $dadosAdm->admNome ?></h3>
+                        <small class="text-muted mt-5">NÍVEL: <?= $dadosAdm->idNivelAcesso ?></small>
                     </div><!-- FIM DADOS ADMIN -->
                     <!-- MENU -->
                     <ul class="list-group list-group menu-lateral">
@@ -67,17 +81,17 @@ $dadosAdm = adm::mostraDadosAdm($idAdm);
                         <li class="list-group-item menu-lateral-item">
                             <a href="./?admPage=admnistradores" class="nav-link">
                                 <i class="bi bi-person-plus-fill"></i>
-                                admnistradores
+                                administradores
                             </a>
                         </li>
                         <li class="list-group-item menu-lateral-item">
-                            <a href="./?admPage=#" class="nav-link">
+                            <a href="./?admPage=gestores" class="nav-link">
                                 <i class="bi bi-person-lines-fill"></i>
                                 gestores
                             </a>
                         </li>
                         <li class="list-group-item menu-lateral-item">
-                            <a href="./?admPage=#" class="nav-link">
+                            <a href="./?admPage=#" class="nav-link disabled text-plain" readonly disabled>
                                 <i class="bi bi-newspaper"></i>
                                 newlater
                             </a>
@@ -105,16 +119,15 @@ $dadosAdm = adm::mostraDadosAdm($idAdm);
                 </div>
                 <div class="adm-barra">
                     <div class="foto">
-                        <img src="<?= IMAGENS ?>admin/admin.png" alt="Foto de Perfil" class="profile-picture">
+                        <img src="<?= $foto ?>" alt="Foto de Perfil" class="profile-picture">
                     </div>
                     <div class="dropdown drop-nome">
                         <a class="nav-link dropdown-toggle" href="#!" data-bs-toggle="dropdown" aria-expanded="false">
                             <?= explode(" ", $dadosAdm->admNome)[0] ?>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Perfil</a></li>
-                            <li><a class="dropdown-item" href="#">Definições</a></li>
-                            <li><a class="dropdown-item" href="#">Sair</a></li>
+                            <li><a class="dropdown-item" href="./?admPage=perfil-adm">Perfil</a></li>
+                            <li><a class="dropdown-item" href="./seesion_destroy.php">Sair</a></li>
                         </ul>
                     </div>
                 </div>
@@ -148,6 +161,36 @@ $dadosAdm = adm::mostraDadosAdm($idAdm);
             </div>
         </div>
         <!-- FIM NAV LATERAL ESQUERDO VERTICAL -->
+    </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="modalResponse" tabindex="-1" aria-labelledby="modalResponseLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-dark border-0">
+                    <h1 class="modal-title fs-5 text-white" id="modalResponseLabel">Confirmação de eliminação</h1>
+                    <button type="button text-white" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body bg-danger border-0">
+                    <div class="text-white text-center tt">
+                        Após a eliminação, não haverá reversão dos dados. Isso inclue a remoção
+                        de todos os elemente relacionados ao item a ser eliminado.
+                        <br>
+                        <p>Pretende continuar?</p>
+                    </div>
+                    <div class="text-center">
+                        <button class="btn btn-dark" data-bs-dismiss="modal">
+                            NÃO
+                        </button>
+                        <button class="btn f-primario" onclick="confirmaEliminacao()">
+                            SIM
+                        </button>
+                        <input type="hidden" id="confirm" value="">
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="<?= JS ?>poper.js"></script>

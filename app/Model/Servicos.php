@@ -26,7 +26,7 @@ class Servicos
         (Nome, e-mail, telefone, senha)
     */
 
-    public static function validarDados($nome)
+    public static function validarDados($estado, $nome, $posto)
     {
 
         $erro = "";
@@ -40,19 +40,25 @@ class Servicos
         }
 
         // verifica se esse documento já existe na bd
-        $checkDoc = self::getInstance()->query("SELECT documentoDesignacao FROM documentos WHERE documentoDesignacao = '$nome'");
+        $checkDoc = self::getInstance()->query("SELECT documentoDesignacao, idPosto FROM documentos WHERE documentoDesignacao = '$nome' AND idPosto ='$posto'");
 
         if ($checkDoc->rowCount() > 0) {
 
             $erro = 'Esta documento já existe na base de dados';
         }
 
+        // verfifica  estado do posto
+        if ($estado <= 1) {
+            $erro = 'Ação não concluiída, o posto precisa ser ativado';
+        }
+
+
         return $erro; // Retorna os possíveis erros analisados
     }
 
     // Método para adicionar os serviços na base dados
 
-    public static function store($nome, $tempo, $preco, $validade, $requisitos, $posto)
+    public static function store($estado, $nome, $tempo, $preco, $validade, $requisitos, $posto)
     {
 
         try {
@@ -74,7 +80,7 @@ class Servicos
             $store->bindValue(5, $tempo, PDO::PARAM_STR);
             $store->bindValue(6, $validade, PDO::PARAM_STR);
 
-            $erro = self::validarDados($nome);
+            $erro = self::validarDados($estado, $nome, $posto);
 
             if (!$erro) { // verifica a existencia de erros
 
@@ -161,7 +167,7 @@ class Servicos
                 SR.idDocumento = '$servico' AND 
                 SR.idContaUtente = '$utente' AND
                 SR.solicitacaoReservaData = '$dataSolicitacao' AND
-                Es.estadoSolicitacao = 'pendente' ");
+                Es.estadoSolicitacao = 'aprovado'");
 
             if ($check->rowCount() > 0) {
                 $mensagemErro = 'Verificamos que já solicitou uma reserva para este serviço nesta data e posto.';
@@ -187,7 +193,7 @@ class Servicos
 
                     http_response_code(200);
 
-                    return ['status' => 200, 'msg' => 'Sua reserva foi efetuada, aguarde... ' . $dataFornecida];
+                    return ['status' => 200, 'msg' => 'Sua reserva foi efetuada, aguarde... '];
                 } else {
 
                     // mostra a incositencia
@@ -216,10 +222,15 @@ class Servicos
 
     public static function mostraDatasDisponiveisParaReserva()
     {
-
+        $data = "";
         // busca data na bd de solicitação de reserva
-        $data = self::getInstance()->query("SELECT *FROM solicitacao_reserva")->fetch()->solicitacaoReservaData;
+        $data = self::getInstance()->query("SELECT solicitacaoReservaData FROM solicitacao_reserva");
         // Data da última entrada na base de dados (simulada)
+        if (($data->rowCount() <= 0)) {
+            $data = '2023-05-05';
+        } else {
+            $data =   $data->fetch()->solicitacaoReservaData;
+        }
         $dataUltimaEntradaNaBD = new DateTime($data);
 
         // Data atual
@@ -269,16 +280,169 @@ class Servicos
         return static::getInstance()->query($query)->fetchAll();
     }
 
-    public static function verReservas()
+    public static function verReservas($idPosto)
     {
 
         // query de busca juntando 4 entidades
         $query = "SELECT *FROM solicitacao_reserva AS SR
         INNER JOIN documentos AS DOC ON SR.idDocumento = DOC.iddocumento
         INNER JOIN utentes AS UT ON SR.idContaUtente = UT.idutente
-        INNER JOIN estado_solicitacao AS ESR ON SR.idEstadoSolicitacao = ESR.idestado_solicitacao";
+        INNER JOIN estado_solicitacao AS ESR ON SR.idEstadoSolicitacao = ESR.idestado_solicitacao
+        WHERE SR.idPosto= '$idPosto'
+        ORDER BY SR.idsolicitacao_reserva DESC
+         ";
 
         // retorna os dados da BD para a view
         return static::getInstance()->query($query)->fetchAll();
+    }
+
+    // aletrar estado da resrva
+
+    public static function mudaEstado($id_estado, $id_solicitacao)
+    {
+
+        // query de mudança
+
+        $query = "UPDATE solicitacao_reserva SET 
+        idEstadoSolicitacao = ?
+        WHERE idsolicitacao_reserva = ?";
+
+        // prepara a alteração 
+        $update = static::getInstance()->prepare($query);
+        $update->bindValue(1, $id_estado);
+        $update->bindValue(2, $id_solicitacao);
+
+        // executa a mudança
+
+        if ($update->execute()) {
+            $msg = "";
+            if ($id_estado == 1) {
+                $msg = "Solicitação marcada como pendente";
+            } elseif ($id_estado == 2) {
+                $msg = "Solicitação aprovada com sucesso.";
+            } else {
+                $msg = "Solicitação recusada com sucesso.";
+            }
+
+            // sucesso
+
+            http_response_code(200);
+
+            return ['status' => 200, 'msg' => $msg];
+        } else {
+
+            // caso houver erro, exibe-0
+
+            http_response_code(402);
+
+            return ['status' => 402, 'msg' => $update->errorInfo()];
+        }
+    }
+
+    //mostrar servisos por postos
+
+    public static function verServicosPorIdPosto($idPosto)
+    {
+
+        $busca = "SELECT *FROM documentos WHERE idPosto = '$idPosto'";
+
+        return static::getInstance()->query($busca)->fetchAll();
+    }
+
+
+    public static function verServicosPorId($id)
+    {
+
+        $busca = "SELECT *FROM documentos WHERE iddocumento = '$id'";
+
+        return static::getInstance()->query($busca)->fetchAll();
+    }
+
+    // Gere comprovativo 
+
+    public static function comprovativo($utente, $reserva, $referencia)
+    {
+
+        // coleta os dados
+        $dados = "INSERT INTO comprovativo_reserva (codigoReferencia, idContaUtente, idReserva)
+        VALUES(?,?,?)";
+
+        // executa os dados coletados
+        $salva = self::getInstance()->prepare($dados);
+
+        $salva->bindValue(1, $referencia);
+        $salva->bindValue(2, $utente);
+        $salva->bindValue(3, $reserva);
+
+        // verifica se o comprovativo ja foi gerado
+        $verifica = self::getInstance()->query("SELECT idcomprovativo_reserva, idReserva FROM comprovativo_reserva WHERE idReserva = '$reserva'");
+
+        if ($verifica->rowCount() > 0) {
+
+            // retorna erro caso exista
+
+            http_response_code(402);
+
+            return ['status' => 402, 'msg' => 'Este comprovativo já foi gerado', 'id_comprovativo' => $verifica->fetch()->idcomprovativo_reserva];
+        }
+        // verfica se não há erros 
+
+        if ($salva->execute()) {
+            // salva os dados do comprovativo na BD
+            // E pega o id do comprovativo por referencia
+            $ultimoId =  self::getInstance()->query("SELECT idcomprovativo_reserva FROM comprovativo_reserva WHERE codigoReferencia = '$referencia'")->fetch()->idcomprovativo_reserva;
+            http_response_code(200); // sucesso
+
+            return ['status' => 200, 'msg' => 'Dados do comprovativo gerado', 'id_comprovativo' => $ultimoId];
+        } else {
+
+            // mostra erros, caso exista
+
+            http_response_code(402); // erro
+            return ['status' => 402, 'msg' => 'Erro', 'ErroMSG' => $salva->errorInfo()];
+        }
+    }
+
+    // mostra comprovativo
+    public static function mostrarDadosPDF($id_comprovativo)
+    {
+        // selecione os dados e junta s tabelas
+
+        $select = self::getInstance()->query("SELECT *FROM comprovativo_reserva AS CP
+        INNER JOIN utentes AS UT ON CP.idContaUtente = UT.idutente
+        INNER JOIN solicitacao_reserva AS SR ON CP.idReserva = SR.idsolicitacao_reserva
+        INNER JOIN documentos AS DOC ON SR.idDocumento = DOC.iddocumento
+        INNER JOIN postos AS PT ON PT.idposto = SR.idPosto
+        INNER JOIN estado_solicitacao AS ES ON SR.idEstadoSolicitacao = ES.idestado_solicitacao
+        WHERE CP.idcomprovativo_reserva = '$id_comprovativo';
+        ");
+        // retorna e preenche o documento PDF
+
+        return $select->fetch();
+    }
+
+    // verifica se o compravito do utente já foi gereado
+
+    public static function verificaComprovativo($idUtente)
+    {
+        $busca = self::getInstance()->query("SELECT idcomprovativo_reserva FROM comprovativo_reserva WHERE idContaUtente ='$idUtente'");
+
+        if ($busca->rowCount() > 0) {
+            return $busca->fetch()->idcomprovativo_reserva;
+        } else {
+            return false;
+        }
+    }
+
+    // lista comprovativos no utenete
+    public static function listaComprovativo($idUtente)
+    {
+        $busca = self::getInstance()->query("SELECT *FROM comprovativo_reserva WHERE idContaUtente ='$idUtente'");
+
+        if ($busca->rowCount() > 0) {
+            return $busca->fetchAll();
+        } else {
+            return false;
+        }
     }
 }

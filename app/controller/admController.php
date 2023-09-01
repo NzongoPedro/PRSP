@@ -7,9 +7,9 @@ use App\Model\Admin as adm;
 class admController
 {
     // controller cadastrar Adm
-    public static function cadastrar($nome, $email, $telefone, $senha)
+    public static function cadastrar($nome, $email, $telefone, $senha, $nivel)
     {
-        return adm::gravardaDadosAdm($nome, $email, $telefone, $senha);
+        return adm::gravardaDadosAdm($nome, $email, $telefone, $senha, $nivel);
     }
 
     // controller editar dados Adm
@@ -30,9 +30,24 @@ class admController
         return adm::mostrarDadosAdmPorId($idAdm);
     }
 
+    // ver todos
+
+    public static function index()
+    {
+        return adm::index();
+    }
+
     //Controller autenticar admin
     public static function entrar($email, $senha)
     {
         return adm::loginAdmin($email, $senha);
+    }
+    public static function alterarFoto($id_adm, $foto)
+    {
+        return adm::alterarFoto($id_adm, $foto);
+    }
+    public static function verFoto($idAdm)
+    {
+        return adm::verFoto($idAdm);
     }
 }
