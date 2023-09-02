@@ -98,5 +98,7 @@ if (isset($_SESSIONd['token-posto']) && isset($_SESSION['id-posto'])) : ?>
 </script>
 
 <script>
-    // gerar relatório
+    // gerar relatório mensal
+
+    fetch('<?=ROUTE?>')
 </script>
