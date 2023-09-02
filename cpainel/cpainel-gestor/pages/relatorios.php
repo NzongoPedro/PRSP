@@ -1,5 +1,5 @@
 <?php
-if (isset($_SESSIONd['token-posto']) && isset($_SESSION['id-posto'])) : ?>
+if (isset($_SESSION['token-posto']) && isset($_SESSION['id-posto'])) : ?>
     <div class="content-wrapper">
         <!-- Content -->
         <div class="container-xxl flex-grow-1 container-p-y">
@@ -100,5 +100,8 @@ if (isset($_SESSIONd['token-posto']) && isset($_SESSION['id-posto'])) : ?>
 <script>
     // gerar relatório mensal
 
-    fetch('<?=ROUTE?>')
+    fetch('<?= ROUTE ?>Resquests/requestAjax.php' {
+        method: 'POST',
+
+    })
 </script>
