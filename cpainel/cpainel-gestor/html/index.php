@@ -132,7 +132,7 @@ $contador = contador::counter($idposto);
               </a>
             </li>
             <li class="menu-item">
-              <a href="index.html" class="menu-link">
+              <a href="./?gestorPage=relatorios" class="menu-link">
                 <i class='menu-icon bx bx-list-ul'></i>
                 <div data-i18n="Analytics">Relatórios</div>
               </a>
