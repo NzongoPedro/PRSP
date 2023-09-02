@@ -234,6 +234,11 @@ if (isset($_POST['acao'])) {
             print json_encode(postos::index_2($posto));
             break;
 
+        case 'busca-servico-posto':
+            $posto = filter_input(INPUT_POST, 'posto');
+            print json_encode(servicos::verServicosPorIdPosto($posto));
+            break;
+
         default:
 
             break;

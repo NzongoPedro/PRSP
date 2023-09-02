@@ -122,7 +122,7 @@ class Servicos
             // verfica se há alguma valor vazio
 
             if (($posto <= 0) || ($servico <= 0) || ($utente <= 0)) {
-                $mensagemErro = 'Verifique e preencha todos campos ';
+                $mensagemErro = 'Verifique e preencha todos campos ' . $servico;
             }
 
             // Verifique se a hora foi fornecida e está no formato apropriado (HH:MM)

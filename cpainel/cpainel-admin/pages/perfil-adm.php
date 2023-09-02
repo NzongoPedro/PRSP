@@ -1,6 +1,6 @@
     <!-- TABLE POSTOS -->
 
-    <div class="container">
+    <div class="container" data-aos="fade-up" data-aos-transition="1000" data-aos-duration="500">
         <section class="mt-2" id="adm">
             <div class="row">
                 <div class="col-5">

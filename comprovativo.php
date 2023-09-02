@@ -354,7 +354,7 @@ $dompdf->setPaper('A4', 'portrait');
 $dompdf->render();
 
 $dompdf->stream(
-  'Comprovativo',
+  'Comprovativo_' . $utente . '_' . $documento,
   array(
     "Attachment" => false //Para realizar o download somente alterar para true
   )

@@ -15,7 +15,7 @@
                   </div>
               </div>
               <div class="col-3">
-                  <div class="shadow-sm alert alert-danger alert-dismissible alertas rounded-0" role="alert" data-aos="fade-left" data-aos-transition="2000" data-aos-durantion="2500">
+                  <div class="shadow-sm alert alert-danger alert-dismissible alertas rounded-0" role="alert" data-aos="slide-left" data-aos-transition="500" data-aos-durantion="500">
                       <div class="text-center">
                           <i class="bi bi-person-lines-fill alerta-icon"></i>
                           <h5 class="alerta-titulo">gestores</h5>
@@ -26,7 +26,7 @@
                   </div>
               </div>
               <div class="col-3">
-                  <div class="shadow-sm alert alert-danger alert-dismissible alertas rounded-0" role="alert" data-aos="fade-left" data-aos-transition="2000" data-aos-durantion="2500">
+                  <div class="shadow-sm alert alert-danger alert-dismissible alertas rounded-0" role="alert" data-aos="slide-left" data-aos-transition="500" data-aos-durantion="500">
                       <div class="text-center">
                           <i class="bi bi-bank2 alerta-icon"></i>
                           <h5 class="alerta-titulo">postos</h5>
@@ -37,7 +37,7 @@
                   </div>
               </div>
               <div class="col-3">
-                  <div class="shadow-sm alert alert-danger alert-dismissible alertas rounded-0" role="alert" data-aos="fade-left" data-aos-transition="2000" data-aos-durantion="2500">
+                  <div class="shadow-sm alert alert-danger alert-dismissible alertas rounded-0" role="alert" data-aos="slide-left" data-aos-transition="500" data-aos-durantion="500">
                       <div class="text-center">
                           <i class="bi bi-person-video alerta-icon"></i>
                           <h5 class="alerta-titulo">admin</h5>
@@ -55,7 +55,7 @@
 
   <!-- Graficos    -->
   <section class="mt-2">
-      <div class="row" data-aos="fade-in" data-aos-transition="2000" data-aos-durantion="2500">
+      <div class="row" data-aos="slide-left" data-aos-transition="500" data-aos-durantion="500">
           <div class="col-lg-6">
               <div class="card">
                   <div class="card-body">

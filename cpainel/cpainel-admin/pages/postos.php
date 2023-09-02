@@ -3,7 +3,7 @@
     <div class="container">
         <section class="table-posto mt-2" id="postos">
 
-            <div class="carta-1 card rounded-0 mb-3" data-aos="fade-in" data-aos-transition="2000" data-aos-durantion="2500">
+            <div class="carta-1 card rounded-0 mb-3" data-aos="fade-up" data-aos-transition="1000" data-aos-duration="500">
                 <div class="card-body">
                     <div class="float-end">
                         <a href="#" class="grid bi bi-grid-3x3-gap btn btn-sm btn-dark rounded-3" title="Ver em grade"></a>
@@ -14,7 +14,7 @@
             </div>
 
             <!-- Vista tabelada -->
-            <div class="card vista-tabela" data-aos="fade-in" data-aos-transition="2000" data-aos-durantion="2500">
+            <div class="card vista-tabela" data-aos="fade-up" data-aos-transition="1000" data-aos-duration="500">
                 <div class="card-body">
                     <table class="datatable table table-hover">
                         <thead>
@@ -92,8 +92,8 @@
                         }
 
                     ?>
-                        <div class="col-3">
-                            <div class="card" data-aos="fade-in" data-aos-transition="2000" data-aos-durantion="2500">
+                        <div class="col-3" data-aos="fade-up" data-aos-transition="1000" data-aos-duration="500">
+                            <div class="card" data-aos="fade-up" data-aos-transition="1000" data-aos-duration="500">
                                 <div class="card-header f-primario">
                                     <h5 class="card-title">
                                         <?= $posto->postoDesignacao ?>

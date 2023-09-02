@@ -8,7 +8,7 @@
     <!-- Gerenciando utentes -->
     <div class="container utente">
         <section class="mt-2 mb-3" id="utentes">
-            <div class="carta-1 card rounded-0" data-aos="fade-in" data-aos-transition="2000" data-aos-durantion="2500">
+            <div class="carta-1 card rounded-0" data-aos="fade-in" data-aos-transition="1000" data-aos-duration="500">
                 <div class="card-body">
                     <div class="float-end">
                         <a href="#" class="grid bi bi-grid-3x3-gap btn btn-sm btn-dark rounded-3" title="Ver em grade"></a>
@@ -22,7 +22,7 @@
         <!-- Grelha de utentes -->
         <div class="row row-cols-1 row-cols-md-4 g-4 vista-tabela">
             <?php foreach ($utentes as $utente) : ?>
-                <div class="col" data-aos="fade-up" data-aos-transition="2000" data-aos-durantion="2500">
+                <div class="col" data-aos="fade-up" data-aos-transition="1000" data-aos-duration="500">
                     <div class="utente-carta carta card h-100 carta-2">
                         <img src="<?= IMAGENS ?>admin/admin.png" alt="Foto de Perfil" class="shadow-sm profile-picture">
                         <div class="card-body content">

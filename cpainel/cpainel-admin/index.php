@@ -37,8 +37,6 @@ $foto = adm::verFoto($idAdm);
     <link rel="stylesheet" href="<?= CSS ?>dash.css">
     <!-- ICONS -->
     <link rel="stylesheet" href="<?= BICON ?>">
-    <!-- Slick -->
-    <link rel="stylesheet" href="<?= JS ?>slick/slick.css">
     <!-- dATA TABLES -->
     <link rel="stylesheet" href="<?= JS ?>simple-datatables/style.css">
     <!-- AOS -->
@@ -195,7 +193,6 @@ $foto = adm::verFoto($idAdm);
 
     <script src="<?= JS ?>poper.js"></script>
     <script src="<?= JS ?>jquery/jquery.js"></script>
-    <script src="<?= JS ?>slick/slick.min.js"></script>
     <script src="<?= BOOTSTRAP ?>js/bootstrap.min.js"></script>
     <script src="<?= AOS ?>aos.js"></script>
     <script src="<?= JS ?>apexcharts/apexcharts.min.js"></script>

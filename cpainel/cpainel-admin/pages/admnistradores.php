@@ -1,7 +1,7 @@
     <!-- Gerenciando adm -->
     <div class="container">
         <section class="mt-2 mb-3" id="adm">
-            <div class="carta-1 card rounded-0" data-aos="fade-in" data-aos-transition="2000" data-aos-durantion="2500">
+            <div class="carta-1 card rounded-0" data-aos="slide-up" data-aos-transition="500" data-aos-durantion="500">
                 <div class="card-body">
                     <h5 class="card-title titulo-page">Gerenciar adm</h5>
                 </div>
@@ -11,7 +11,7 @@
 
         <section class="adms disabled">
 
-            <div class="carta-1 card rounded-0" data-aos="fade-in" data-aos-transition="2000" data-aos-durantion="2500">
+            <div class="carta-1 card rounded-0" data-aos="slide-up" data-aos-transition="500" data-aos-durantion="500">
                 <div class="card-body">
 
                     <div class="row">
@@ -20,7 +20,7 @@
 
                             <div class="col-4">
                                 <h5 class="card-title titulo-page">Cadastrar ADM</h5>
-                                <form action="" id="formAdm">
+                                <form id="formAdm">
                                     <div class="mb-2">
                                         <input type="text" name="nome" class="form-control" id="floatingInputName" placeholder="Nome completo">
                                     </div>

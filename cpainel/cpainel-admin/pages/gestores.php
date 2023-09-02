@@ -1,7 +1,7 @@
     <!-- TABLE gestorS -->
     <div class="container">
         <section class="table-gestor mt-2" id="gestores">
-            <div class="carta-1 card rounded-0 mb-3" data-aos="fade-in" data-aos-transition="2000" data-aos-durantion="2500">
+            <div class="carta-1 card rounded-0 mb-3" data-aos="fade-up" data-aos-transition="1000" data-aos-duration="500">
                 <div class="card-body">
                     <div class="float-end">
                         <a href="#" class="grid bi bi-grid-3x3-gap btn btn-sm btn-dark rounded-3" title="Ver em grade"></a>
@@ -11,7 +11,7 @@
                 </div>
             </div>
 
-            <div class="card vista-tabela" data-aos="fade-in" data-aos-transition="2000" data-aos-durantion="2500">
+            <div class="card vista-tabela" data-aos="fade-up" data-aos-transition="1000" data-aos-duration="500">
                 <div class="card-body">
                     <table class="datatable table table-hover">
                         <thead>
