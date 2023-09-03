@@ -9,9 +9,18 @@ if (isset($_GET['id-posto'])) {
     $id_posto = filter_input(INPUT_GET, 'id-posto');
 }
 
+if (!postos::mostrarDadosPostoPorId($id_posto)[0]) { ?>
+    <script>
+        location.href = "./?page=postos"
+    </script>
+<?php } ?>
+<?php
 $postos = postos::mostrarDadosPostoPorId($id_posto);
 
 use App\controller\utentesController as utentes;
+use App\controller\ServicosController as servicos;
+
+$servicos = servicos::mostraDatasDisponiveisParaReserva();
 // chama a class de auth
 require_once './Auth/checkSessionUtente.php';
 // executa o método #1 de autorização
@@ -54,8 +63,8 @@ endif
                 <!-- Listagem dos documentos ou servços de um posto -->
                 <?php
                 foreach ($postos as $posto) { ?>
-                    <div class="col-12">
-                        <div class="card rounded-3 docs" data-aos="zoom-in" data-aos-duration="1000" data-aos-delay="500">
+                    <div class="col-sm-12 col-12 col-lg-4 col-xl-4 col-md-6">
+                        <div class="card rounded-3 docs">
                             <div class="card-body">
                                 <div class="float-end">
                                     <a href="#" class="btn-danger text-danger h5 mt-5" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="enviaDocumetoParaModal(<?= $posto->iddocumento ?>, '<?= $posto->documentoDesignacao ?>')">
@@ -88,6 +97,7 @@ endif
                                             </div>
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
@@ -124,7 +134,7 @@ endif
                         </div>
                     </div>
                 </div>
-                <form action="#">
+                <form action="#" id="form">
                     <div class="form-floating mb-3">
                         <input type="hidden" name="utente" value="<?= $dadosUtente->idutente ?>">
                         <input type="text" value="<?= $dadosUtente->utenteNome ?>" class="form-control form-control-lg" id="floatingInput" disabled readonly>
@@ -144,66 +154,153 @@ endif
                         <label for="floatingSe">Serviço solicitado</label>
                         <input type="hidden" id="idDocumento" value="" name="documento">
                     </div>
-            </div>
-            <!-- <div class="form-floating">
-                            <select name="servico" class="form-select" id="floatingSelect" aria-label="Floating label select example">
-                                <option selected>Escolha um serviço</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </select>
-                            <label for="floatingSelect">Serviços disponíveis</label>
-                        </div> -->
-            <div class="modal-footer">
-                <div class="text-center">
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <input type="date" name="data-reserva" class="form-control form-control-lg" id="floatingData" required>
+                                <label for="floatingData">Escolha uma data</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <input type="time" name="hora-reserva" class="form-control form-control-lg" id="floatingHora" required>
+                                <label for="floatingHora">Escolha uma hora</label>
+                            </div>
+                        </div>
+                    </div>
 
-                    <button type="button" class="btn w-100 btn-warning mb-2 btn-lg">Enviar a Solicitação</button>
-                    <button type="button" class="btn btn-danger btn-lg" data-bs-dismiss="modal">Descartar o Envio</button>
-                </div>
-            </div>
-            </form>
+                    <div class="col">
+                        <div class="accordion accordion-flush" id="accordionFlushExample">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                                        Ver dias disponíveis
+                                    </button>
+                                </h2>
+                                <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                                    <div class="accordion-body" style="max-height: 200px; overflow-y: auto;">
+                                        <?php
+                                        $datasNaBD = [
+                                            '2023-08-23', // Substitua pelas datas reais da sua base de dados
+                                            // Adicione mais datas aqui conforme necessário
+                                        ];
+                                        $diasDaSemana = [
+                                            1 => 'Segunda-feira',
+                                            2 => 'Terça-feira',
+                                            3 => 'Quarta-feira',
+                                            4 => 'Quinta-feira',
+                                            5 => 'Sexta-feira',
+                                        ];
 
+                                        foreach ($servicos as $dataHora) {
+                                            $dataFormatada = $dataHora->format('Y-m-d');
+
+                                            // Verificar se a data não está na base de dados
+                                            if (!in_array($dataFormatada, $datasNaBD)) {
+                                                $diaDaSemana = $dataHora->format('N'); // 1 (Segunda-feira) a 7 (Domingo)
+
+                                                // Verificar se o dia da semana não é sábado (6) nem domingo (7)
+                                                if ($diaDaSemana != 6 && $diaDaSemana != 7) {
+                                                    $dataPorExtenso = $dataHora->format('d/m/Y');
+                                        ?>
+                                                    <div class="alert alert-success mb-2">
+                                                        <span>
+                                                            <i class="bi bi-check-circle-fill h5 me-2"></i>
+                                                            <?= $dataPorExtenso ?> | <?= $diasDaSemana[$diaDaSemana] ?>
+                                                        </span>
+                                                    </div>
+                                        <?php
+                                                }
+                                            }
+                                        }
+                                        ?>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="container-fluid p-0 mt-3">
+                            <div class="resposta text-center"></div>
+                            <div class="text-center">
+                                <button type="submit" class="col-12 btn btn-warning btn-lg rounded-4 border-0">Enviar a Solicitação</button>
+                                <button type="button" class="mt-2 btn btn-danger btn-lg rounded-2 border-0" data-bs-dismiss="modal">Descartar o Envio</button>
+                            </div>
+                        </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 
-<style>
-    footer,
-    .navegacao {
-        display: none !important;
-    }
+    <style>
+        footer,
+        .navegacao {
+            display: none !important;
+        }
 
-    /* Info postos */
-    .acordos span {
-        font-size: 12px !important;
-        display: block !important;
-        margin-bottom: 6px;
-        border-bottom: dotted 1px #444 !important;
+        /* Info postos */
+        .acordos span {
+            font-size: 12px !important;
+            display: block !important;
+            margin-bottom: 6px;
+            border-bottom: dotted 1px #444 !important;
 
-    }
+        }
 
-    input,
-    select,
-    button {
-        font-size: 14px !important;
-        font-family: 'nunito' !important;
-        border: 1px solid #444 !important;
-        ;
-    }
-</style>
+        input,
+        select,
+        button {
 
-<script>
-    // document.addEventListener("DOMContentLoaded", function() {
-    //     var modal = new bootstrap.Modal(document.getElementById("exampleModal"));
-    //     modal.show();
-    // });
+            font-family: 'nunito' sans-serif !important;
+            border: 1px solid #444 !important;
+            ;
+        }
+    </style>
 
-    // enviar o serviço e o id para a modal
-    function enviaDocumetoParaModal(id_documento, documento) {
-        let input_nome_documento = document.querySelector('.nome-documento')
-        let input_id_documento = document.querySelector('#idDocumento')
-        input_nome_documento.value = documento
-        input_id_documento.value = id_documento
+    <script>
+        // document.addEventListener("DOMContentLoaded", function() {
+        //     var modal = new bootstrap.Modal(document.getElementById("exampleModal"));
+        //     modal.show();
+        // });
 
-    }
-</script>
+        // enviar o serviço e o id para a modal
+        function enviaDocumetoParaModal(id_documento, documento) {
+
+            let input_nome_documento = document.querySelector('.nome-documento')
+            let input_id_documento = document.querySelector('#idDocumento')
+            input_nome_documento.value = documento
+            input_id_documento.value = id_documento
+
+        }
+
+        // Solicitar reservas
+
+        const form = document.querySelector("#form")
+        form.addEventListener('submit', (e, dadosForm) => {
+            let respostaSolicitacao = document.querySelector(".resposta")
+            e.preventDefault()
+            dadosForm = new FormData(form)
+            dadosForm.append('acao', 'solicitar-reserva')
+
+            fetch('./Requests/requestAjax.php', {
+                    method: 'POST', // Método da solicitação (GET, POST, PUT, DELETE, etc.)
+                    body: dadosForm,
+                })
+                .then(res => res.json())
+                .then(resposta => {
+                    if (resposta.status == 200) {
+                        respostaSolicitacao.innerHTML = `<div class="alert alert-success text-center">${resposta.msg}</div>`
+                        setTimeout(() => {
+                            location.href = './?page=perfil-utente&view=reservas'
+                        }, 3000);
+                    } else {
+                        respostaSolicitacao.innerHTML = `<div class="alert alert-danger">${resposta.msg}</div>`
+                    }
+
+                })
+                .catch(err => {
+                    console.log(JSON.stringify(err))
+                })
+
+        })
+    </script>

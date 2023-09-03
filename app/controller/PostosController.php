@@ -12,22 +12,26 @@ class PostosController
         // retorna para a view
         return postos::index();
     }
+
+
+    // index, buscar todos
+    public static function index_2($posto)
+    {
+        // retorna para a view
+        return postos::index_2($posto);
+    }
+
+    
     // controller cadastrar postos
-    public static function cadastrar($nome, $email, $token, $link, $categoria, $gestor, $municipio)
+    public static function cadastrar($estado, $nome, $email, $token, $link, $categoria, $gestor, $municipio)
     {
-        return postos::gravardaDadosPosto($nome, $email, $token, $link, $categoria, $gestor, $municipio);
+        return postos::gravardaDadosPosto($estado, $nome, $email, $token, $link, $categoria, $gestor, $municipio);
     }
 
-    // controller editar dados utente
-    public static function editar($nome, $email, $telefone, $idUtente)
+    //editar posto
+    public static function editardaDadosPosto($estado, $nome, $email, $municipio, $posto)
     {
-        return postos::alterardaDadosUtente($nome, $email, $telefone, $idUtente);
-    }
-
-    // controller alterar senha
-    public static function editaSenha($senha, $senhaAtual, $senhaNova, $senhaNovaRepetida, $idUtente)
-    {
-        return postos::alterarSenha($senha, $senhaAtual, $senhaNova, $senhaNovaRepetida, $idUtente);
+        return postos::editardaDadosPosto($estado, $nome, $email, $municipio, $posto);
     }
 
     // exbidar dados da controller na view
@@ -41,9 +45,26 @@ class PostosController
         return postos::mostrarDadosPostoPorId($idposto);
     }
 
-    //Controller autenticar utente
-    public static function entrar($email, $senha)
+    //acesso token
+    public static function token($token, $idposto)
     {
-        return postos::loginGestor($email, $senha);
+        return postos::token($token, $idposto);
+    }
+
+    // verifica se o posto j+a existe
+    public static function checkPosto($idGestor)
+    {
+        return postos::checkPosto($idGestor);
+    }
+
+    // muda estado
+    public static function mudaEstado($estado, $conta)
+    {
+        return postos::mudaEstado($estado, $conta);
+    }
+
+    public static function eliminarPosto($id_posto)
+    {
+        return postos::eliminarPosto($id_posto);
     }
 }

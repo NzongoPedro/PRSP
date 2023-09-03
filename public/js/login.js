@@ -3,7 +3,7 @@ url = url.split("/"); //quebra o endeço de acordo com a / (barra)
 
 
 let pathAjax = `${window.location.protocol}//${url[2]}/PRSP/requestAjax.php`
-let dominio = `${window.location.protocol}//${url[2]}/PRSP`
+let dominio = `${window.location.protocol}//${url[2]}/PRSP/`
 
 /* INSERIR DADOS DA BD */
 
@@ -37,7 +37,7 @@ formLogin.addEventListener('submit', (e, dadosForm) => {
             setTimeout(() => {
                 if (datas.status == 'sucesso') {
                     respostaRegistro.innerHTML = `<div class="border-0 alert alert-success">${datas.msg}</div>`
-                    window.location.href = dominio + '?page=home'
+                    window.location.href = dominio + '?page=perfil-utente'
                 } else {
                     respostaRegistro.innerHTML = `<div class="border-0 alert alert-danger">${datas.msg}</div>`
                 }

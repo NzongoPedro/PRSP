@@ -24,7 +24,7 @@ class Admin
         (Nome, e-mail, telefone, senha)
     */
 
-    public static function validarDados($nome, $email, $telefone, $senha)
+    public static function validarDados($nome, $email, $telefone, $nivel, $senha)
     {
 
         $erro = "";
@@ -42,7 +42,7 @@ class Admin
 
         $regexSenha = '/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/';
         if (!preg_match($regexSenha, $senha)) {
-            $erro =  'Senha fraca, deve conter no minímo 8 carácteres letras e números';
+            $erro =  'Senha fraca, deve conter no minímo 8 carácteres letras e números. ' . $senha;
         }
 
         $regexTelefoneAO = '/^\+244\d{9}$/';
@@ -50,26 +50,30 @@ class Admin
             $erro = 'Número de telefone inválido';
         }
 
-        // verifica se o utente já está cadastrado
+        // verifica se o adm já está cadastrado
 
         # Verifica via e-mail
-        $chekMailUtente = self::getInstance()->query("SELECT *FROM administradores
-        WHERE utenteEmail = '$email'");
-        if ($chekMailUtente->rowCount() > 0) {
+        $chekMailAdm = self::getInstance()->query("SELECT *FROM administradores
+        WHERE admEmail = '$email'");
+        if ($chekMailAdm->rowCount() > 0) {
             $erro = 'Este e-mail já está registrado';
         }
 
         # verifica via telfone
-        $chekPhonelUtente = self::getInstance()->query("SELECT *FROM administradores
-        WHERE utenteTelefone = '$telefone'");
-        if ($chekPhonelUtente->rowCount() > 0) {
+        $chekPhoneAdm = self::getInstance()->query("SELECT *FROM administradores
+        WHERE admTelefone = '$telefone'");
+        if ($chekPhoneAdm->rowCount() > 0) {
             $erro = 'Este telefone já está registrado';
+        }
+
+        if ($nivel == 'Selecione um nível') {
+            $erro = 'Selecione um nível';
         }
 
         return $erro; // Retorna os possíveis erros analisados
     }
 
-    public static function enviarEmailConfirmacao($nome, $email)
+    /*   public static function enviarEmailConfirmacao($nome, $email)
     {
         header("Access-Control-Allow-Origin: *");
 
@@ -107,7 +111,7 @@ class Admin
             http_response_code(500);
             $erro = "Algo deu errado, tente novamente.";
         }
-    }
+    } */
 
 
     /* Validadr dados a editar */
@@ -161,7 +165,7 @@ class Admin
     }
 
     /* este método insere para base de dados os dados vindo do formulário */
-    public static function gravardaDadosUtente($nome, $email, $telefone, $senha)
+    public static function gravardaDadosAdm($nome, $email, $telefone, $nivel, $senha)
     {
 
         try {   // faz uma tentativa de captura de erros
@@ -170,22 +174,22 @@ class Admin
             $senhaSegura = password_hash($senha, PASSWORD_DEFAULT);
 
             $statment = self::getInstance()->prepare("INSERT INTO administradores
-            (utenteNome, utenteTelefone, utenteEmail, administradores
-            nha)
-        VALUES(?,?,?,?)");
-            $statment->bindValue(1, $nome);
-            $statment->bindValue(2, $telefone);
-            $statment->bindValue(3, $email);
-            $statment->bindValue(4, $senhaSegura); // o (MD5()) criar uma máscara de senha
+            (idNivelAcesso, admNome, admTelefone, admEmail, admSenha)
+        VALUES(?,?,?,?,?)");
+            $statment->bindValue(1, $nivel);
+            $statment->bindValue(2, $nome);
+            $statment->bindValue(3, $telefone);
+            $statment->bindValue(4, $email);
+            $statment->bindValue(5, $senhaSegura); // o (MD5()) criar uma máscara de senha
 
             //verifica se existe algum dado mal preenchido
-            $checkerros = self::validarDados($nome, $email, $telefone, $senha);
+            $checkerros = self::validarDados($nome, $email, $telefone, $nivel, $senha);
 
             if (!$checkerros) {
                 // prepara os dados antes de inserir na Base de Dados
                 if ($statment->execute()) {       // verifica se ta tudo em ordem
-                    self::enviarEmailConfirmacao($nome, $email);
-                    return ['status' => 'sucesso', 'msg' => 'Dados registrados, foi enviado um e-mail com o código de ativação para ' . $email . ', verifica a sua caixa de entrada.'];      // envia mensagem de sucesso
+                    // self::enviarEmailConfirmacao($nome, $email);
+                    return ['status' => 200, 'msg' => 'Dados registrados. Aguarde...'];      // envia mensagem de sucesso
                 } else {
                     return ['status' => 'erro', 'msg' => 'algo deu errado, contacte o desenvolvedor'];      // envia mensagem de sucesso
                 }
@@ -198,20 +202,20 @@ class Admin
     }
 
     /* Editar dados pessoais */
-    public static function alterardaDadosUtente($nome, $email, $telefone, $idUtente)
+    public static function alterardaDadosadm($nome, $email, $telefone, $idadm)
     {
         try {   // faz uma tentativa de captura de erros
             $statment = self::getInstance()->prepare("UPDATE administradores
             SET 
-            utenteNome = ?, 
-            utenteTelefone = ?, 
-            utenteEmail = ?
-            WHERE idutente = ?");
+            admNome = ?, 
+            admTelefone = ?, 
+            admEmail = ?
+            WHERE idadministrador = ?");
 
             $statment->bindValue(1, $nome);
             $statment->bindValue(2, $telefone);
             $statment->bindValue(3, $email);
-            $statment->bindValue(4, $idUtente); // o (MD5()) criar uma máscara de senha
+            $statment->bindValue(4, $idadm); // o (MD5()) criar uma máscara de senha
 
             //verifica se existe algum dado mal preenchido
             $checkerros = self::validarDadosEditado($nome, $email, $telefone);
@@ -219,30 +223,30 @@ class Admin
             if (!$checkerros) {
                 // prepara os dados antes de inserir na Base de Dados
                 if ($statment->execute()) {       // verifica se ta tudo em ordem
-                    return ['status' => 'sucesso', 'msg' => 'sucesso, aguarde....'];      // envia mensagem de sucesso
+                    return ['status' => 200, 'msg' => 'sucesso, aguarde....'];      // envia mensagem de sucesso
                 } else {
-                    return ['status' => 'erro', 'msg' => 'algo deu errado, contacte o desenvolvedor'];      // envia mensagem de sucesso
+                    return ['status' => 'erro', 'msg' => 'algo deu errado, contacte o desenvolvedor', 'algo' => $statment->errorInfo()];      // envia mensagem de sucesso
                 }
             } else {  // mostra o campo que foimal preenchido, caso houver
                 return ['status' => 'erro', 'msg' => $checkerros];      // envia mensagem de erro
             }
         } catch (\Throwable $th) {
-            return ['status' => 'erro', 'msg' => 'Algo deu errado, tente novamente'];
+            return ['status' => 'erro', 'msg' => 'Algo deu errado, tente novamente '];
         }
     }
 
     /* Editar senha */
-    public static function alterarSenha($senha, $senhaAtual, $senhaNova, $senhaNovaRepetida, $idUtente)
+    public static function alterarSenha($senha, $senhaAtual, $senhaNova, $senhaNovaRepetida, $idadm)
     {
         try {   // faz uma tentativa de captura de erros
             $statment = self::getInstance()->prepare("UPDATE administradores
             SET 
             administradores
             nha = ? 
-            WHERE idutente = ?");
+            WHERE idadm = ?");
 
             $statment->bindValue(1, md5($senhaNovaRepetida));
-            $statment->bindValue(2, $idUtente); // o (MD5()) criar uma máscara de senha
+            $statment->bindValue(2, $idadm); // o (MD5()) criar uma máscara de senha
 
             //verifica se existe algum dado mal preenchido
             $checkerros = self::validarSenha($senha, $senhaAtual, $senhaNova, $senhaNovaRepetida);
@@ -262,14 +266,28 @@ class Admin
         }
     }
 
-    // exibindo Dados do utente no perfil a partir do seu ID
+    // exibindo Dados do adm no perfil a partir do seu ID
     public static function mostrarDadosAdmPorId($idAdm)
     {
-        $busca = "SELECT *FROM administradores WHERE idadministrador = '$idAdm'";
+        $busca = "SELECT *FROM administradores AS ADM
+        INNER JOIN nivel_acesso_adm AS NA ON NA.idnivel_acesso_adm = ADM.idNivelAcesso
+         WHERE ADM.idadministrador = '$idAdm'";
 
         $executaBusca = self::getInstance()->query($busca);
 
         $resultadoBusca = $executaBusca->fetch();
+
+        // retorna o resulta
+        return $resultadoBusca;
+    }
+    public static function index()
+    {
+        $busca = "SELECT *FROM administradores AS ADM
+        INNER JOIN nivel_acesso_adm AS NA ON NA.idnivel_acesso_adm = ADM.idNivelAcesso";
+
+        $executaBusca = self::getInstance()->query($busca);
+
+        $resultadoBusca = $executaBusca->fetchAll();
 
         // retorna o resulta
         return $resultadoBusca;
@@ -305,5 +323,80 @@ class Admin
         } else {
             return ['status' => 'erro', 'msg' => 'E-mail inexistente'];
         }
+    }
+
+    /* ALTERAR FOTO PERFIL */
+
+    public static function alterarFoto($id_adm, $foto)
+    {
+        // foto
+        $erros = "";
+
+        $formatos_permitidos = array('png', 'jpeg', 'jpg', 'webp', 'jfif');
+
+        $foto = array(
+            'arquivo'  => $foto['name'],
+            'temporal' => $foto['tmp_name'],
+            'tipo' => strtolower($foto['type']),
+            'formato'  => strtolower(pathinfo($foto['name'], PATHINFO_EXTENSION)),
+            'nome' => uniqid() . '.' . strtolower(pathinfo($foto['name'], PATHINFO_EXTENSION)),
+            'diretorio' => '../fotos/adm/'
+        );
+
+        if (in_array($foto['formato'], $formatos_permitidos)) {
+
+            # ========================= VERIFICA O DIRECTORIO =====================
+            if (is_dir($foto['diretorio'])) {
+
+                # ===================================== TENTA O UPLOAD ==================
+                if (move_uploaded_file($foto['temporal'], $foto['diretorio'] . $foto['nome'])) {
+                    $foto = $foto['nome'];
+                } else {
+                    $erros = 'Falha no upload.';
+                }
+            } else {
+                mkdir($foto['diretorio']);
+                move_uploaded_file($foto['temporal'], $foto['diretorio'] . $foto['nome']);
+                $foto = $foto['nome'];
+            }
+        } else {
+            $foto = "";
+            $erros = 'Formato .' . $foto['formato'] . ' não é permitido';
+        }
+
+        // update
+        $up = self::getInstance()->prepare("INSERT INTO foto_adm (admFoto, idAdm)
+            VALUES(?,?)");
+        $up->bindValue(1, $foto);
+        $up->bindValue(2, $id_adm);
+
+        if (!$erros) {
+            if ($up->execute()) {
+
+                http_response_code(200);
+                return ['status' => 200, 'msg' => 'Foto de perfil alterada'];
+            } else {
+
+                html_entity_decode(402);
+                return ['status' => 402, 'msg' => 'Algo deu errado', 'erro' => $up->errorInfo()];
+            }
+        } else {
+
+            http_response_code(402);
+            return ['status' => 402, 'msg' => $erros];
+        }
+    }
+
+    // foto Gestor 
+    public static function verFoto($idAdm)
+    {
+        $foto = self::getInstance()->query("SELECT admFoto FROM foto_adm WHERE idfoto_adm = '$idAdm' ORDER BY idfoto_adm DESC LIMIT 0, 1");
+        if ($foto->rowCount() > 0) {
+            $foto =  ROUTE . 'fotos/adm/' . $foto->fetch()->admFoto;
+        } else {
+            $foto = ROUTE . 'storage/image/logo/logotipo1_principal.png';
+        }
+
+        return $foto;
     }
 }

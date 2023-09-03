@@ -2,6 +2,7 @@
 
 namespace App\Model;
 
+use App\controller\GestoresController;
 use App\Model\Conexao as ligar;
 
 
@@ -133,30 +134,6 @@ class Gestor
         return $erro; // Retorna os possíveis erros analisados
     }
 
-    /* Validadr senhas a editar */
-    public static function validarSenha($senha, $senhaAtual, $senhaNova, $senhaNovaRepetida)
-    {
-
-        $erro = "";
-
-        // verifica se a senha Digita é igual com a sennha atual
-        if ($senha != md5($senhaAtual)) {
-            $erro =  'Senha atual incorreta';
-        }
-
-        //verifica se as senha nova foram as mesma nos dois campos
-        if ($senhaNova != $senhaNovaRepetida) {
-            $erro =  'digite as mesmas senhas por favor.';
-        }
-
-        // valida a senha nova
-        $regexSenha = '/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/';
-        if (!preg_match($regexSenha, $senhaNovaRepetida)) {
-            $erro =  'Senha fraca, deve conter no minímo 8 carácteres letras e números';
-        }
-
-        return $erro; // Retorna os possíveis erros analisados
-    }
 
     /* este método insere para base de dados os dados vindo do formulário */
     public static function gravardaDadosGestor($nome, $email, $telefone, $senha, $passe)
@@ -194,74 +171,47 @@ class Gestor
             return ['status' => (402), 'msg' => 'Algo deu errado, tente novamente' . $th];
         }
     }
-
-    /* Editar dados pessoais */
-    public static function alterardaDadosUtente($nome, $email, $telefone, $idUtente)
+    /* este método insere para base de dados os dados vindo do formulário */
+    public static function EditarGestor($nome, $email, $telefone, $gestor)
     {
-        try {   // faz uma tentativa de captura de erros
-            $statment = self::getInstance()->prepare("UPDATE utentes SET 
-            utenteNome = ?, 
-            utenteTelefone = ?, 
-            utenteEmail = ?
-            WHERE idutente = ?");
 
+        try {   // faz uma tentativa de captura de erros
+
+
+            $statment = self::getInstance()->prepare("UPDATE gestores SET
+            gestorNome = ?, gestorTelefone = ?, gestorEmail = ? WHERE idgestor = ?
+        ");
             $statment->bindValue(1, $nome);
             $statment->bindValue(2, $telefone);
             $statment->bindValue(3, $email);
-            $statment->bindValue(4, $idUtente); // o (MD5()) criar uma máscara de senha
+            $statment->bindValue(4, $gestor);
 
             //verifica se existe algum dado mal preenchido
             $checkerros = self::validarDadosEditado($nome, $email, $telefone);
 
             if (!$checkerros) {
-                // prepara os dados antes de inserir na Base de Dados
+                // prepara os dados antes de editar na Base de Dados
                 if ($statment->execute()) {       // verifica se ta tudo em ordem
-                    return ['status' => 'sucesso', 'msg' => 'sucesso, aguarde....'];      // envia mensagem de sucesso
+                    //self::enviarEmailConfirmacao($nome, $email);
+                    return ['status' => (200), 'msg' => 'Sucesso na alteração de dados'];      // envia mensagem de sucesso
                 } else {
-                    return ['status' => 'erro', 'msg' => 'algo deu errado, contacte o desenvolvedor'];      // envia mensagem de sucesso
+                    return ['status' => (402), 'msg' => 'algo deu errado, contacte o desenvolvedor'];      // envia mensagem de sucesso
                 }
-            } else {  // mostra o campo que foimal preenchido, caso houver
-                return ['status' => 'erro', 'msg' => $checkerros];      // envia mensagem de erro
+            } else {  // mostra o campo que foi mal preenchido, caso houver
+                http_response_code(402);
+                return ['status' => (402), 'msg' => $checkerros];      // envia mensagem de erro
             }
         } catch (\Throwable $th) {
-            return ['status' => 'erro', 'msg' => 'Algo deu errado, tente novamente'];
+            return ['status' => (402), 'msg' => 'Algo deu errado, tente novamente' . $th];
         }
     }
 
-    /* Editar senha */
-    public static function alterarSenha($senha, $senhaAtual, $senhaNova, $senhaNovaRepetida, $idUtente)
-    {
-        try {   // faz uma tentativa de captura de erros
-            $statment = self::getInstance()->prepare("UPDATE utentes SET 
-            gestorSenha = ? 
-            WHERE idutente = ?");
 
-            $statment->bindValue(1, md5($senhaNovaRepetida));
-            $statment->bindValue(2, $idUtente); // o (MD5()) criar uma máscara de senha
-
-            //verifica se existe algum dado mal preenchido
-            $checkerros = self::validarSenha($senha, $senhaAtual, $senhaNova, $senhaNovaRepetida);
-
-            if (!$checkerros) {
-                // prepara os dados antes de inserir na Base de Dados
-                if ($statment->execute()) {       // verifica se ta tudo em ordem
-                    return ['status' => 'sucesso', 'msg' => 'senha alterada'];      // envia mensagem de sucesso
-                } else {
-                    return ['status' => 'erro', 'msg' => 'algo deu errado, contacte o desenvolvedor ' . $statment->execute()];      // envia mensagem de sucesso
-                }
-            } else {  // mostra o campo que foimal preenchido, caso houver
-                return ['status' => 'erro', 'msg' => $checkerros];      // envia mensagem de erro
-            }
-        } catch (\Throwable $th) {
-            return ['status' => 'erro', 'msg' => 'Algo deu errado, tente novamente ' . $th];
-        }
-    }
-
-    // exibindo todos os utetes
+    // exibindo todos os gestores
     public static function index()
     {
         // consulta na base de dados
-        $busca = "SELECT *FROM utentes";
+        $busca = "SELECT *FROM gestores";
 
         //executa a busca
         $executaBusca = self::getInstance()->query($busca);
@@ -276,7 +226,8 @@ class Gestor
     public static function mostrarDadosGestorPorId($idGestor)
     {
         // Pesquisa na base de dado
-        $busca = "SELECT *FROM gestores WHERE idgestor = '$idGestor'";
+        $busca = "SELECT *FROM gestores 
+        WHERE idgestor = '$idGestor'";
 
         // executa a busca
         $executaBusca = self::getInstance()->query($busca);
@@ -288,6 +239,18 @@ class Gestor
         return $resultadoBusca;
     }
 
+    // foto Gestor 
+    public static function verFoto($idGestor)
+    {
+        $foto = self::getInstance()->query("SELECT foto_gestor FROM foto_gestor WHERE idGestor='$idGestor' ORDER BY idfoto_gesto DESC");
+        if ($foto->rowCount() > 0) {
+            $foto =  ROUTE . 'fotos/gestores/' . $foto->fetch()->foto_gestor;
+        } else {
+            $foto = ROUTE . 'storage/image/logo/logotipo1_principal.png';
+        }
+
+        return $foto;
+    }
     /* Fazer login Gestor no sistema */
     public static function loginGestor($email, $senha)
     {
@@ -338,6 +301,137 @@ class Gestor
             // reorna ero caso o email de login não existir na BD
 
             return ['status' => (402), 'msg' => 'E-mail inexistente'];
+        }
+    }
+
+    // checa o estado da conta
+    public static function checkEstado($conta)
+    {
+        $select = self::getInstance()->query("SELECT idEstadoConta FROM gestores WHERE idgestor = '$conta'")->fetch();
+        return $select->idEstadoConta;
+    }
+
+    // muda o estado da conta
+    public static function mudaEstado($estado, $conta)
+    {
+
+        // query de mudança
+
+        $query = "UPDATE gestores SET 
+              idEstadoConta = ?
+              WHERE idgestor = ?";
+
+        // prepara a alteração 
+        $update = static::getInstance()->prepare($query);
+        $update->bindValue(1, $estado);
+        $update->bindValue(2, $conta);
+
+        // executa a mudança
+
+        if ($update->execute()) {
+            $msg = "";
+            if ($estado == 1) {
+                $msg = "Conta desativada";
+            } else {
+                $msg = "Sucesso na ativação";
+            }
+
+            // sucesso
+
+            http_response_code(200);
+
+            return ['status' => 200, 'msg' => $msg];
+        } else {
+
+            // caso houver erro, exibe-0
+
+            http_response_code(402);
+
+            return ['status' => 402, 'msg' => $update->errorInfo()];
+        }
+    }
+
+    /* ALTERAR FOTO PERFIL */
+
+    public static function alterarFoto($id_gestor, $foto)
+    {
+        // foto
+        $erros = "";
+
+        $formatos_permitidos = array('png', 'jpeg', 'jpg', 'webp', 'jfif');
+
+        $foto = array(
+            'arquivo'  => $foto['name'],
+            'temporal' => $foto['tmp_name'],
+            'tipo' => strtolower($foto['type']),
+            'formato'  => strtolower(pathinfo($foto['name'], PATHINFO_EXTENSION)),
+            'nome' => uniqid() . '.' . strtolower(pathinfo($foto['name'], PATHINFO_EXTENSION)),
+            'diretorio' => '../fotos/gestores/'
+        );
+
+        if (in_array($foto['formato'], $formatos_permitidos)) {
+
+            # ========================= VERIFICA O DIRECTORIO =====================
+            if (is_dir($foto['diretorio'])) {
+
+                # ===================================== TENTA O UPLOAD ==================
+                if (move_uploaded_file($foto['temporal'], $foto['diretorio'] . $foto['nome'])) {
+                    $foto = $foto['nome'];
+                } else {
+                    $erros = 'Falha no upload.';
+                }
+            } else {
+                mkdir($foto['diretorio']);
+                move_uploaded_file($foto['temporal'], $foto['diretorio'] . $foto['nome']);
+                $foto = $foto['nome'];
+            }
+        } else {
+            $foto = "";
+            $erros = 'Formato .' . $foto['formato'] . ' não é permitido';
+        }
+
+        // update
+        $up = self::getInstance()->prepare("INSERT INTO foto_gestor (foto_gestor, idGestor)
+        VALUES(?,?)");
+        $up->bindValue(1, $foto);
+        $up->bindValue(2, $id_gestor);
+
+        if (!$erros) {
+            if ($up->execute()) {
+
+                http_response_code(200);
+                return ['status' => 200, 'msg' => 'Foto de perfil alterada'];
+            } else {
+
+                html_entity_decode(402);
+                return ['status' => 402, 'msg' => 'Algo deu errado'];
+            }
+        } else {
+
+            http_response_code(402);
+            return ['status' => 402, 'msg' => $erros];
+        }
+    }
+
+    // eliminar posto
+    public static function eliminarGestor($id_gestor)
+    {
+
+        $remove = "DELETE FROM gestores WHERE idgestor = '$id_gestor'";
+
+        $executa = self::getInstance()->query($remove);
+
+        // verifica se o posto foi removido:
+        if ($executa) {
+
+            // Remove todas as cheves ou registro relacionada a este posto
+
+            http_response_code(200);
+            return ['status' => 200, 'msg' => 'Sucesso ao eliminar o gestor.'];
+        } else {
+
+            http_response_code(402);
+            return ['status' => 402, 'msg' => 'falha ao eliminar o gestor.'];
         }
     }
 }

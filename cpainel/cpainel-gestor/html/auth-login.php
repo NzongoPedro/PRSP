@@ -45,12 +45,82 @@ if (isset($_SESSION['idGestor'])) {
   <!-- Page CSS -->
   <!-- Page -->
   <link rel="stylesheet" href="../assets/vendor/css/pages/page-auth.css" />
-  <!-- Helpers -->
   <script src="../assets/vendor/js/helpers.js"></script>
 
   <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
   <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
   <script src="../assets/js/config.js"></script>
+  <!-- Helpers -->
+  <style>
+    /* VARIAVEIS */
+    :root {
+      --cor-primario: #991f0c !important;
+      --cor-secondario: #ffc745 !important;
+      --fundo-primario: #991f0c !important;
+      --fundo-secondario: #ffc745 !important;
+      --cor-clara: #fbfbfb !important;
+      --funda: #fbfbfb !important;
+    }
+
+    /* TEMAS CSS */
+    .cor-primario {
+      color: #991f0c !important;
+    }
+
+    .f-primario {
+      background: #991f0c !important;
+      color: #fff !important;
+    }
+
+    .f-secundario {
+      background: #ffc745 !important;
+    }
+
+    .btn-primario {
+      background: hsl(8, 85%, 32%) !important;
+      color: #ffc745 !important;
+      border: 1px solid hsl(8, 85%, 32%) !important;
+    }
+
+    .btn-secundario {
+      background: hsl(42, 100%, 64%) !important;
+      color: #991f0c !important;
+    }
+
+    .gradiente-1 {
+      background: #991f0c;
+      background: -moz-linear-gradient(45deg, #991f0c 0%, #ffc745 100%);
+      background: -webkit-linear-gradient(45deg, #991f0c 0%, #ffc745 100%);
+      background: linear-gradient(45deg, #991f0c 0%, #ffc745 100%) !important;
+    }
+
+    .gradiente-2 {
+      background: rgba(153, 31, 12, 0.7);
+      background: -moz-linear-gradient(45deg,
+          rgba(153, 31, 12, 0.5) 0%,
+          rgba(255, 199, 69, 0.7) 100%) !important;
+      background: -webkit-linear-gradient(45deg,
+          rgba(153, 31, 12, 0.5) 0%,
+          rgba(255, 199, 69, 0.5) 100%) !important;
+      background: linear-gradient(45deg,
+          rgba(153, 31, 12, 0.5) 0%,
+          rgba(255, 199, 69, 0.7) 100%) !important;
+    }
+
+    input {
+      box-shadow: none !important;
+      border: #991f0c 1.5px solid !important;
+    }
+
+    input:focus {
+      box-shadow: #991f0c !important;
+      border: #991f0c 1.5px solid !important;
+    }
+
+    .border-p {
+      border: 1px solid #991f0c !important;
+    } 
+  </style>
 </head>
 
 <body>
@@ -82,24 +152,24 @@ if (isset($_SESSION['idGestor'])) {
               <div class="mb-3 form-password-toggle">
                 <div class="d-flex justify-content-between">
                   <label class="form-label" for="password">Password</label>
-                  <a href="auth-forgot-password-basic.html" class="text-danger">
+                  <a href="auth-forgot-password-basic.html" class="cor-primario">
                     <small>Esqueceu a senha?</small>
                   </a>
                 </div>
                 <div class="input-group input-group-merge">
                   <input type="password" id="password" class="form-control" name="senhaGestor" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
-                  <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                  <span class="input-group-text cursor-pointer border-p"><i class="bx bx-hide"></i></span>
                 </div>
               </div>
               <div class="text-center resposta"></div>
               <div class="mb-3">
-                <button class="btn btn-danger d-grid w-100" type="submit">Iniciar sessão</button>
+                <button class="btn f-primario text-white d-grid w-100" type="submit">Iniciar sessão</button>
               </div>
             </form>
 
             <p class="text-center">
               <span>Novo na plataforma?</span>
-              <a href="./auth-register.php" class="text-danger">
+              <a href="./auth-register.php" class="cor-primario">
                 <span>Crie uma conta</span>
               </a>
             </p>

@@ -138,9 +138,9 @@ class Utentes
     {
 
         $erro = "";
-
+        $senhaSegura = password_hash($senhaAtual, PASSWORD_DEFAULT);
         // verifica se a senha Digita é igual com a sennha atual
-        if ($senha != md5($senhaAtual)) {
+        if (password_verify($senha, $senhaSegura)) {
             $erro =  'Senha atual incorreta';
         }
 
@@ -234,8 +234,10 @@ class Utentes
             utenteSenha = ? 
             WHERE idutente = ?");
 
-            $statment->bindValue(1, md5($senhaNovaRepetida));
+            $senhaSegura = password_hash($senhaNova, PASSWORD_DEFAULT);
+            $statment->bindValue(1, $senhaSegura);
             $statment->bindValue(2, $idUtente); // o (MD5()) criar uma máscara de senha
+
 
             //verifica se existe algum dado mal preenchido
             $checkerros = self::validarSenha($senha, $senhaAtual, $senhaNova, $senhaNovaRepetida);

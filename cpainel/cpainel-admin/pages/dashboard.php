@@ -8,49 +8,58 @@
                       <div class="text-center">
                           <i class="bi bi-people-fill alerta-icon"></i>
                           <h5 class="alerta-titulo">Utentes</h5>
-                          <span class="alerta-num">10</span>
+                          <div class="text-center p- badge badge-fill f-primario rounded-5 w-25">
+                              <?= $contadores["num_utentes"] ?>
+                          </div>
                       </div>
                   </div>
               </div>
               <div class="col-3">
-                  <div class="shadow-sm alert alert-danger alert-dismissible alertas rounded-0" role="alert" data-aos="fade-left" data-aos-transition="2000" data-aos-durantion="2500">
+                  <div class="shadow-sm alert alert-danger alert-dismissible alertas rounded-0" role="alert" data-aos="slide-left" data-aos-transition="500" data-aos-durantion="500">
                       <div class="text-center">
                           <i class="bi bi-person-lines-fill alerta-icon"></i>
                           <h5 class="alerta-titulo">gestores</h5>
-                          <span class="alerta-num">10</span>
+                          <div class="text-center p- badge badge-fill f-primario rounded-5 w-25">
+                              <?= $contadores["num_gestores"] ?>
+                          </div>
                       </div>
                   </div>
               </div>
               <div class="col-3">
-                  <div class="shadow-sm alert alert-danger alert-dismissible alertas rounded-0" role="alert" data-aos="fade-left" data-aos-transition="2000" data-aos-durantion="2500">
+                  <div class="shadow-sm alert alert-danger alert-dismissible alertas rounded-0" role="alert" data-aos="slide-left" data-aos-transition="500" data-aos-durantion="500">
                       <div class="text-center">
                           <i class="bi bi-bank2 alerta-icon"></i>
                           <h5 class="alerta-titulo">postos</h5>
-                          <span class="alerta-num">10</span>
+                          <div class="text-center p- badge badge-fill f-primario rounded-5 w-25">
+                              <?= $contadores["num_postos"] ?>
+                          </div>
                       </div>
                   </div>
               </div>
               <div class="col-3">
-                  <div class="shadow-sm alert alert-danger alert-dismissible alertas rounded-0" role="alert" data-aos="fade-left" data-aos-transition="2000" data-aos-durantion="2500">
+                  <div class="shadow-sm alert alert-danger alert-dismissible alertas rounded-0" role="alert" data-aos="slide-left" data-aos-transition="500" data-aos-durantion="500">
                       <div class="text-center">
                           <i class="bi bi-person-video alerta-icon"></i>
                           <h5 class="alerta-titulo">admin</h5>
-                          <span class="alerta-num">10</span>
+                          <div class="text-center p- badge badge-fill f-primario rounded-5 w-25">
+                              <?= $contadores["num_adm"] ?>
+                          </div>
                       </div>
                   </div>
               </div>
           </div> <!-- FIM CARDS DE INFORMAçÃO -->
           <h5 class="card-title titulo-dash">dashboard</h5>
       </div><!-- Fim card informação -->
+
   </section><!-- Fim secção dash -->
 
   <!-- Graficos    -->
   <section class="mt-2">
-      <div class="row" data-aos="fade-in" data-aos-transition="2000" data-aos-durantion="2500">
+      <div class="row" data-aos="slide-left" data-aos-transition="500" data-aos-durantion="500">
           <div class="col-lg-6">
               <div class="card">
                   <div class="card-body">
-                      <h5 class="card-title">Pie Chart</h5>
+                      <h5 class="card-title">Registros na base de dados - <?= ($contadores["num_utentes"] + $contadores["num_postos"] + $contadores["num_gestores"] + $contadores["num_adm"]) ?> = 100%</h5>
 
                       <!-- Pie Chart -->
                       <div id="pieChart2" style="height: 400px;" class="echart"></div>
@@ -59,8 +68,8 @@
                           document.addEventListener("DOMContentLoaded", () => {
                               echarts.init(document.querySelector("#pieChart2")).setOption({
                                   title: {
-                                      text: 'Referer of a Website',
-                                      subtext: 'Fake Data',
+                                      text: 'Gráfico do sitema',
+                                      subtext: 'Dados reais',
                                       left: 'center'
                                   },
                                   tooltip: {
@@ -71,28 +80,24 @@
                                       left: 'left'
                                   },
                                   series: [{
-                                      name: 'Access From',
+                                      name: 'Da Base dados da PRSP',
                                       type: 'pie',
                                       radius: '50%',
                                       data: [{
-                                              value: 1048,
-                                              name: 'Search Engine'
+                                              value: <?= $contadores["num_utentes"] ?>,
+                                              name: 'Utentes'
                                           },
                                           {
-                                              value: 735,
-                                              name: 'Direct'
+                                              value: <?= $contadores["num_gestores"] ?>,
+                                              name: 'Gestores'
                                           },
                                           {
-                                              value: 580,
-                                              name: 'Email'
+                                              value: <?= $contadores["num_postos"] ?>,
+                                              name: 'Postos'
                                           },
                                           {
-                                              value: 484,
-                                              name: 'Union Ads'
-                                          },
-                                          {
-                                              value: 300,
-                                              name: 'Video Ads'
+                                              value: <?= $contadores["num_adm"] ?>,
+                                              name: 'Administradores'
                                           }
                                       ],
                                       emphasis: {
@@ -114,7 +119,7 @@
           <div class="col-lg-6">
               <div class="card">
                   <div class="card-body">
-                      <h5 class="card-title">Pie Chart</h5>
+                      <h5 class="card-title">Outra representação</h5>
 
                       <!-- Pie Chart -->
                       <div id="pieChart" style="height: 400px;"></div>
@@ -122,7 +127,7 @@
                       <script>
                           document.addEventListener("DOMContentLoaded", () => {
                               new ApexCharts(document.querySelector("#pieChart"), {
-                                  series: [44, 55, 13, 43, 22],
+                                  series: [<?= $contadores["num_utentes"] ?>, <?= $contadores["num_postos"] ?>, <?= $contadores["num_gestores"] ?>, <?= $contadores["num_adm"] ?>],
                                   chart: {
                                       height: 350,
                                       type: 'pie',
@@ -130,7 +135,7 @@
                                           show: true
                                       }
                                   },
-                                  labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E']
+                                  labels: ['Utentes', 'Gestores', 'Postos', 'Administradores']
                               }).render();
                           });
                       </script>

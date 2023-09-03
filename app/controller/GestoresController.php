@@ -18,16 +18,10 @@ class GestoresController
         return gestores::gravardaDadosGestor($nome, $email, $telefone, $senha, $passe);
     }
 
-    // controller editar dados utente
-    public static function editar($nome, $email, $telefone, $idUtente)
+    // editar dados 
+    public static function EditarGestor($nome, $email, $telefone, $gestor)
     {
-        return gestores::alterardaDadosUtente($nome, $email, $telefone, $idUtente);
-    }
-
-    // controller alterar senha
-    public static function editaSenha($senha, $senhaAtual, $senhaNova, $senhaNovaRepetida, $idUtente)
-    {
-        return gestores::alterarSenha($senha, $senhaAtual, $senhaNova, $senhaNovaRepetida, $idUtente);
+        return gestores::EditarGestor($nome, $email, $telefone, $gestor);
     }
 
     // exbidar dados da controller na view
@@ -40,5 +34,31 @@ class GestoresController
     public static function entrar($email, $senha)
     {
         return gestores::loginGestor($email, $senha);
+    }
+
+    // muda estado
+    public static function mudaEstado($estado, $conta)
+    {
+        return gestores::mudaEstado($estado, $conta);
+    }
+
+    public static function checkEstado($conta)
+    {
+        return gestores::checkEstado($conta);
+    }
+
+    public static function alterarFoto($id_gestor, $foto)
+    {
+        return gestores::alterarFoto($id_gestor, $foto);
+    }
+
+    public static function verFoto($idGestor)
+    {
+        return gestores::verFoto($idGestor);
+    }
+
+    public static function eliminarGestor($idGestor)
+    {
+        return gestores::eliminarGestor($idGestor);
     }
 }
