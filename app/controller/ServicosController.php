@@ -64,4 +64,10 @@ class ServicosController
 
         return servico::mostrarDadosPDF($id_comprovativo);
     }
+
+    // relatórios
+    public static function relatorios($tipo)
+    {
+        return servico::relatorios($tipo);
+    }
 }

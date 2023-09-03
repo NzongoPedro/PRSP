@@ -445,4 +445,44 @@ class Servicos
             return false;
         }
     }
+
+    // gerar relatórios
+
+    public static function relatorios($tipo)
+    {
+
+        $dataF = "";
+        $dataI = "";
+        $busca = "";
+
+        // verifica o tipo relatório
+        if ($tipo == 'diario') {
+            $data = date('Y-m-d');
+            $busca = self::getInstance()->query("SELECT *FROM solicitacao_reserva AS SR
+            INNER JOIN documentos AS DOC ON SR.idDocumento = DOC.iddocumento
+            INNER JOIN utentes AS UT ON SR.idContaUtente = UT.idutente
+            INNER JOIN estado_solicitacao AS ESR ON SR.idEstadoSolicitacao = ESR.idestado_solicitacao
+            WHERE solicitacaoReservaData = '$data'");
+            //retorna busca solicitações 
+
+            if ($busca) {
+
+                echo '<span class="text-danger">Nenhum resultado <b> ' . strtoupper($tipo)  . ' </b> para mostrar. </span>';
+            }
+            return $busca->fetchAll();
+        } else {
+            $dataF = date('d') - 7;
+            $dataI = date('d');
+            $busca = self::getInstance()->query("SELECT *FROM solicitacao_reserva AS SR
+            INNER JOIN documentos AS DOC ON SR.idDocumento = DOC.iddocumento
+            INNER JOIN utentes AS UT ON SR.idContaUtente = UT.idutente
+            INNER JOIN estado_solicitacao AS ESR ON SR.idEstadoSolicitacao = ESR.idestado_solicitacao
+            WHERE solicitacaoReservaData BETWEEN '$dataI' AND '$dataF'");
+            if ($busca) {
+
+                echo '<span class="text-danger">Nenhum resultado <b> ' . strtoupper($tipo)  . ' </b> para mostrar. </span>';
+            }
+            return $busca->fetchAll();
+        }
+    }
 }

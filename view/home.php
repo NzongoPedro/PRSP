@@ -30,7 +30,7 @@ $postos = postos::index();
                         <img src="<?= IMAGENS ?>icones/1.png" src="holder.js/100px180/" alt="Title">
                         <div class="card-body">
                             <h3 class="card-title text-uppercase text-center">
-                                <b>O que é PRSP</b>
+                                <b>O que é PRSP?</b>
                             </h3>
                             <p class="card-text text-center mb-3 p-2">
                                 PRSP é uma solução computacional baseada na web desenvolvida com o propósito de facilitar o processo de reservas de lugares para a aquisição de documentos públicos aos cidadãos angolanos.

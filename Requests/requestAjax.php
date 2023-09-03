@@ -239,6 +239,51 @@ if (isset($_POST['acao'])) {
             print json_encode(servicos::verServicosPorIdPosto($posto));
             break;
 
+            // gera relatorios
+
+        case 'relatorios':
+            $tipo = filter_input(INPUT_POST, 'tipo');
+            $response = (servicos::relatorios($tipo));
+            echo
+            '
+            <div class="c">
+                <div class="table-responsive mt-3">
+                Relatório ' . $tipo . '
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Utente</th>
+                                <th scope="col">Documento</th>
+                                <th scope="col">Estado</th>
+                                <th scope="col">Data</th>
+                                <th scope="col">Hora</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                  ';
+            if (count($response) > 0) {
+                foreach ($response as $relatorio) {
+                    echo '
+                        <tr class="">
+                                <td scope="row">' . $relatorio->utenteNome . '</td>
+                                <td scope="row">' . $relatorio->documentoDesignacao . '</td>
+                                <td scope="row">' . $relatorio->estadoSolicitacao . '</td>
+                                <td>' . $relatorio->solicitacaoReservaData . '</td>
+                                <td>' . $relatorio->solicitacaoReservaHora . '</td>
+                        </tr>
+                    ';
+                }
+            } else {
+            }
+            echo
+            '
+                </tbody>
+                        </table>
+                    </div>
+                </div>
+            ';
+            break;
+
         default:
 
             break;
